@@ -23,6 +23,11 @@ namespace it_shop_app.Controllers
             return View();
         }
 
+        public IActionResult Impressum()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();
