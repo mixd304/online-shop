@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
 
-namespace it_shop_app.Controllers
+namespace it_shop_app.Models
 {
     public class Artikel
     {
