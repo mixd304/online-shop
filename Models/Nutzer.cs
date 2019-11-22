@@ -1,3 +1,7 @@
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace it_shop_app.Controllers
 {
     public class Nutzer
@@ -16,6 +20,6 @@ namespace it_shop_app.Controllers
         public int Hausnummer { get; set; }
 
         [DataType(DataType.Date)]
-        public Date Geburtsdatum { get; set; }
+        public DateTime Geburtsdatum { get; set; }
     }
 }
