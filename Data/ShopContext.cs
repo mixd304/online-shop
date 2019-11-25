@@ -60,14 +60,14 @@ namespace it_shop_app.Data
             // Beziehung Nutzer 1 <--> n Listen
             modelBuilder.Entity<Liste>()
                 .HasOne<Nutzer>(l => l.Nutzer)
-                .WithMany(n => n.Bestellungen)
+                .WithMany(n => n.Listen)
                 .HasForeignKey(l => l.Nutzer_ID);
 
             // Beziehung Warenkorb n <--> m Artikel
             modelBuilder.Entity<ListenArtikel>().HasKey(ab => new { ab.Liste_ID, ab.Artikel_ID });
                 // ArtikelBestellungen n <--> 1 Warenkorb
                 modelBuilder.Entity<ListenArtikel>()
-                    .HasOne<Listen>(ab => ab.Liste)
+                    .HasOne<Liste>(ab => ab.Liste)
                     .WithMany(b => b.ListenArtikel)
                     .HasForeignKey(ab => ab.Liste_ID);
 
@@ -89,5 +89,6 @@ namespace it_shop_app.Data
         // Zuordnungstabellen
         public DbSet<ArtikelBestellungen> ArtikelBestellungen { get; set; }
         public DbSet<WarenkorbArtikel> WarenkorbArtikel { get; set; }
+        public DbSet<ListenArtikel> ListenArtikel { get; set; }
     }
 }
