@@ -3,10 +3,8 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
 
-namespace it_shop_app.Models
-{
-    public class Artikel
-    {
+namespace it_shop_app.Models {
+    public class Artikel {
         public int ID { get; set; }
         public string Bezeichnung { get; set; }
         public string Beschreibung { get; set; }  
@@ -16,7 +14,8 @@ namespace it_shop_app.Models
 
         // Verweise auf andere Tabellen
         public ICollection<Merkmal> Merkmale { get; set; }
-        public virtual ICollection<Bestellung> Bestellungen { get; set; }
-        public virtual ICollection<Warenkorb> Warenkoerbe { get; set; }
+        public IList<ArtikelBestellungen> ArtikelBestellungen { get; set; }
+        public IList<WarenkorbArtikel> WarenkorbArtikel { get; set; }
+        public IList<ListenArtikel> ListenArtikel { get; set; }
     }
 }

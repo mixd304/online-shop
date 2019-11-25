@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using it_shop_app.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace it_shop_app
 {
@@ -16,6 +18,7 @@ namespace it_shop_app
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
         }
 
         public IConfiguration Configuration { get; }
@@ -24,6 +27,9 @@ namespace it_shop_app
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddDbContext<ShopContext>(options =>
+                options.UseSqlite(Configuration.GetConnectionString("ShopContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -3,10 +3,8 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
 
-namespace it_shop_app.Models
-{
-    public class Nutzer
-    {
+namespace it_shop_app.Models {
+    public class Nutzer {
         public int ID { get; set; }
         public string Vorname { get; set; }
         public string Nachname { get; set; }
@@ -24,8 +22,11 @@ namespace it_shop_app.Models
         public DateTime Geburtsdatum { get; set; }
         
         // Verweise auf andere Tabellen
-        public virtual ICollection<Bestellung> Bestellungen {get; set; }
+        public int Warenkorb_ID {get; set; }
         public Warenkorb Warenkorb { get; set; }
-        public virtual ICollection<Liste> Listen {get; set; }
+
+        public ICollection<Bestellung> Bestellungen {get; set; }
+
+        public ICollection<Liste> Listen {get; set; }
     }
 }
