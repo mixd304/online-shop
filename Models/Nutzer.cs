@@ -6,7 +6,7 @@ namespace it_shop_app.Models
 {
     public class Nutzer
     {
-        public int Id { get; set; }
+        public int ID { get; set; }
         public string Vorname { get; set; }
         public string Nachname { get; set; }
 

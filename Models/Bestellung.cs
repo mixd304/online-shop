@@ -6,7 +6,7 @@ namespace it_shop_app.Models
 {
     public class Bestellung
     {
-        public int Id { get; set; }
+        public int ID { get; set; }
         public Artikel[] Artikels { get; set; }
         public Nutzer kaeufer { get; set; }
 
