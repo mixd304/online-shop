@@ -21,5 +21,10 @@ namespace it_shop_app.Models
 
         [DataType(DataType.Date)]
         public DateTime Geburtsdatum { get; set; }
+        
+        // Verweise auf andere Tabellen
+        public virtual ICollection<Bestellung> Bestellungen {get; set; }
+        public Warenkorb Warenkorb { get; set; }
+        public virtual ICollection<Liste> Listen {get; set; }
     }
 }

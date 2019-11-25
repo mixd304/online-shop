@@ -5,13 +5,12 @@ using System.Collections.Generic;
 
 namespace it_shop_app.Models
 {
-    public class Merkmal
+    public class Liste
     {
         public int ID { get; set; }
-        public string Bezeichnung { get; set; }
-        public string Wert { get; set; }
 
-        // Verweise auf andere Tabellen
-        public Artikel artikel { get; set; }
+        // Fremdschlüssel
+        public Nutzer Nutzer { get; set; }
+        public virtual ICollection<Artikel> Artikel { get; set; }
     }
 }
