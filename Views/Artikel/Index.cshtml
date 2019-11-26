@@ -5,17 +5,17 @@
 }
 
 <div class="row">
-    <div class="col-2">
+    <div class="col-3">
         <div class="input-group flex-nowrap">
             <div class="input-group-prepend">
                 <span class="input-group-text" id="addon-wrapping">
                     <i class="fas fa-search"></i>
                 </span>
             </div>
-            <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="addon-wrapping">
+            <input type="text" class="form-control" placeholder="Suche" aria-label="Suche" aria-describedby="addon-wrapping">
         </div>
     </div>
-    <div class="col-10">
+    <div class="col-9">
 
         @foreach (var artikel in Model)
         {
@@ -36,7 +36,7 @@
                     </dt>
 
                     <dd class="col-sm-10">
-                        @Html.DisplayFor( art => artikel.Preis )
+                        @Html.DisplayFor( art => artikel.Preis ) €
                     </dd>
 
                     @foreach (var merkmal in artikel.Merkmale)
