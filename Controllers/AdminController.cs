@@ -29,9 +29,9 @@ namespace it_shop_app.Controllers {
             return View("Views/Admin/Artikel/Index.cshtml", await _context.Artikel.ToListAsync());
         }
 
-        public IActionResult Artikel_Edit(int? id)
-        {
-            return View("Views/Admin/Artikel/Edit.cshtml");
+        public async Task<IActionResult> Artikel_Edit(int? id)
+        {                      
+            return View("Views/Admin/Artikel/Edit.cshtml", await _context.Artikel.FirstOrDefaultAsync(m => m.ID == id));
         }
 
         public IActionResult Artikel_Create()
@@ -44,9 +44,25 @@ namespace it_shop_app.Controllers {
             return View("Views/Admin/Artikel/Delete.cshtml");
         }
 
-        public IActionResult Artikel_Details(int? id)
+        public async Task<IActionResult> Artikel_Details(int? id)
         {
-            return View("Views/Admin/Artikel/Details.cshtml");
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            await _context.Merkmale.ToListAsync();
+
+            var artikel = await _context.Artikel
+                .FirstOrDefaultAsync(m => m.ID == id);
+
+            if (artikel == null)
+            {
+                return NotFound();
+            }
+
+            return View("Views/Admin/Artikel/Details.cshtml", artikel);
         }
     }
 }
