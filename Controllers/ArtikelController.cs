@@ -42,5 +42,10 @@ namespace it_shop_app.Controllers {
             return View(artikel);
         }
 
+        public IActionResult Warenkorb()
+        {
+            return View();
+        }
+
     }
 }
