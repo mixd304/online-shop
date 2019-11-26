@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using it_shop_app.Models;
+using it_shop_app.Data;
 
 namespace it_shop_app.Controllers {
     public class HomeController : Controller {
