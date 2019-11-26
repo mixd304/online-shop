@@ -1,0 +1,35 @@
+@model IEnumerable<it_shop_app.Models.Artikel>
+
+@{
+    ViewData["Title"] = "Admin - Artikel";
+}
+
+<h1>Artikelübersicht</h1>
+
+<p>
+    <a asp-action="Artikel_Create">Artikel hinzufügen</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Bezeichnung)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var artikel in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => artikel.Bezeichnung)
+            </td>
+            <td>
+                <a asp-action="Artikel_Edit" asp-route-id="@artikel.ID">Edit</a> |
+                <a asp-action="Artikel_Details" asp-route-id="@artikel.ID">Details</a> |
+                <a asp-action="Artikel_Delete" asp-route-id="@artikel.ID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

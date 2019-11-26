@@ -5,15 +5,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 using it_shop_app.Models;
+using it_shop_app.Data;
 
 namespace it_shop_app.Controllers {
     public class AdminController : Controller {
-        private readonly ILogger<AdminController> _logger;
+        private readonly ShopContext _context;
 
-        public AdminController(ILogger<AdminController> logger)
+        public AdminController(ShopContext context)
         {
-            _logger = logger;
+            _context = context;
         }
 
         public IActionResult Nutzer()
@@ -21,9 +23,30 @@ namespace it_shop_app.Controllers {
             return View();
         }
 
-        public IActionResult Artikel()
+        public async Task<IActionResult> Artikel_Index()
         {
-            return View();
+            await _context.Merkmale.ToListAsync();
+            return View("Views/Admin/Artikel/Index.cshtml", await _context.Artikel.ToListAsync());
+        }
+
+        public IActionResult Artikel_Edit(int? id)
+        {
+            return View("Views/Admin/Artikel/Edit.cshtml");
+        }
+
+        public IActionResult Artikel_Create()
+        {
+            return View("Views/Admin/Artikel/Create.cshtml");
+        }
+
+        public IActionResult Artikel_Delete(int? id)
+        {
+            return View("Views/Admin/Artikel/Delete.cshtml");
+        }
+
+        public IActionResult Artikel_Details(int? id)
+        {
+            return View("Views/Admin/Artikel/Details.cshtml");
         }
     }
 }
