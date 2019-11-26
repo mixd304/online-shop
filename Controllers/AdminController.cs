@@ -39,9 +39,32 @@ namespace it_shop_app.Controllers {
             return View("Views/Admin/Artikel/Create.cshtml");
         }
 
-        public IActionResult Artikel_Delete(int? id)
+        public async Task<IActionResult> Artikel_Delete(int? id)
         {
-            return View("Views/Admin/Artikel/Delete.cshtml");
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            await _context.Merkmale.ToListAsync();
+            var artikel = await _context.Artikel.FirstOrDefaultAsync(m => m.ID == id);
+
+            if (artikel == null)
+            {
+                return NotFound();
+            }
+
+            return View("Views/Admin/Artikel/Delete.cshtml", artikel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var movie = await _context.Artikel.FindAsync(id);
+            _context.Artikel.Remove(movie);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Artikel_Index");
         }
 
         public async Task<IActionResult> Artikel_Details(int? id)
