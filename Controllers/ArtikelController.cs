@@ -28,5 +28,23 @@ namespace it_shop_app.Controllers
             await _context.Merkmale.ToListAsync();
             return View(await _context.Artikel.ToListAsync());
         }
+
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            await _context.Merkmale.ToListAsync();
+            var artikel = await _context.Artikel
+                .FirstOrDefaultAsync(a => a.ID == id);
+            if(artikel == null) {
+                return NotFound();
+            }
+
+            return View(artikel);
+        }
+
     }
 }
