@@ -29,6 +29,15 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Beschreibung)
             </td>
+            <br>
+            @foreach (var merkmal in item.Merkmale) {
+                <td>
+                    @merkmal.Bezeichnung
+                </td>
+                <td>
+                    @merkmal.Wert
+                </td><br>
+            }
         </tr>
 }
     </tbody>

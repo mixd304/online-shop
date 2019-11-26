@@ -25,6 +25,7 @@ namespace it_shop_app.Controllers
 
         public async Task<IActionResult> Index()
         {
+            await _context.Merkmale.ToListAsync();
             return View(await _context.Artikel.ToListAsync());
         }
     }
