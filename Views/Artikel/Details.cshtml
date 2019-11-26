@@ -1,10 +1,41 @@
 @model it_shop_app.Models.Artikel
 
 @{
-    ViewData["Title"] = "Artikelseite";
+    ViewData["Title"] = "Details";
 }
 
 
-<div class="text-center">
-    <h1 class="display-4">Hier stehen die Details</h1>
+<div class="jumbotron">
+    <h1 class="display-6">
+        @Html.DisplayFor(model => model.Bezeichnung )
+    </h1>
+
+    <p>
+        @Html.DisplayFor(model => model.Beschreibung )
+    </p>
+
+    <dl class="row">
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Preis )
+        </dt>
+
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Preis )
+        </dd>
+
+        @foreach (var merkmal in Model.Merkmale) {
+                <dt class="col-sm-2">
+                    @merkmal.Bezeichnung
+                </dt>
+
+                <dd class="col-sm-10">
+                    @merkmal.Wert
+                </dd>
+            }
+
+    </dl>
+    <a asp-action="Index" class="btn btn-primary btn" role="button">						
+        zurück zur Übersicht
+    </a>
 </div>

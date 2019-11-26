@@ -8,15 +8,20 @@ using Microsoft.Extensions.Logging;
 using it_shop_app.Models;
 
 namespace it_shop_app.Controllers {
-    public class ProfilController : Controller {
+    public class LoginController : Controllers {
         private readonly ShopContext _context;
 
-        public ProfilController(ShopContext context)
+        public LoginController(ShopContext context)
         {
             _context = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Anmelden()
+        {
+            return View();
+        }
+
+        public IActionResult Registrieren()
         {
             return View();
         }

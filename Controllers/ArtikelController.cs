@@ -10,16 +10,12 @@ using Microsoft.EntityFrameworkCore;
 using it_shop_app.Models;
 using it_shop_app.Data;
 
-namespace it_shop_app.Controllers
-{
-    public class ArtikelController : Controller
-    {
-        private readonly ILogger<ArtikelController> _logger;
+namespace it_shop_app.Controllers {
+    public class ArtikelController : Controller {
         private readonly ShopContext _context;
 
-        public ArtikelController(ILogger<ArtikelController> logger, ShopContext context)
+        public ArtikelController(ShopContext context)
         {
-            _logger = logger;
             _context = context;
         }
 
@@ -28,5 +24,23 @@ namespace it_shop_app.Controllers
             await _context.Merkmale.ToListAsync();
             return View(await _context.Artikel.ToListAsync());
         }
+
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            await _context.Merkmale.ToListAsync();
+            var artikel = await _context.Artikel
+                .FirstOrDefaultAsync(a => a.ID == id);
+            if(artikel == null) {
+                return NotFound();
+            }
+
+            return View(artikel);
+        }
+
     }
 }
