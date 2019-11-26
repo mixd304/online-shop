@@ -31,22 +31,22 @@
 
                 <dl class="row">
 
-                    <dt class="col-sm-2">
+                    <dt class="col-sm-3">
                         @Html.DisplayNameFor( art => artikel.Preis )
                     </dt>
 
-                    <dd class="col-sm-10">
+                    <dd class="col-sm-9">
                         @Html.DisplayFor( art => artikel.Preis ) €
                     </dd>
 
                     @foreach (var merkmal in artikel.Merkmale)
                     {
 
-                        <dt class="col-sm-2">
+                        <dt class="col-sm-3">
                             @merkmal.Bezeichnung
                         </dt>
 
-                        <dd class="col-sm-10">
+                        <dd class="col-sm-9">
                             @merkmal.Wert
                         </dd>
 
