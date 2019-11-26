@@ -22,11 +22,11 @@ namespace it_shop_app.Models {
         public DateTime Geburtsdatum { get; set; }
         
         // Verweise auf andere Tabellen
-        public int Warenkorb_ID {get; set; }
-        public Warenkorb Warenkorb { get; set; }
+        public IList<Warenkorb> Warenkorb { get; set; }
 
         public ICollection<Bestellung> Bestellungen {get; set; }
 
         public ICollection<Liste> Listen {get; set; }
+        
     }
 }
