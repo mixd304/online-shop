@@ -4,41 +4,64 @@
     ViewData["Title"] = "Artikelseite";
 }
 
+<div class="row">
+    <div class="col-2">
+        <div class="input-group flex-nowrap">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="addon-wrapping">
+                    <i class="fas fa-search"></i>
+                </span>
+            </div>
+            <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="addon-wrapping">
+        </div>
+    </div>
+    <div class="col-10">
 
-<div class="text-center">
-    <h1 class="display-4">Hier stehen die Artikel</h1>
-</div>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Bezeichnung)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Beschreibung)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Bezeichnung)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Beschreibung)
-            </td>
-            <br>
-            @foreach (var merkmal in item.Merkmale) {
-                <td>
-                    @merkmal.Bezeichnung
-                </td>
-                <td>
-                    @merkmal.Wert
-                </td><br>
-            }
-        </tr>
-}
-    </tbody>
-</table>
+        @foreach (var artikel in Model)
+        {
+            <div class="jumbotron">
+
+                <h1 class="display-6">
+                    @Html.DisplayFor( art => artikel.Bezeichnung )
+                </h1>
+
+                <p>
+                    @Html.DisplayFor( art => artikel.Beschreibung )
+                </p>
+
+                <dl class="row">
+
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor( art => artikel.Preis )
+                    </dt>
+
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor( art => artikel.Preis )
+                    </dd>
+
+                    @foreach (var merkmal in artikel.Merkmale)
+                    {
+
+                        <dt class="col-sm-2">
+                            @merkmal.Bezeichnung
+                        </dt>
+
+                        <dd class="col-sm-10">
+                            @merkmal.Wert
+                        </dd>
+
+                    }
+
+                </dl>
+                <hr class="my-4">
+                <a class="btn btn-primary btn" href="#" role="button">						
+                    Details
+                </a>
+                <a class="btn btn-primary btn" href="#" role="button">
+                    <i class="fas fa-shopping-cart"></i>
+                    Zum Warenkorb
+                </a>
+            </div>
+        }
+
+    </div>
