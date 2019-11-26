@@ -23,15 +23,23 @@ namespace it_shop_app.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Warenkoerbe",
+                name: "Nutzer",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Vorname = table.Column<string>(nullable: true),
+                    Nachname = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    Plz = table.Column<string>(nullable: true),
+                    Ort = table.Column<string>(nullable: true),
+                    Straße = table.Column<string>(nullable: true),
+                    Hausnummer = table.Column<int>(nullable: false),
+                    Geburtsdatum = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Warenkoerbe", x => x.ID);
+                    table.PrimaryKey("PK_Nutzer", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -51,57 +59,6 @@ namespace it_shop_app.Migrations
                         name: "FK_Merkmale_Artikel_Artikel_ID",
                         column: x => x.Artikel_ID,
                         principalTable: "Artikel",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Nutzer",
-                columns: table => new
-                {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Vorname = table.Column<string>(nullable: true),
-                    Nachname = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
-                    Plz = table.Column<string>(nullable: true),
-                    Ort = table.Column<string>(nullable: true),
-                    Straße = table.Column<string>(nullable: true),
-                    Hausnummer = table.Column<int>(nullable: false),
-                    Geburtsdatum = table.Column<DateTime>(nullable: false),
-                    Warenkorb_ID = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Nutzer", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_Nutzer_Warenkoerbe_Warenkorb_ID",
-                        column: x => x.Warenkorb_ID,
-                        principalTable: "Warenkoerbe",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "WarenkorbArtikel",
-                columns: table => new
-                {
-                    Artikel_ID = table.Column<int>(nullable: false),
-                    Warenkorb_ID = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_WarenkorbArtikel", x => new { x.Warenkorb_ID, x.Artikel_ID });
-                    table.ForeignKey(
-                        name: "FK_WarenkorbArtikel_Artikel_Artikel_ID",
-                        column: x => x.Artikel_ID,
-                        principalTable: "Artikel",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_WarenkorbArtikel_Warenkoerbe_Warenkorb_ID",
-                        column: x => x.Warenkorb_ID,
-                        principalTable: "Warenkoerbe",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -141,6 +98,30 @@ namespace it_shop_app.Migrations
                     table.PrimaryKey("PK_Listen", x => x.ID);
                     table.ForeignKey(
                         name: "FK_Listen_Nutzer_Nutzer_ID",
+                        column: x => x.Nutzer_ID,
+                        principalTable: "Nutzer",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Warenkorb",
+                columns: table => new
+                {
+                    Artikel_ID = table.Column<int>(nullable: false),
+                    Nutzer_ID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Warenkorb", x => new { x.Nutzer_ID, x.Artikel_ID });
+                    table.ForeignKey(
+                        name: "FK_Warenkorb_Artikel_Artikel_ID",
+                        column: x => x.Artikel_ID,
+                        principalTable: "Artikel",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Warenkorb_Nutzer_Nutzer_ID",
                         column: x => x.Nutzer_ID,
                         principalTable: "Nutzer",
                         principalColumn: "ID",
@@ -221,14 +202,8 @@ namespace it_shop_app.Migrations
                 column: "Artikel_ID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Nutzer_Warenkorb_ID",
-                table: "Nutzer",
-                column: "Warenkorb_ID",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_WarenkorbArtikel_Artikel_ID",
-                table: "WarenkorbArtikel",
+                name: "IX_Warenkorb_Artikel_ID",
+                table: "Warenkorb",
                 column: "Artikel_ID");
         }
 
@@ -244,7 +219,7 @@ namespace it_shop_app.Migrations
                 name: "Merkmale");
 
             migrationBuilder.DropTable(
-                name: "WarenkorbArtikel");
+                name: "Warenkorb");
 
             migrationBuilder.DropTable(
                 name: "Bestellungen");
@@ -257,9 +232,6 @@ namespace it_shop_app.Migrations
 
             migrationBuilder.DropTable(
                 name: "Nutzer");
-
-            migrationBuilder.DropTable(
-                name: "Warenkoerbe");
         }
     }
 }

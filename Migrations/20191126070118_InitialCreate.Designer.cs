@@ -9,7 +9,7 @@ using it_shop_app.Data;
 namespace it_shop_app.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    [Migration("20191125132643_InitialCreate")]
+    [Migration("20191126070118_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -161,41 +161,24 @@ namespace it_shop_app.Migrations
                     b.Property<string>("Vorname")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Warenkorb_ID")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("ID");
-
-                    b.HasIndex("Warenkorb_ID")
-                        .IsUnique();
 
                     b.ToTable("Nutzer");
                 });
 
             modelBuilder.Entity("it_shop_app.Models.Warenkorb", b =>
                 {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Warenkoerbe");
-                });
-
-            modelBuilder.Entity("it_shop_app.Models.WarenkorbArtikel", b =>
-                {
-                    b.Property<int>("Warenkorb_ID")
+                    b.Property<int>("Nutzer_ID")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Artikel_ID")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("Warenkorb_ID", "Artikel_ID");
+                    b.HasKey("Nutzer_ID", "Artikel_ID");
 
                     b.HasIndex("Artikel_ID");
 
-                    b.ToTable("WarenkorbArtikel");
+                    b.ToTable("Warenkorb");
                 });
 
             modelBuilder.Entity("it_shop_app.Models.ArtikelBestellungen", b =>
@@ -255,26 +238,17 @@ namespace it_shop_app.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("it_shop_app.Models.Nutzer", b =>
-                {
-                    b.HasOne("it_shop_app.Models.Warenkorb", "Warenkorb")
-                        .WithOne("Nutzer")
-                        .HasForeignKey("it_shop_app.Models.Nutzer", "Warenkorb_ID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("it_shop_app.Models.WarenkorbArtikel", b =>
+            modelBuilder.Entity("it_shop_app.Models.Warenkorb", b =>
                 {
                     b.HasOne("it_shop_app.Models.Artikel", "Artikel")
-                        .WithMany("WarenkorbArtikel")
+                        .WithMany("Warenkorb")
                         .HasForeignKey("Artikel_ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("it_shop_app.Models.Warenkorb", "Warenkorb")
-                        .WithMany("WarenkorbArtikel")
-                        .HasForeignKey("Warenkorb_ID")
+                    b.HasOne("it_shop_app.Models.Nutzer", "Nutzer")
+                        .WithMany("Warenkorb")
+                        .HasForeignKey("Nutzer_ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

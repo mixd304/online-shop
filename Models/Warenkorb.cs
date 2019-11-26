@@ -1,15 +1,9 @@
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Collections.Generic;
-
 namespace it_shop_app.Models {
     public class Warenkorb {
-        public int ID { get; set; }
+        public int Artikel_ID { get; set; }
+        public Artikel Artikel { get; set; }
 
-        // Verweise auf andere Tabellen
+        public int Nutzer_ID { get; set; }
         public Nutzer Nutzer { get; set; }
-
-        public IList<WarenkorbArtikel> WarenkorbArtikel { get; set; }
     }
 }
