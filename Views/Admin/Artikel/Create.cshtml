@@ -1,6 +1,33 @@
-
+@model it_shop_app.Models.CreateArtikelViewModel
 @{
     ViewData["Title"] = "Admin - Artikel";
 }
 
-<h1>Create</h1>
+<h1>Artikel Hinzufügen</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="artikel.Bezeichnung" class="control-label"></label>
+                <input asp-for="artikel.Bezeichnung" class="form-control" />
+                <span asp-validation-for="artikel.Bezeichnung" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="artikel.Beschreibung" class="control-label"></label>
+                <input asp-for="artikel.Beschreibung" class="form-control" />
+                <span asp-validation-for="artikel.Beschreibung" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="artikel.Preis" class="control-label"></label>
+                <input asp-for="artikel.Preis" class="form-control" />
+                <span asp-validation-for="artikel.Preis" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
