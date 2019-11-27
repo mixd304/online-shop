@@ -1,25 +1,25 @@
-@model it_shop_app.Models.Artikel
+@model it_shop_app.Models.CreateArtikelViewModel
 @{
     ViewData["Title"] = "Details - Artikel";
 }
 
-<h1 class="display-3">Details</h1>
+<h1 class="display-3">Merkmale Hinzufügen</h1>
 
 <div class="jumbotron">
     <h1 class="display-6">
-        @Html.DisplayFor( model => model.Bezeichnung )
+        @Html.DisplayFor( model => model.artikel.Bezeichnung )
     </h1>
     <p>
-        @Html.DisplayFor( model => model.Beschreibung )
+        @Html.DisplayFor( model => model.artikel.Beschreibung )
     </p>
     <dl class="row">
         <dt class="col-sm-3">
-            @Html.DisplayNameFor( model => model.Preis )
+            @Html.DisplayNameFor( model => model.artikel.Preis )
         </dt>
         <dd class="col-sm-9">
-            @Html.DisplayFor( model => model.Preis ) €
+            @Html.DisplayFor( model => model.artikel.Preis ) €
         </dd>
-        @foreach (var merkmal in Model.Merkmale)
+        @foreach (var merkmal in Model.artikel.Merkmale)
             {
                 <dt class="col-sm-3">
                     @merkmal.Bezeichnung
@@ -32,8 +32,5 @@
     <hr class="my-4">
     <a asp-action="Artikel_Index" class="btn btn-primary btn" role="button">						
         Zurück
-    </a>
-    <a asp-action="Artikel_Delete" asp-route-id="@Model.ID" class="btn btn-danger btn" role="button">						
-        Löschen
-    </a>
+    </a>    
 </div>
