@@ -5,32 +5,52 @@
 
 <h1 class="display-3">Merkmale Hinzufügen</h1>
 
-<div class="jumbotron">
-    <h1 class="display-6">
-        @Html.DisplayFor( model => model.artikel.Bezeichnung )
-    </h1>
-    <p>
-        @Html.DisplayFor( model => model.artikel.Beschreibung )
-    </p>
-    <dl class="row">
-        <dt class="col-sm-3">
-            @Html.DisplayNameFor( model => model.artikel.Preis )
-        </dt>
-        <dd class="col-sm-9">
-            @Html.DisplayFor( model => model.artikel.Preis ) €
-        </dd>
-        @foreach (var merkmal in Model.artikel.Merkmale)
-            {
-                <dt class="col-sm-3">
-                    @merkmal.Bezeichnung
-                </dt>
-                <dd class="col-sm-9">
-                    @merkmal.Wert
-                </dd>
-            }
-    </dl>
-    <hr class="my-4">
-    <a asp-action="Artikel_Index" class="btn btn-primary btn" role="button">						
-        Zurück
-    </a>    
+<hr/>
+
+<h1 class="display-6">
+    @Html.DisplayFor( model => model.artikel.Bezeichnung )
+</h1>
+<dl class="row">
+    @foreach (var merkmal in Model.artikel.Merkmale)
+        {
+            <dt class="col-sm-3">
+                @merkmal.Bezeichnung
+            </dt>
+            <dd class="col-sm-9">
+                @merkmal.Wert
+            </dd>
+        }
+</dl>
+<hr class="my-4">
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Merkmal_Create" asp-route-id="@Model.artikel.ID" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="merkmal.Bezeichnung" id="Bezeichnung" class="control-label"></label>
+                <input asp-for="merkmal.Bezeichnung" id="Bezeichnung" class="form-control" />
+                <span asp-validation-for="merkmal.Bezeichnung" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="merkmal.Wert" id="Wert" class="control-label"></label>
+                <input asp-for="merkmal.Wert" id="Wert" class="form-control" />
+                <span asp-validation-for="merkmal.Wert" class="text-danger"></span>
+            </div>
+            
+
+            <div class="form-group">
+                <a asp-action="Artikel_Index" class="btn btn-primary btn" role="button">						
+                    Zurück
+                </a> 
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+
+        </form>
+    </div>
 </div>
+
+
+   
