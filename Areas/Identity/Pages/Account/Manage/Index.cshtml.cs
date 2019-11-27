@@ -33,6 +33,36 @@ namespace it_shop_app.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Full name")]
+            public string Name { get; set; }
+
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Postleitzahl")]
+            public string Plz { get; set; }
+
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Wohnort")]
+            public string Ort { get; set; }
+
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Strasse")]
+            public string Strasse { get; set; }
+
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Hausnummer")]
+            public string Hausnummer { get; set; }
+
+            [Required]
+            [Display(Name = "Geburtsdatum")]
+            [DataType(DataType.Date)]
+            public DateTime Geburtsdatum { get; set; }
+
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
@@ -47,6 +77,12 @@ namespace it_shop_app.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
+                Name = user.Name,
+                Plz = user.Plz,
+                Ort = user.Ort,
+                Strasse = user.Strasse,
+                Hausnummer = user.Hausnummer,
+                Geburtsdatum = user.Geburtsdatum,
                 PhoneNumber = phoneNumber
             };
         }
@@ -77,6 +113,36 @@ namespace it_shop_app.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
+            if (Input.Name != user.Name)
+            {
+                user.Name = Input.Name;
+            }
+
+            if (Input.Plz != user.Plz)
+            {
+                user.Plz = Input.Plz;
+            }
+
+            if (Input.Ort != user.Ort)
+            {
+                user.Ort = Input.Ort;
+            }
+
+            if (Input.Strasse != user.Strasse)
+            {
+                user.Strasse = Input.Strasse;
+            }
+
+            if (Input.Hausnummer != user.Hausnummer)
+            {
+                user.Hausnummer = Input.Hausnummer;
+            }
+
+            if (Input.Geburtsdatum != user.Geburtsdatum)
+            {
+                user.Geburtsdatum = Input.Geburtsdatum;
+            }
+
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             if (Input.PhoneNumber != phoneNumber)
             {
@@ -87,6 +153,8 @@ namespace it_shop_app.Areas.Identity.Pages.Account.Manage
                     throw new InvalidOperationException($"Unexpected error occurred setting phone number for user with ID '{userId}'.");
                 }
             }
+
+            await _userManager.UpdateAsync(user);
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
