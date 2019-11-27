@@ -6,10 +6,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using it_shop_app.Areas.Identity.Data;
 
-namespace it_shop_app.Migrations
+namespace it_shop_app.Migrations.User
 {
     [DbContext(typeof(UserContext))]
-    [Migration("20191127091433_CreateIdentitySchema")]
+    [Migration("20191127095332_CreateIdentitySchema")]
     partial class CreateIdentitySchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -169,10 +169,19 @@ namespace it_shop_app.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateTime>("Geburtsdatum")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Hausnummer")
+                        .HasColumnType("TEXT");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("NormalizedEmail")
@@ -183,6 +192,9 @@ namespace it_shop_app.Migrations
                         .HasColumnType("TEXT")
                         .HasMaxLength(256);
 
+                    b.Property<string>("Ort")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("PasswordHash")
                         .HasColumnType("TEXT");
 
@@ -192,7 +204,13 @@ namespace it_shop_app.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Plz")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("SecurityStamp")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Strasse")
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("TwoFactorEnabled")

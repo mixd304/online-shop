@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using it_shop_app.Models;
 using it_shop_app.Data;
+using it_shop_app.Areas.Identity.Data;
 
 namespace it_shop_app.Controllers {
     public class HomeController : Controller {
@@ -36,6 +37,10 @@ namespace it_shop_app.Controllers {
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public string HeadUserInfo(IdentityNutzer user) {
+            return user.Name;
         }
     }
 }

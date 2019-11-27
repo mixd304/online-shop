@@ -6,10 +6,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using it_shop_app.Data;
 
-namespace it_shop_app.Migrations.Shop
+namespace it_shop_app.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    [Migration("20191127091546_InitialCreate")]
+    [Migration("20191127095245_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
