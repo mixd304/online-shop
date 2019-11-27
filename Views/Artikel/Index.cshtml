@@ -6,13 +6,20 @@
 
 <div class="row">
     <div class="col-3">
-        <div class="input-group flex-nowrap">
+        <label for="Suche">Suche</label>
+        <div class="input-group mb-2">            
             <div class="input-group-prepend">
                 <span class="input-group-text" id="addon-wrapping">
                     <i class="fas fa-search"></i>
                 </span>
-            </div>
-            <input type="text" class="form-control" placeholder="Suche" aria-label="Suche" aria-describedby="addon-wrapping">
+            </div>            
+            <input type="text" id="Suche" class="form-control" placeholder="Suche" aria-label="Suche" aria-describedby="addon-wrapping">
+        </div>
+        <div class="form-group">
+            <label for="Kategorien">Kategorien</label>
+            <select class="form-control" id="Kategorien">
+                <option>Default select</option>
+            </select>
         </div>
     </div>
     <div class="col-9">
