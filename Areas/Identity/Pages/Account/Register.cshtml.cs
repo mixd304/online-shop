@@ -47,6 +47,36 @@ namespace it_shop_app.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Full name")]
+            public string Name { get; set; }
+
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Postleitzahl")]
+            public string Plz { get; set; }
+
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Wohnort")]
+            public string Ort { get; set; }
+
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Strasse")]
+            public string Strasse { get; set; }
+
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Hausnummer")]
+            public string Hausnummer { get; set; }
+
+            [Required]
+            [Display(Name = "Geburtsdatum")]
+            [DataType(DataType.Date)]
+            public DateTime Geburtsdatum { get; set; }
+            
+            [Required]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
@@ -75,7 +105,16 @@ namespace it_shop_app.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new IdentityNutzer { UserName = Input.Email, Email = Input.Email };
+                var user = new IdentityNutzer { 
+                    Name = Input.Name,
+                    Plz = Input.Plz,
+                    Ort = Input.Ort,
+                    Strasse = Input.Strasse,
+                    Hausnummer = Input.Hausnummer,
+                    Geburtsdatum = Input.Geburtsdatum,
+                    UserName = Input.Email, 
+                    Email = Input.Email, 
+                    };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

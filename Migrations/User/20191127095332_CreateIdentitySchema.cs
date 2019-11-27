@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace it_shop_app.Migrations
+namespace it_shop_app.Migrations.User
 {
     public partial class CreateIdentitySchema : Migration
     {
@@ -39,7 +39,13 @@ namespace it_shop_app.Migrations
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false)
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Plz = table.Column<string>(nullable: true),
+                    Ort = table.Column<string>(nullable: true),
+                    Strasse = table.Column<string>(nullable: true),
+                    Hausnummer = table.Column<string>(nullable: true),
+                    Geburtsdatum = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
