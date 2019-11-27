@@ -1,0 +1,14 @@
+INSERT INTO "Artikel" VALUES (1,'Apple iPhone 8','Genau was du willst, exakt was du brauchst.','529.00');
+INSERT INTO "Artikel" VALUES (2,'Apple iPhone XR','Genau was du willst, exakt was du brauchst.','699.00');
+INSERT INTO "Artikel" VALUES (3,'Apple iPhone 11','Genau was du willst, exakt was du brauchst.','799.99');
+INSERT INTO "Artikel" VALUES (4,'Samsung Galaxy s10','Samsung','599.99');
+INSERT INTO "Merkmale" VALUES (1,'Videowiedergabe','bis zu 14 Stunden',1);
+INSERT INTO "Merkmale" VALUES (2,'Videowiedergabe','bis zu 16 Stunden',2);
+INSERT INTO "Merkmale" VALUES (3,'Videowiedergabe','bis zu 17 Stunden',3);
+INSERT INTO "Merkmale" VALUES (4,'Display','4,7'''' oder 5,5'''' Retina HD Display',1);
+INSERT INTO "Merkmale" VALUES (5,'Kamera','Ein‑Kamera-System (Weitwinkel) oder Zwei‑Kamera-System (Weitwinkel, Teleobjektiv)',1);
+INSERT INTO "Merkmale" VALUES (6,'Display','6,1'''' Liquid Retina HD Display',2);
+INSERT INTO "Merkmale" VALUES (7,'Display','6,1'''' Liquid Retina HD Display',3);
+INSERT INTO "Merkmale" VALUES (8,'Kamera','Ein‑Kamera-System (Weitwinkel)',2);
+INSERT INTO "Merkmale" VALUES (9,'Kamera','Neues Zwei‑Kamera-System (Ultraweitwinkel, Weitwinkel',3);
+INSERT INTO "Merkmale" VALUES (10,'Farbe','Weiß',4);
