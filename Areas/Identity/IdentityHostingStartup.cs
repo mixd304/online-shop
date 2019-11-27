@@ -19,7 +19,8 @@ namespace it_shop_app.Areas.Identity
                     options.UseSqlite(
                         context.Configuration.GetConnectionString("UserContextConnection")));
 
-                services.AddDefaultIdentity<IdentityNutzer>(options => options.SignIn.RequireConfirmedAccount = true)
+                services.AddDefaultIdentity<IdentityNutzer>(
+                    options => options.SignIn.RequireConfirmedAccount = true)
                     .AddEntityFrameworkStores<UserContext>();
             });
         }

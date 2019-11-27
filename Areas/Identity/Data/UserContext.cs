@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace it_shop_app.Areas.Identity.Data
 {
-    public class UserContext : IdentityDbContext<IdentityNutzer>
+        public class UserContext : IdentityDbContext<IdentityNutzer>
     {
         public UserContext(DbContextOptions<UserContext> options)
             : base(options)
