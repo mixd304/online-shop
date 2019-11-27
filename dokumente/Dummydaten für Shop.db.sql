@@ -2,6 +2,11 @@ INSERT INTO "Artikel" VALUES (1,'Apple iPhone 8','Genau was du willst, exakt was
 INSERT INTO "Artikel" VALUES (2,'Apple iPhone XR','Genau was du willst, exakt was du brauchst.','699.00');
 INSERT INTO "Artikel" VALUES (3,'Apple iPhone 11','Genau was du willst, exakt was du brauchst.','799.99');
 INSERT INTO "Artikel" VALUES (4,'Samsung Galaxy s10','Samsung','599.99');
+INSERT INTO "Artikel" VALUES (5,'HP 250 G7 6HM78ES 15,6"','Gutes Teil',299);
+INSERT INTO "Artikel" VALUES (6,'Acer Aspire 5 (A514-52-58NK)','Mit dem Acer Aspire 5 (A514-52-58NK) kannst Du dank des schlanken, leichten Designs und der sandgestrahlten oberen Abdeckung aus Aluminium stilvoll reisen. Dieses schlanke Notebook ist lediglich 17,95 mm dünn und die glatte, angenehme Haptik vollendet das Premiumdesign mit edlem Look. Mit einer Akkulaufzeit von bis zu 12,5 Stunden ist Dein Notebook der perfekte Begleiter für den ganzen Tag.',699);
+INSERT INTO "Artikel" VALUES (7,'Asus ZenBook 14 UM431DA-AM058T','Kreativität. Stil. Innovation. Das sind Qualitätsmerkmale, die das elegante neue ZenBook 14 auszeichnen. In diesem superkompakten Meisterwerk ist alles so konzipiert, dass Sie die Freiheit haben, Ihre kreative Vision zu entdecken, einschließlich des atemberaubenden schmalen NanoEdge-Displays mit 86% Screen-to-Body-Ratio. Sie werden nicht nur die ungeheure Kraft im Inneren und die durchdachte Liebe zum Detail - wie das exklusive ErgoLift-Kippscharnier und das optionale NumberPad-Touchpad - schätzen, sondern auch die zeitlose Schönheit des Designs mit seinem edlen Finish Utopia Blue, das durch das stilvolle silberne Zierfeld noch verstärkt wird. Das ZenBook 14 wartet: Sind Sie bereit, Ihre kreative Vision zu verwirklichen?',555);
+INSERT INTO "Artikel" VALUES (8,'Acer Aspire 3 A315-55G-54V9','Dünnes, hochwertiges Aluminum Design mit gebürsteten Aluminumcover bietet atemberaubende Optik...',555);
+
 INSERT INTO "Merkmale" VALUES (1,'Videowiedergabe','bis zu 14 Stunden',1);
 INSERT INTO "Merkmale" VALUES (2,'Videowiedergabe','bis zu 16 Stunden',2);
 INSERT INTO "Merkmale" VALUES (3,'Videowiedergabe','bis zu 17 Stunden',3);
@@ -12,3 +17,17 @@ INSERT INTO "Merkmale" VALUES (7,'Display','6,1'''' Liquid Retina HD Display',3)
 INSERT INTO "Merkmale" VALUES (8,'Kamera','Ein‑Kamera-System (Weitwinkel)',2);
 INSERT INTO "Merkmale" VALUES (9,'Kamera','Neues Zwei‑Kamera-System (Ultraweitwinkel, Weitwinkel',3);
 INSERT INTO "Merkmale" VALUES (10,'Farbe','Weiß',4);
+INSERT INTO "Merkmale" VALUES (11,'Monitor','Entspiegeltes 15,6"-Display mit einer Full HD Auflösung von 1920 x 1080 Pixeln',5);
+INSERT INTO "Merkmale" VALUES (12,'RAM','8GB',5);
+INSERT INTO "Merkmale" VALUES (13,'CPU','Intel I7 8700K',5);
+INSERT INTO "Merkmale" VALUES (14,'Festplatte','500 GB SSD',5);
+INSERT INTO "Merkmale" VALUES (15,'Auflösung','1920 x 1080 (Full HD Acer ComfyView™)',6);
+INSERT INTO "Merkmale" VALUES (16,'Speicher','1.000 GB M.2 PCIe Solid-State-Drive (SSD)',6);
+INSERT INTO "Merkmale" VALUES (17,'Grafik','Intel UHD Graphics 620',6);
+INSERT INTO "Merkmale" VALUES (18,'RAM','8 GB DDR4 RAM',6);
+INSERT INTO "Merkmale" VALUES (19,'RAM','8 GB LPDDR3',7);
+INSERT INTO "Merkmale" VALUES (20,'CPU','AMD Ryzen 5 3500U Prozessor 4x 2.10 GHz',7);
+INSERT INTO "Merkmale" VALUES (21,'Displaygröße','35,56 cm (14")',7);
+INSERT INTO "Merkmale" VALUES (22,'RAM','8 GB DDR4',8);
+INSERT INTO "Merkmale" VALUES (23,'CPU','Intel® Core™ i5 (8. Generation) 8265U Prozessor 4x 1,60 GHz',8);
+INSERT INTO "Merkmale" VALUES (24,'Grafikkarte','GeForce MX230',8);
