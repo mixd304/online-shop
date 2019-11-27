@@ -9,7 +9,7 @@ using it_shop_app.Data;
 namespace it_shop_app.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    [Migration("20191127095245_InitialCreate")]
+    [Migration("20191127131050_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

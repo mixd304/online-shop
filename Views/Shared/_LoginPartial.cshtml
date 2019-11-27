@@ -4,10 +4,14 @@
 @inject SignInManager<IdentityNutzer> SignInManager
 @inject UserManager<IdentityNutzer> UserManager
 
+@{
+    IdentityNutzer user = await UserManager.GetUserAsync(User);
+}
+
 @if (SignInManager.IsSignedIn(User)) 
 {
     <li class="nav-item">
-        <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hallo @UserManager.GetUserName(User)!</a>
+        <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hallo @user.Name!</a>
     </li>
 }
 <li class="nav-item dropdown">
