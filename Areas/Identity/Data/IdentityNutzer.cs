@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using it_shop_app.Models;
 
 namespace it_shop_app.Areas.Identity.Data
 {
@@ -21,6 +22,10 @@ namespace it_shop_app.Areas.Identity.Data
         public string Hausnummer { get; set; }
         [PersonalData]
         public DateTime Geburtsdatum { get; set; }
+
+        public virtual IList<Warenkorb> Warenkorb { get; set; }
+        public ICollection<Bestellung> Bestellungen {get; set; }
+        public ICollection<Liste> Listen {get; set; }
 
         public string getAnzeigeName() {
             return this.Name;

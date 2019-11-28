@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
+using it_shop_app.Areas.Identity.Data;
 
 namespace it_shop_app.Models {
     public class Liste {
@@ -9,8 +10,8 @@ namespace it_shop_app.Models {
         public string bezeichnung { get; set; }
 
         // Fremdschlüssel
-        public int Nutzer_ID {get; set; }
-        public Nutzer Nutzer { get; set; }
+        public string Nutzer_ID {get; set; }
+        public IdentityNutzer Nutzer { get; set; }
 
         public IList<ListenArtikel> ListenArtikel { get; set; }
     }

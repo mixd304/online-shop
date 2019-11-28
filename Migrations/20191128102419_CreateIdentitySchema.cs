@@ -1,12 +1,27 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace it_shop_app.Migrations.User
+namespace it_shop_app.Migrations
 {
     public partial class CreateIdentitySchema : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Artikel",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Bezeichnung = table.Column<string>(nullable: true),
+                    Beschreibung = table.Column<string>(nullable: true),
+                    Preis = table.Column<decimal>(type: "decimal(18, 2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Artikel", x => x.ID);
+                });
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -50,6 +65,27 @@ namespace it_shop_app.Migrations.User
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Merkmale",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Bezeichnung = table.Column<string>(nullable: true),
+                    Wert = table.Column<string>(nullable: true),
+                    Artikel_ID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Merkmale", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Merkmale_Artikel_Artikel_ID",
+                        column: x => x.Artikel_ID,
+                        principalTable: "Artikel",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -158,6 +194,127 @@ namespace it_shop_app.Migrations.User
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Bestellungen",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Gesamtpreis = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
+                    Bestelldatum = table.Column<DateTime>(nullable: false),
+                    Nutzer_ID = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bestellungen", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Bestellungen_AspNetUsers_Nutzer_ID",
+                        column: x => x.Nutzer_ID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Listen",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    bezeichnung = table.Column<string>(nullable: true),
+                    Nutzer_ID = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Listen", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Listen_AspNetUsers_Nutzer_ID",
+                        column: x => x.Nutzer_ID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Warenkoerbe",
+                columns: table => new
+                {
+                    Artikel_ID = table.Column<int>(nullable: false),
+                    Nutzer_ID = table.Column<string>(nullable: false),
+                    ID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Warenkoerbe", x => new { x.Nutzer_ID, x.Artikel_ID });
+                    table.ForeignKey(
+                        name: "FK_Warenkoerbe_Artikel_Artikel_ID",
+                        column: x => x.Artikel_ID,
+                        principalTable: "Artikel",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Warenkoerbe_AspNetUsers_Nutzer_ID",
+                        column: x => x.Nutzer_ID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ArtikelBestellungen",
+                columns: table => new
+                {
+                    Artikel_ID = table.Column<int>(nullable: false),
+                    Bestellung_ID = table.Column<int>(nullable: false),
+                    ID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ArtikelBestellungen", x => new { x.Artikel_ID, x.Bestellung_ID });
+                    table.ForeignKey(
+                        name: "FK_ArtikelBestellungen_Artikel_Artikel_ID",
+                        column: x => x.Artikel_ID,
+                        principalTable: "Artikel",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ArtikelBestellungen_Bestellungen_Bestellung_ID",
+                        column: x => x.Bestellung_ID,
+                        principalTable: "Bestellungen",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ListenArtikel",
+                columns: table => new
+                {
+                    Artikel_ID = table.Column<int>(nullable: false),
+                    Liste_ID = table.Column<int>(nullable: false),
+                    ID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ListenArtikel", x => new { x.Liste_ID, x.Artikel_ID });
+                    table.ForeignKey(
+                        name: "FK_ListenArtikel_Artikel_Artikel_ID",
+                        column: x => x.Artikel_ID,
+                        principalTable: "Artikel",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ListenArtikel_Listen_Liste_ID",
+                        column: x => x.Liste_ID,
+                        principalTable: "Listen",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ArtikelBestellungen_Bestellung_ID",
+                table: "ArtikelBestellungen",
+                column: "Bestellung_ID");
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -194,10 +351,38 @@ namespace it_shop_app.Migrations.User
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bestellungen_Nutzer_ID",
+                table: "Bestellungen",
+                column: "Nutzer_ID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Listen_Nutzer_ID",
+                table: "Listen",
+                column: "Nutzer_ID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ListenArtikel_Artikel_ID",
+                table: "ListenArtikel",
+                column: "Artikel_ID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Merkmale_Artikel_ID",
+                table: "Merkmale",
+                column: "Artikel_ID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Warenkoerbe_Artikel_ID",
+                table: "Warenkoerbe",
+                column: "Artikel_ID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "ArtikelBestellungen");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -214,7 +399,25 @@ namespace it_shop_app.Migrations.User
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "ListenArtikel");
+
+            migrationBuilder.DropTable(
+                name: "Merkmale");
+
+            migrationBuilder.DropTable(
+                name: "Warenkoerbe");
+
+            migrationBuilder.DropTable(
+                name: "Bestellungen");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Listen");
+
+            migrationBuilder.DropTable(
+                name: "Artikel");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
