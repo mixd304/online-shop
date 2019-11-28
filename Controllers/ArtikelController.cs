@@ -63,16 +63,35 @@ namespace it_shop_app.Controllers {
             return View(artikel);
         }
 
-        public IActionResult Warenkorb()
+        public async Task<IActionResult> Warenkorb()
         {
-            return View();
+            
+            IdentityNutzer user = await _UserManager.GetUserAsync(User);
+
+            if(_SignInManager.IsSignedIn(User)) {
+                var warenkoerebe = from w in _context.Warenkoerbe
+                                select w;            
+
+                Console.WriteLine("=========Ausgabe========");
+                Console.WriteLine(" ID: " + user.Id);
+
+                warenkoerebe.Where(w => w.Nutzer_ID.Equals(user.Id));
+
+                await _context.Artikel.ToListAsync();                
+                return View(await warenkoerebe.ToListAsync());
+            }
+
+            _toastNotification.AddWarningToastMessage("Du musst angemeldet sein um deinen Warenkorb anzuzeigen!");
+            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> addToCart(int? id) {
 
-            /*
-                @TODO:Wenn nimand angemeldet ist abweisen 
-            */
+            if(!_SignInManager.IsSignedIn(User)){
+                _toastNotification.AddWarningToastMessage("Du musst angemeldet sein um ein Produkt deinem Warenkorb hinzuzufügen!");
+                return RedirectToAction("Index");
+            }
+
             Console.WriteLine("==============Ausgabe====================");
             Console.WriteLine("übergebene ID: " + id);
 
@@ -110,10 +129,10 @@ namespace it_shop_app.Controllers {
 
                 _context.Add(wkModel);
                 await _context.SaveChangesAsync();
-                _toastNotification.AddSuccessToastMessage("Artikel erfolgreich Hinzugefügt");
+                _toastNotification.AddSuccessToastMessage("Artikel erfolgreich Hinzugefügt!");
                 return RedirectToAction("Index");
             }
-            _toastNotification.AddInfoToastMessage("Artikel bereits hinzugefügt");
+            _toastNotification.AddInfoToastMessage("Artikel bereits hinzugefügt!");
             return RedirectToAction("Index");
         }
     }

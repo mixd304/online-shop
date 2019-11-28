@@ -1,5 +1,15 @@
 @page
 @model IndexModel
+@using Microsoft.AspNetCore.Identity
+@using it_shop_app.Areas.Identity.Data
+
+@inject SignInManager<IdentityNutzer> SignInManager
+@inject UserManager<IdentityNutzer> UserManager
+
+@{
+    IdentityNutzer user = await UserManager.GetUserAsync(User);
+}
+
 @{
     ViewData["Title"] = "Profil";
     ViewData["ActivePage"] = ManageNavPages.Index;
@@ -9,6 +19,7 @@
 <partial name="_StatusMessage" model="Model.StatusMessage" />
 <div class="row">
     <div class="col-md-12">
+        <p>@user.Id</p>
         <form id="profile-form" method="post">
             <div asp-validation-summary="All" class="text-danger"></div>
 

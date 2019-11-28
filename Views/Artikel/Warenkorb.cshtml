@@ -1,6 +1,10 @@
+@model IEnumerable<it_shop_app.Models.Warenkorb>
+
 @{
     ViewData["Title"] = "Warenkorb";
 }
 <h1>@ViewData["Title"]</h1>
 
-<p>Hier wird der Warenkorb stehen</p>
+@foreach (var warenkorb in Model) {
+    <p>@warenkorb.Artikel.Bezeichnung</p>
+}
