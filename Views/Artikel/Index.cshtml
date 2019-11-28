@@ -6,15 +6,19 @@
 
 <div class="row">
     <div class="col-3">
-        <label for="Suche">Suche</label>
-        <div class="input-group mb-2">            
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="addon-wrapping">
-                    <i class="fas fa-search"></i>
-                </span>
-            </div>            
-            <input type="text" id="Suche" class="form-control" placeholder="Suche" aria-label="Suche" aria-describedby="addon-wrapping">
-        </div>
+        <form asp-controller="Artikel" asp-action="Index">
+            <label for="Suche">Suche</label>
+            <div class="input-group mb-2">            
+                           
+                <input type="text" name="SearchString" id="Suche" class="form-control" placeholder="Suche" aria-label="Suche" aria-describedby="addon-wrapping">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="submit" id="addon-wrapping">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div> 
+
+            </div>
+        </form>
         <div class="form-group">
             <label for="Kategorien">Kategorien</label>
             <select class="form-control" id="Kategorien">

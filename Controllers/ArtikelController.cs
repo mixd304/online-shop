@@ -19,10 +19,17 @@ namespace it_shop_app.Controllers {
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
+            var artikel = from m in _context.Artikel
+                          select m;
+
+            if (!String.IsNullOrEmpty(searchString)) {
+                artikel = artikel.Where(s => s.Bezeichnung.Contains(searchString));
+            }
+
             await _context.Merkmale.ToListAsync();
-            return View(await _context.Artikel.ToListAsync());
+            return View(await artikel.ToListAsync());
         }
 
         public async Task<IActionResult> Details(int? id)
