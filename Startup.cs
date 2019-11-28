@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using it_shop_app.Data;
 using Microsoft.EntityFrameworkCore;
+using NToastNotify;
 
 namespace it_shop_app
 {
@@ -26,7 +27,7 @@ namespace it_shop_app
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc().AddNToastNotifyToastr();
 
             services.AddControllersWithViews();
 
@@ -50,7 +51,7 @@ namespace it_shop_app
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseAuthentication();
-
+            app.UseNToastNotify();
             app.UseRouting();
 
             app.UseAuthorization();

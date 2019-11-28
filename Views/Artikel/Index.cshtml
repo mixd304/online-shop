@@ -64,14 +64,15 @@
                     }
 
                 </dl>
-                <hr class="my-4">
+                <hr class="my-4">                
+
                 <a asp-action="Details" asp-route-id="@artikel.ID" class="btn btn-primary btn" role="button">						
                     Details
                 </a>
-                <a class="btn btn-primary btn" href="#" role="button">
-                    <i class="fas fa-shopping-cart"></i>
+                <a asp-action="addToCart" asp-route-id="@artikel.ID" class="btn btn-primary btn" role="button">						
                     Zum Warenkorb
                 </a>
+                    
             </div>
         }
 

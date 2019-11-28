@@ -9,8 +9,8 @@ using it_shop_app.Data;
 namespace it_shop_app.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    [Migration("20191128102419_CreateIdentitySchema")]
-    partial class CreateIdentitySchema
+    [Migration("20191128115947_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
