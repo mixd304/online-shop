@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using it_shop_app.Models;
+using it_shop_app.Areas.Identity.Data;
 
 namespace it_shop_app.Data 
 {
@@ -39,13 +40,13 @@ namespace it_shop_app.Data
 
             // Beziehung Nutzer n <--> m Artikel === Warenkorb
             modelBuilder.Entity<Warenkorb>().HasKey(ab => new { ab.Nutzer_ID, ab.Artikel_ID });
-                // ArtikelBestellungen n <--> 1 Nutzer
+                // Warenkorb n <--> 1 Nutzer
                 modelBuilder.Entity<Warenkorb>()
                     .HasOne<Nutzer>(w => w.Nutzer)
                     .WithMany(n => n.Warenkorb)
                     .HasForeignKey(w => w.Nutzer_ID);
 
-                // ArtikelBestellungen n <--> 1 Artikel
+                // Warenkorb n <--> 1 Artikel
                 modelBuilder.Entity<Warenkorb>()
                     .HasOne<Artikel>(w => w.Artikel)
                     .WithMany(a => a.Warenkorb)
@@ -70,8 +71,6 @@ namespace it_shop_app.Data
                     .HasOne<Artikel>(ab => ab.Artikel)
                     .WithMany(a => a.ListenArtikel)
                     .HasForeignKey(ab => ab.Artikel_ID);
-
-
         }
 
         public DbSet<Merkmal> Merkmale { get; set; }

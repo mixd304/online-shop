@@ -9,7 +9,7 @@ using it_shop_app.Areas.Identity.Data;
 namespace it_shop_app.Migrations.User
 {
     [DbContext(typeof(UserContext))]
-    [Migration("20191127131202_CreateIdentitySchema")]
+    [Migration("20191128094800_CreateIdentitySchema")]
     partial class CreateIdentitySchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
