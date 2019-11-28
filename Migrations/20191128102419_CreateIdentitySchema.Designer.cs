@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using it_shop_app.Areas.Identity.Data;
+using it_shop_app.Data;
 
-namespace it_shop_app.Migrations.User
+namespace it_shop_app.Migrations
 {
-    [DbContext(typeof(UserContext))]
-    [Migration("20191127131202_CreateIdentitySchema")]
+    [DbContext(typeof(ShopContext))]
+    [Migration("20191128102419_CreateIdentitySchema")]
     partial class CreateIdentitySchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -232,6 +232,143 @@ namespace it_shop_app.Migrations.User
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("it_shop_app.Models.Artikel", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Beschreibung")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Bezeichnung")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Preis")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Artikel");
+                });
+
+            modelBuilder.Entity("it_shop_app.Models.ArtikelBestellungen", b =>
+                {
+                    b.Property<int>("Artikel_ID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Bestellung_ID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ID")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Artikel_ID", "Bestellung_ID");
+
+                    b.HasIndex("Bestellung_ID");
+
+                    b.ToTable("ArtikelBestellungen");
+                });
+
+            modelBuilder.Entity("it_shop_app.Models.Bestellung", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Bestelldatum")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Gesamtpreis")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<string>("Nutzer_ID")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("Nutzer_ID");
+
+                    b.ToTable("Bestellungen");
+                });
+
+            modelBuilder.Entity("it_shop_app.Models.Liste", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Nutzer_ID")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("bezeichnung")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("Nutzer_ID");
+
+                    b.ToTable("Listen");
+                });
+
+            modelBuilder.Entity("it_shop_app.Models.ListenArtikel", b =>
+                {
+                    b.Property<int>("Liste_ID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Artikel_ID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ID")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Liste_ID", "Artikel_ID");
+
+                    b.HasIndex("Artikel_ID");
+
+                    b.ToTable("ListenArtikel");
+                });
+
+            modelBuilder.Entity("it_shop_app.Models.Merkmal", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Artikel_ID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Bezeichnung")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Wert")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("Artikel_ID");
+
+                    b.ToTable("Merkmale");
+                });
+
+            modelBuilder.Entity("it_shop_app.Models.Warenkorb", b =>
+                {
+                    b.Property<string>("Nutzer_ID")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Artikel_ID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ID")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Nutzer_ID", "Artikel_ID");
+
+                    b.HasIndex("Artikel_ID");
+
+                    b.ToTable("Warenkoerbe");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -279,6 +416,74 @@ namespace it_shop_app.Migrations.User
                     b.HasOne("it_shop_app.Areas.Identity.Data.IdentityNutzer", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("it_shop_app.Models.ArtikelBestellungen", b =>
+                {
+                    b.HasOne("it_shop_app.Models.Artikel", "Artikel")
+                        .WithMany("ArtikelBestellungen")
+                        .HasForeignKey("Artikel_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("it_shop_app.Models.Bestellung", "Bestellung")
+                        .WithMany("ArtikelBestellungen")
+                        .HasForeignKey("Bestellung_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("it_shop_app.Models.Bestellung", b =>
+                {
+                    b.HasOne("it_shop_app.Areas.Identity.Data.IdentityNutzer", "Kaeufer")
+                        .WithMany("Bestellungen")
+                        .HasForeignKey("Nutzer_ID");
+                });
+
+            modelBuilder.Entity("it_shop_app.Models.Liste", b =>
+                {
+                    b.HasOne("it_shop_app.Areas.Identity.Data.IdentityNutzer", "Nutzer")
+                        .WithMany("Listen")
+                        .HasForeignKey("Nutzer_ID");
+                });
+
+            modelBuilder.Entity("it_shop_app.Models.ListenArtikel", b =>
+                {
+                    b.HasOne("it_shop_app.Models.Artikel", "Artikel")
+                        .WithMany("ListenArtikel")
+                        .HasForeignKey("Artikel_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("it_shop_app.Models.Liste", "Liste")
+                        .WithMany("ListenArtikel")
+                        .HasForeignKey("Liste_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("it_shop_app.Models.Merkmal", b =>
+                {
+                    b.HasOne("it_shop_app.Models.Artikel", "Artikel")
+                        .WithMany("Merkmale")
+                        .HasForeignKey("Artikel_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("it_shop_app.Models.Warenkorb", b =>
+                {
+                    b.HasOne("it_shop_app.Models.Artikel", "Artikel")
+                        .WithMany("Warenkorb")
+                        .HasForeignKey("Artikel_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("it_shop_app.Areas.Identity.Data.IdentityNutzer", "Nutzer")
+                        .WithMany("Warenkorb")
+                        .HasForeignKey("Nutzer_ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

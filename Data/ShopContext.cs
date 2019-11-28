@@ -1,15 +1,33 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using it_shop_app.Models;
+using it_shop_app.Areas.Identity.Data;
 
 namespace it_shop_app.Data 
 {
-    public class ShopContext : DbContext
+    public class ShopContext : IdentityDbContext<IdentityNutzer>
     {
         public ShopContext (DbContextOptions<ShopContext> options) 
             : base(options) 
         { }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder) {           
+        public DbSet<Merkmal> Merkmale { get; set; }
+        public DbSet<Artikel> Artikel { get; set; }
+        public DbSet<Bestellung> Bestellungen { get; set; }
+        public DbSet<Liste> Listen { get; set; }
+        // Zuordnungstabellen
+        public DbSet<ArtikelBestellungen> ArtikelBestellungen { get; set; }
+        public DbSet<Warenkorb> Warenkoerbe { get; set; }
+        public DbSet<ListenArtikel> ListenArtikel { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder) {     
+            base.OnModelCreating(modelBuilder);
+
             // Beziehung Artikel 1 <--> n Merkmal
             modelBuilder.Entity<Merkmal>()
                 .HasOne<Artikel>(m => m.Artikel)
@@ -18,7 +36,7 @@ namespace it_shop_app.Data
 
             // Beziehung Nutzer 1 <--> n Bestellungen
             modelBuilder.Entity<Bestellung>()
-                .HasOne<Nutzer>(b => b.Kaeufer)
+                .HasOne<IdentityNutzer>(b => b.Kaeufer)
                 .WithMany(n => n.Bestellungen)
                 .HasForeignKey(b => b.Nutzer_ID);
 
@@ -39,13 +57,13 @@ namespace it_shop_app.Data
 
             // Beziehung Nutzer n <--> m Artikel === Warenkorb
             modelBuilder.Entity<Warenkorb>().HasKey(ab => new { ab.Nutzer_ID, ab.Artikel_ID });
-                // ArtikelBestellungen n <--> 1 Nutzer
+                // Warenkorb n <--> 1 Nutzer
                 modelBuilder.Entity<Warenkorb>()
-                    .HasOne<Nutzer>(w => w.Nutzer)
+                    .HasOne<IdentityNutzer>(w => w.Nutzer)
                     .WithMany(n => n.Warenkorb)
                     .HasForeignKey(w => w.Nutzer_ID);
 
-                // ArtikelBestellungen n <--> 1 Artikel
+                // Warenkorb n <--> 1 Artikel
                 modelBuilder.Entity<Warenkorb>()
                     .HasOne<Artikel>(w => w.Artikel)
                     .WithMany(a => a.Warenkorb)
@@ -53,7 +71,7 @@ namespace it_shop_app.Data
 
             // Beziehung Nutzer 1 <--> n Listen
             modelBuilder.Entity<Liste>()
-                .HasOne<Nutzer>(l => l.Nutzer)
+                .HasOne<IdentityNutzer>(l => l.Nutzer)
                 .WithMany(n => n.Listen)
                 .HasForeignKey(l => l.Nutzer_ID);
 
@@ -70,19 +88,6 @@ namespace it_shop_app.Data
                     .HasOne<Artikel>(ab => ab.Artikel)
                     .WithMany(a => a.ListenArtikel)
                     .HasForeignKey(ab => ab.Artikel_ID);
-
-
         }
-
-        public DbSet<Merkmal> Merkmale { get; set; }
-        public DbSet<Artikel> Artikel { get; set; }
-        public DbSet<Bestellung> Bestellungen { get; set; }
-        public DbSet<Nutzer> Nutzer { get; set; }
-        public DbSet<Warenkorb> Warenkoerbe { get; set; }
-        public DbSet<Liste> Listen { get; set; }
-        // Zuordnungstabellen
-        public DbSet<ArtikelBestellungen> ArtikelBestellungen { get; set; }
-        public DbSet<Warenkorb> Warenkorb { get; set; }
-        public DbSet<ListenArtikel> ListenArtikel { get; set; }
     }
 }

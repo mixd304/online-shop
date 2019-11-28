@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
+using it_shop_app.Areas.Identity.Data;
 
 namespace it_shop_app.Models {
     public class Bestellung {
@@ -14,8 +15,8 @@ namespace it_shop_app.Models {
         public DateTime Bestelldatum { get; set; }
         
         // Verweise auf andere Tabellen
-        public int Nutzer_ID { get; set; }
-        public Nutzer Kaeufer { get; set; }
+        public string Nutzer_ID { get; set; }
+        public IdentityNutzer Kaeufer { get; set; }
         
         public IList<ArtikelBestellungen> ArtikelBestellungen { get; set; }
 

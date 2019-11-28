@@ -5,6 +5,5 @@ Account._StatusMessage;Account.AccessDenied;Account.ConfirmEmail;Account.Confirm
 
 dotnet ef migrations add InitialCreate --context ShopContext
 dotnet ef migrations add CreateIdentitySchema --context UserContext
-
 dotnet ef database update --context ShopContext
 dotnet ef database update --context UserContext
