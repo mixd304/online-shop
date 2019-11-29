@@ -48,6 +48,9 @@ namespace it_shop_app.Controllers {
 
         public async Task<IActionResult> Details(int? id)
         {
+
+            var a = Tuple.Create(2,3,4);            
+
             if (id == null)
             {
                 return NotFound();
@@ -59,7 +62,9 @@ namespace it_shop_app.Controllers {
             if(artikel == null) {
                 return NotFound();
             }
-
+            
+            await _context.Nutzer.ToListAsync();
+            await _context.Kommentare.ToListAsync();
             return View(artikel);
         }
 

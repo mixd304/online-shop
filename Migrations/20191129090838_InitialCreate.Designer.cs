@@ -9,7 +9,7 @@ using it_shop_app.Data;
 namespace it_shop_app.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    [Migration("20191129064732_InitialCreate")]
+    [Migration("20191129090838_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -297,30 +297,6 @@ namespace it_shop_app.Migrations
                     b.ToTable("Bestellungen");
                 });
 
-            modelBuilder.Entity("it_shop_app.Models.Bewertung", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Artikel_ID")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Nutzer_ID")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Wert")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("Artikel_ID");
-
-                    b.HasIndex("Nutzer_ID");
-
-                    b.ToTable("Bewertungen");
-                });
-
             modelBuilder.Entity("it_shop_app.Models.Kategorie", b =>
                 {
                     b.Property<int>("ID")
@@ -342,6 +318,9 @@ namespace it_shop_app.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Artikel_ID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Bewertung")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Inhalt")
@@ -515,19 +494,6 @@ namespace it_shop_app.Migrations
                 {
                     b.HasOne("it_shop_app.Areas.Identity.Data.IdentityNutzer", "Kaeufer")
                         .WithMany("Bestellungen")
-                        .HasForeignKey("Nutzer_ID");
-                });
-
-            modelBuilder.Entity("it_shop_app.Models.Bewertung", b =>
-                {
-                    b.HasOne("it_shop_app.Models.Artikel", "Artikel")
-                        .WithMany("Bewertungen")
-                        .HasForeignKey("Artikel_ID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("it_shop_app.Areas.Identity.Data.IdentityNutzer", "Nutzer")
-                        .WithMany("Bewertungen")
                         .HasForeignKey("Nutzer_ID");
                 });
 
