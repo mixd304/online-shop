@@ -2,10 +2,13 @@
 
 @{
     ViewData["Title"] = "Warenkorb";
+    decimal preis = 0;
+    @foreach(var w in Model) {
+        preis+=w.Artikel.Preis;
+    }
+    ViewData["Gesamtpreis"] = preis;
 }
 <h1 class="display-4">@ViewData["Title"]</h1>
-
-
 
 <ul class="list-group">
 
@@ -20,6 +23,7 @@
                 <div class="col-md-10">
                     <h5>@warenkorb.Artikel.Preis €</h5>
                 </div>
+<!-- Anzahl funktioniert nicht
                 <div class="col-md-1">
                     <div class="input-group">
                         <select class="custom-select" aria-label="Anzahl">
@@ -36,11 +40,14 @@
                         </select>
                     </div>
                 </div>
+-->
                 <div class="col-md-1 mr-0">
                     <button class="btn btn-danger"><i class="fas fa-times"></i></button>
                 </div>
             </div>
         </li>
     }
-
 </ul>
+<div>
+    <label>@ViewData["Gesamtpreis"]</label>
+</div>
