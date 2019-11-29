@@ -69,16 +69,13 @@ namespace it_shop_app.Controllers {
             IdentityNutzer user = await _UserManager.GetUserAsync(User);
 
             if(_SignInManager.IsSignedIn(User)) {
-                var warenkoerebe = from w in _context.Warenkoerbe
-                                select w;            
+                var warenkoerbe = from w in _context.Warenkoerbe
+                                select w;          
 
-                Console.WriteLine("=========Ausgabe========");
-                Console.WriteLine(" ID: " + user.Id);
+                warenkoerbe = warenkoerbe.Where(w => w.Nutzer_ID.Equals(user.Id));
 
-                warenkoerebe.Where(w => w.Nutzer_ID.Equals(user.Id));
-
-                await _context.Artikel.ToListAsync();                
-                return View(await warenkoerebe.ToListAsync());
+                await _context.Artikel.ToListAsync(); 
+                return View(await warenkoerbe.ToListAsync());
             }
 
             _toastNotification.AddWarningToastMessage("Du musst angemeldet sein um deinen Warenkorb anzuzeigen!");
