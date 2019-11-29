@@ -46,7 +46,7 @@ INSERT INTO "AspNetUsers" VALUES ('391c3801-312d-4b83-bd04-a6ece6a33cd4','d.mix@
 INSERT INTO "AspNetUsers" VALUES ('5a182953-ef4b-4f87-b3a3-b51c22d3b88b','t.vinzing@dvz-mv.de','T.VINZING@DVZ-MV.DE','t.vinzing@dvz-mv.de','T.VINZING@DVZ-MV.DE',1,'AQAAAAEAACcQAAAAEMaqE0TOkc5O9Asgv38gwW5Nc/IBbH03MeWPYe4OzWo9aR1Xum6RaBxU1cw9s+RxTw==','ZF2WFNABN2B63TENWDSFIKSSDI2UNL2U','63d13574-48ac-48c0-9838-43370414de12',NULL,0,0,NULL,1,0,'Tim Vinzing','10178','Berlin','Alexanderplatz','1','2019-12-31 00:00:00');
 INSERT INTO "Warenkoerbe" VALUES (1,'391c3801-312d-4b83-bd04-a6ece6a33cd4',1);
 INSERT INTO "Warenkoerbe" VALUES (2,'5a182953-ef4b-4f87-b3a3-b51c22d3b88b',1);
-INSERT INTO "Kommentare" VALUES (1,'Sehr geil',5,1,'391c3801-312d-4b83-bd04-a6ece6a33cd4');
-INSERT INTO "Kommentare" VALUES (2,'noch geiler',2,2,'391c3801-312d-4b83-bd04-a6ece6a33cd4');
+INSERT INTO "Kommentare" VALUES (1,'Sehr geil',2,1,'391c3801-312d-4b83-bd04-a6ece6a33cd4');
+INSERT INTO "Kommentare" VALUES (2,'noch geiler',3,2,'391c3801-312d-4b83-bd04-a6ece6a33cd4');
 INSERT INTO "Kommentare" VALUES (3,'am geilsten',5,3,'5a182953-ef4b-4f87-b3a3-b51c22d3b88b');
-INSERT INTO "Kommentare" VALUES (4,'finde ich auch sehr sehr geil',1,3,'391c3801-312d-4b83-bd04-a6ece6a33cd4');
+INSERT INTO "Kommentare" VALUES (4,'finde ich auch sehr sehr geil',4,3,'391c3801-312d-4b83-bd04-a6ece6a33cd4');

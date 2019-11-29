@@ -198,5 +198,10 @@ namespace it_shop_app.Controllers {
             await _context.SaveChangesAsync();
             return RedirectToAction("Warenkorb");
         }
+
+        public async Task<IActionResult> UpdateAnzahl(Warenkorb warenkorb) {
+
+            return RedirectToAction("Warenkorb");
+        }
     }
 }

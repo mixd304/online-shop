@@ -25,18 +25,22 @@
                 </div>
                 <div class="col-md-1">
                     <div class="input-group">
-                        <select class="custom-select" aria-label="Anzahl">
-                            <option value="1" selected>1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                        </select>
+                        <form asp-action="UpdateAnzahl" method="post">
+                            <input type="hidden" value="@warenkorb.Artikel_ID" asp-for="@warenkorb.Artikel_ID"/>
+                            <input type="hidden" value="@warenkorb.Nutzer_ID" asp-for="@warenkorb.Nutzer_ID"/>
+                            <select class="custom-select" aria-label="Anzahl">
+                                <option value="1" selected>1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </form>
                     </div>
                 </div>
                 <div class="col-md-1 mr-0">
