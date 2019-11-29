@@ -126,12 +126,9 @@ namespace it_shop_app.Controllers {
                 _toastNotification.AddSuccessToastMessage("Artikel erfolgreich Hinzugefügt!");
                 return RedirectToAction("Index");
             } catch {
-
                 _toastNotification.AddInfoToastMessage("Artikel bereits hinzugefügt!");
-                return RedirectToAction("Index");
-                
-            }
-            
+                return RedirectToAction("Index");        
+            }            
         }
     }
 }
