@@ -8,21 +8,6 @@ namespace it_shop_app.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Artikel",
-                columns: table => new
-                {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Bezeichnung = table.Column<string>(nullable: true),
-                    Beschreibung = table.Column<string>(nullable: true),
-                    Preis = table.Column<decimal>(type: "decimal(18, 2)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Artikel", x => x.ID);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
                 {
@@ -68,24 +53,16 @@ namespace it_shop_app.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Merkmale",
+                name: "Kategorien",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Bezeichnung = table.Column<string>(nullable: true),
-                    Wert = table.Column<string>(nullable: true),
-                    Artikel_ID = table.Column<int>(nullable: false)
+                    Bezeichnung = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Merkmale", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_Merkmale_Artikel_Artikel_ID",
-                        column: x => x.Artikel_ID,
-                        principalTable: "Artikel",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("PK_Kategorien", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -236,27 +213,24 @@ namespace it_shop_app.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Warenkoerbe",
+                name: "Artikel",
                 columns: table => new
                 {
-                    Artikel_ID = table.Column<int>(nullable: false),
-                    Nutzer_ID = table.Column<string>(nullable: false),
                     ID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Bezeichnung = table.Column<string>(nullable: true),
+                    Beschreibung = table.Column<string>(nullable: true),
+                    Preis = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
+                    Kategorie_ID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Warenkoerbe", x => new { x.Nutzer_ID, x.Artikel_ID });
+                    table.PrimaryKey("PK_Artikel", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Warenkoerbe_Artikel_Artikel_ID",
-                        column: x => x.Artikel_ID,
-                        principalTable: "Artikel",
+                        name: "FK_Artikel_Kategorien_Kategorie_ID",
+                        column: x => x.Kategorie_ID,
+                        principalTable: "Kategorien",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Warenkoerbe_AspNetUsers_Nutzer_ID",
-                        column: x => x.Nutzer_ID,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -286,6 +260,60 @@ namespace it_shop_app.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Bewertungen",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Wert = table.Column<int>(nullable: false),
+                    Artikel_ID = table.Column<int>(nullable: false),
+                    Nutzer_ID = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bewertungen", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Bewertungen_Artikel_Artikel_ID",
+                        column: x => x.Artikel_ID,
+                        principalTable: "Artikel",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Bewertungen_AspNetUsers_Nutzer_ID",
+                        column: x => x.Nutzer_ID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Kommentare",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Inhalt = table.Column<string>(nullable: true),
+                    Artikel_ID = table.Column<int>(nullable: false),
+                    Nutzer_ID = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Kommentare", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Kommentare_Artikel_Artikel_ID",
+                        column: x => x.Artikel_ID,
+                        principalTable: "Artikel",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Kommentare_AspNetUsers_Nutzer_ID",
+                        column: x => x.Nutzer_ID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ListenArtikel",
                 columns: table => new
                 {
@@ -309,6 +337,57 @@ namespace it_shop_app.Migrations
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Merkmale",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Bezeichnung = table.Column<string>(nullable: true),
+                    Wert = table.Column<string>(nullable: true),
+                    Artikel_ID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Merkmale", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Merkmale_Artikel_Artikel_ID",
+                        column: x => x.Artikel_ID,
+                        principalTable: "Artikel",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Warenkoerbe",
+                columns: table => new
+                {
+                    Artikel_ID = table.Column<int>(nullable: false),
+                    Nutzer_ID = table.Column<string>(nullable: false),
+                    ID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Warenkoerbe", x => new { x.Nutzer_ID, x.Artikel_ID });
+                    table.ForeignKey(
+                        name: "FK_Warenkoerbe_Artikel_Artikel_ID",
+                        column: x => x.Artikel_ID,
+                        principalTable: "Artikel",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Warenkoerbe_AspNetUsers_Nutzer_ID",
+                        column: x => x.Nutzer_ID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Artikel_Kategorie_ID",
+                table: "Artikel",
+                column: "Kategorie_ID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ArtikelBestellungen_Bestellung_ID",
@@ -358,6 +437,26 @@ namespace it_shop_app.Migrations
                 column: "Nutzer_ID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Bewertungen_Artikel_ID",
+                table: "Bewertungen",
+                column: "Artikel_ID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bewertungen_Nutzer_ID",
+                table: "Bewertungen",
+                column: "Nutzer_ID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Kommentare_Artikel_ID",
+                table: "Kommentare",
+                column: "Artikel_ID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Kommentare_Nutzer_ID",
+                table: "Kommentare",
+                column: "Nutzer_ID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Listen_Nutzer_ID",
                 table: "Listen",
                 column: "Nutzer_ID");
@@ -399,6 +498,12 @@ namespace it_shop_app.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Bewertungen");
+
+            migrationBuilder.DropTable(
+                name: "Kommentare");
+
+            migrationBuilder.DropTable(
                 name: "ListenArtikel");
 
             migrationBuilder.DropTable(
@@ -421,6 +526,9 @@ namespace it_shop_app.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Kategorien");
         }
     }
 }
