@@ -47,9 +47,7 @@ namespace it_shop_app.Controllers {
         }
 
         public async Task<IActionResult> Details(int? id)
-        {
-
-            var a = Tuple.Create(2,3,4);            
+        {           
 
             if (id == null)
             {
@@ -67,6 +65,54 @@ namespace it_shop_app.Controllers {
             await _context.Kommentare.ToListAsync();
             return View(artikel);
         }
+
+        public async Task<IActionResult> kommentarHinzufügen(int? id)
+        {
+
+            List<int> bewertung = new List<int> {1, 2, 3, 4, 5};
+
+            if(id == null) {
+                _toastNotification.AddWarningToastMessage("Diesen Artikel gibt es nicht");
+                return RedirectToAction("Index");
+            }
+
+            IdentityNutzer user = await _UserManager.GetUserAsync(User);
+
+            if(!_SignInManager.IsSignedIn(User)) {
+                _toastNotification.AddWarningToastMessage("Du musst angemeldet sein um einen Kommentar zu Schreiben!");
+                return RedirectToAction("Index");
+            }
+
+            KommentarViewModel komModel = new KommentarViewModel() 
+            {
+                kommentar = new Kommentar(){
+                    Artikel_ID = (int) id,
+                    Nutzer_ID = user.Id
+                },
+
+                bewertung = new SelectList(bewertung)
+            };
+
+            return View(komModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> kommentarHinzufügen(KommentarViewModel model) {
+            Console.WriteLine("====================Test==================");
+            Console.WriteLine("Inhalt:    " + model.kommentar.Inhalt);
+            Console.WriteLine("Bewertung: " + model.kommentar.Bewertung);
+            Console.WriteLine("Nutzer:    " + model.kommentar.Nutzer_ID);
+            Console.WriteLine("Artikel:   " + model.kommentar.Artikel_ID);
+            
+            Kommentar kom = model.kommentar;
+
+            _context.Add(kom);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Details", new { id = model.kommentar.Artikel_ID});
+        }
+       
 
         public async Task<IActionResult> Warenkorb()
         {

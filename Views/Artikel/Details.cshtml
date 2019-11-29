@@ -21,7 +21,7 @@
         </dt>
 
         <dd class="col-sm-9">
-            @Html.DisplayFor(model => model.Preis )
+            @Html.DisplayFor(model => model.Preis ) €
         </dd>
 
         @foreach (var merkmal in Model.Merkmale) {
@@ -40,6 +40,11 @@
 
     <a asp-action="Index" class="btn btn-primary btn" role="button">						
         zurück zur Übersicht
+    </a>
+
+    <a asp-action="kommentarHinzufügen" asp-route-id="@Model.ID" class="btn btn-primary btn" role="button">	
+        <i class="fas fa-plus"></i>					
+        Artikel Bewerten
     </a>
 </div>
 
