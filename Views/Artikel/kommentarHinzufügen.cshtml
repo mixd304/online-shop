@@ -1,0 +1,36 @@
+@model it_shop_app.Models.KommentarViewModel
+
+<h1 class="display-3">Kommentar schreiben!</h1>
+
+<hr />
+
+<form asp-action="kommentarHinzufügen" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <textarea asp-for="kommentar.Inhalt" id="Inhalt" class="form-control" rows="10"> </textarea>
+                <span asp-validation-for="kommentar.Inhalt" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-auto">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="inputGroupSelect01">Bewertung</label>
+                </div>
+                <select asp-for="kommentar.Bewertung" asp-items="Model.bewertung" class="custom-select">
+                </select>
+            </div>
+        </div>
+        <div class="col-md">
+            <input type="hidden" asp-for="kommentar.Nutzer_ID" value="@Model.kommentar.Nutzer_ID" />
+            <input type="hidden" asp-for="kommentar.Artikel_ID" value="@Model.kommentar.Artikel_ID" />
+
+            <div class="form-group">
+                <input type="submit" value="Kommentieren" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>

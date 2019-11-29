@@ -21,8 +21,8 @@ namespace it_shop_app.Data
         public DbSet<Bestellung> Bestellungen { get; set; }
         public DbSet<Liste> Listen { get; set; }
         public DbSet<Kategorie> Kategorien { get; set; }
-        public DbSet<Bewertung> Bewertungen { get; set; }
         public DbSet<Kommentar> Kommentare { get; set; }
+        public DbSet<IdentityNutzer> Nutzer { get; set; }
         // Zuordnungstabellen
         public DbSet<ArtikelBestellungen> ArtikelBestellungen { get; set; }
         public DbSet<Warenkorb> Warenkoerbe { get; set; }
@@ -103,18 +103,6 @@ namespace it_shop_app.Data
                 .HasOne<IdentityNutzer>(k => k.Nutzer)
                 .WithMany(n => n.Kommentare)
                 .HasForeignKey(k => k.Nutzer_ID);
-
-            // Beziehung Artikel 1 <--> n Bewertungen
-            modelBuilder.Entity<Bewertung>()
-                .HasOne<Artikel>(b => b.Artikel)
-                .WithMany(a => a.Bewertungen)
-                .HasForeignKey(k => k.Artikel_ID);
-
-            // Beziehung Nutzer 1 <--> n Bewertungen
-            modelBuilder.Entity<Bewertung>()
-                .HasOne<IdentityNutzer>(b => b.Nutzer)
-                .WithMany(n => n.Bewertungen)
-                .HasForeignKey(b => b.Nutzer_ID);
 
             // Beziehung Kategorien 1 <--> n Artikel
             modelBuilder.Entity<Artikel>()
