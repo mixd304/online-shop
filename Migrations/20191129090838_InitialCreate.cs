@@ -260,39 +260,13 @@ namespace it_shop_app.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Bewertungen",
-                columns: table => new
-                {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Wert = table.Column<int>(nullable: false),
-                    Artikel_ID = table.Column<int>(nullable: false),
-                    Nutzer_ID = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Bewertungen", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_Bewertungen_Artikel_Artikel_ID",
-                        column: x => x.Artikel_ID,
-                        principalTable: "Artikel",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Bewertungen_AspNetUsers_Nutzer_ID",
-                        column: x => x.Nutzer_ID,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Kommentare",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Inhalt = table.Column<string>(nullable: true),
+                    Bewertung = table.Column<int>(nullable: false),
                     Artikel_ID = table.Column<int>(nullable: false),
                     Nutzer_ID = table.Column<string>(nullable: true)
                 },
@@ -437,16 +411,6 @@ namespace it_shop_app.Migrations
                 column: "Nutzer_ID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bewertungen_Artikel_ID",
-                table: "Bewertungen",
-                column: "Artikel_ID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Bewertungen_Nutzer_ID",
-                table: "Bewertungen",
-                column: "Nutzer_ID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Kommentare_Artikel_ID",
                 table: "Kommentare",
                 column: "Artikel_ID");
@@ -496,9 +460,6 @@ namespace it_shop_app.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
-
-            migrationBuilder.DropTable(
-                name: "Bewertungen");
 
             migrationBuilder.DropTable(
                 name: "Kommentare");
