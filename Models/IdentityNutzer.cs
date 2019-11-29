@@ -26,6 +26,8 @@ namespace it_shop_app.Areas.Identity.Data
         public virtual IList<Warenkorb> Warenkorb { get; set; }
         public ICollection<Bestellung> Bestellungen {get; set; }
         public ICollection<Liste> Listen {get; set; }
+        public ICollection<Bewertung> Bewertungen { get; set; }
+        public ICollection<Kommentar> Kommentare { get; set; }
 
         public string getAnzeigeName() {
             return this.Name;

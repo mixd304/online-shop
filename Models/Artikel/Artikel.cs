@@ -18,5 +18,10 @@ namespace it_shop_app.Models {
         public IList<ArtikelBestellungen> ArtikelBestellungen { get; set; }
         public IList<Warenkorb> Warenkorb { get; set; }
         public IList<ListenArtikel> ListenArtikel { get; set; }
+        public ICollection<Bewertung> Bewertungen { get; set; }
+        public ICollection<Kommentar> Kommentare { get; set; }
+        public int Kategorie_ID { get; set; }
+        public Kategorie Kategorie { get; set; }
+
     }
 }

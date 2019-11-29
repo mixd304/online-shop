@@ -9,7 +9,7 @@ using it_shop_app.Data;
 namespace it_shop_app.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    [Migration("20191128115947_InitialCreate")]
+    [Migration("20191129064732_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -244,10 +244,15 @@ namespace it_shop_app.Migrations
                     b.Property<string>("Bezeichnung")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("Kategorie_ID")
+                        .HasColumnType("INTEGER");
+
                     b.Property<decimal>("Preis")
                         .HasColumnType("decimal(18, 2)");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("Kategorie_ID");
 
                     b.ToTable("Artikel");
                 });
@@ -290,6 +295,68 @@ namespace it_shop_app.Migrations
                     b.HasIndex("Nutzer_ID");
 
                     b.ToTable("Bestellungen");
+                });
+
+            modelBuilder.Entity("it_shop_app.Models.Bewertung", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Artikel_ID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Nutzer_ID")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Wert")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("Artikel_ID");
+
+                    b.HasIndex("Nutzer_ID");
+
+                    b.ToTable("Bewertungen");
+                });
+
+            modelBuilder.Entity("it_shop_app.Models.Kategorie", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Bezeichnung")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Kategorien");
+                });
+
+            modelBuilder.Entity("it_shop_app.Models.Kommentar", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Artikel_ID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Inhalt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Nutzer_ID")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("Artikel_ID");
+
+                    b.HasIndex("Nutzer_ID");
+
+                    b.ToTable("Kommentare");
                 });
 
             modelBuilder.Entity("it_shop_app.Models.Liste", b =>
@@ -420,6 +487,15 @@ namespace it_shop_app.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("it_shop_app.Models.Artikel", b =>
+                {
+                    b.HasOne("it_shop_app.Models.Kategorie", "Kategorie")
+                        .WithMany("Artikel")
+                        .HasForeignKey("Kategorie_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("it_shop_app.Models.ArtikelBestellungen", b =>
                 {
                     b.HasOne("it_shop_app.Models.Artikel", "Artikel")
@@ -439,6 +515,32 @@ namespace it_shop_app.Migrations
                 {
                     b.HasOne("it_shop_app.Areas.Identity.Data.IdentityNutzer", "Kaeufer")
                         .WithMany("Bestellungen")
+                        .HasForeignKey("Nutzer_ID");
+                });
+
+            modelBuilder.Entity("it_shop_app.Models.Bewertung", b =>
+                {
+                    b.HasOne("it_shop_app.Models.Artikel", "Artikel")
+                        .WithMany("Bewertungen")
+                        .HasForeignKey("Artikel_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("it_shop_app.Areas.Identity.Data.IdentityNutzer", "Nutzer")
+                        .WithMany("Bewertungen")
+                        .HasForeignKey("Nutzer_ID");
+                });
+
+            modelBuilder.Entity("it_shop_app.Models.Kommentar", b =>
+                {
+                    b.HasOne("it_shop_app.Models.Artikel", "Artikel")
+                        .WithMany("Kommentare")
+                        .HasForeignKey("Artikel_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("it_shop_app.Areas.Identity.Data.IdentityNutzer", "Nutzer")
+                        .WithMany("Kommentare")
                         .HasForeignKey("Nutzer_ID");
                 });
 
