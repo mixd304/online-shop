@@ -130,5 +130,22 @@ namespace it_shop_app.Controllers {
                 return RedirectToAction("Index");        
             }            
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveFromCart(Warenkorb warenkorb)
+        {           
+            var warenkoerbe = from w in _context.Warenkoerbe
+                                select w;
+
+            warenkoerbe = warenkoerbe.Where(w => w.Nutzer_ID.Equals(warenkorb.Nutzer_ID));
+            warenkoerbe = warenkoerbe.Where(w => w.Artikel_ID.Equals(warenkorb.Artikel_ID));
+
+            List<Warenkorb> erg = await warenkoerbe.ToListAsync();
+
+            _context.Warenkoerbe.Remove(erg.First());
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Warenkorb");
+        }
     }
 }

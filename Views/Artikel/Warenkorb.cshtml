@@ -23,7 +23,6 @@
                 <div class="col-md-10">
                     <h5>@warenkorb.Artikel.Preis €</h5>
                 </div>
-<!-- Anzahl funktioniert nicht
                 <div class="col-md-1">
                     <div class="input-group">
                         <select class="custom-select" aria-label="Anzahl">
@@ -40,9 +39,12 @@
                         </select>
                     </div>
                 </div>
--->
                 <div class="col-md-1 mr-0">
-                    <button class="btn btn-danger"><i class="fas fa-times"></i></button>
+                    <form asp-action="RemoveFromCart" method="post">
+                        <input type="hidden" value="@warenkorb.Artikel_ID" asp-for="@warenkorb.Artikel_ID"/>
+                        <input type="hidden" value="@warenkorb.Nutzer_ID" asp-for="@warenkorb.Nutzer_ID"/>
+                        <button type="submit" value="Löschen" class="btn btn-danger"><i class="fas fa-times"></i></button>
+                     </form>
                 </div>
             </div>
         </li>
