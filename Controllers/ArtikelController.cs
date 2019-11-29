@@ -111,9 +111,6 @@ namespace it_shop_app.Controllers {
             await _context.Warenkoerbe.ToListAsync();
 
             try {
-                var warEntry = await _context.Warenkoerbe.FirstAsync(w => w.Artikel_ID == artikel.ID);
-            } catch {
-
                 IdentityNutzer user = await _UserManager.GetUserAsync(User);
 
                 Warenkorb wkModel = new Warenkorb();
@@ -128,9 +125,13 @@ namespace it_shop_app.Controllers {
                 await _context.SaveChangesAsync();
                 _toastNotification.AddSuccessToastMessage("Artikel erfolgreich Hinzugefügt!");
                 return RedirectToAction("Index");
+            } catch {
+
+                _toastNotification.AddInfoToastMessage("Artikel bereits hinzugefügt!");
+                return RedirectToAction("Index");
+                
             }
-            _toastNotification.AddInfoToastMessage("Artikel bereits hinzugefügt!");
-            return RedirectToAction("Index");
+            
         }
     }
 }
