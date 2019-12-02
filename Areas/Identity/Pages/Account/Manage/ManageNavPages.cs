@@ -18,6 +18,8 @@ namespace it_shop_app.Areas.Identity.Pages.Account.Manage
 
         public static string PersonalData => "PersonalData";
 
+        public static string Kommentare => "Kommentare";
+
         public static string TwoFactorAuthentication => "TwoFactorAuthentication";
 
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
@@ -30,8 +32,11 @@ namespace it_shop_app.Areas.Identity.Pages.Account.Manage
 
         public static string PersonalDataNavClass(ViewContext viewContext) => PageNavClass(viewContext, PersonalData);
 
+        public static string KommentareNavClass(ViewContext viewContext) => PageNavClass(viewContext, Kommentare);
+
         public static string TwoFactorAuthenticationNavClass(ViewContext viewContext) => PageNavClass(viewContext, TwoFactorAuthentication);
 
+        
         private static string PageNavClass(ViewContext viewContext, string page)
         {
             var activePage = viewContext.ViewData["ActivePage"] as string
