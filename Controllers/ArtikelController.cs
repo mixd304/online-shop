@@ -195,6 +195,8 @@ namespace it_shop_app.Controllers {
             List<Warenkorb> erg = await warenkoerbe.ToListAsync();
 
             _context.Warenkoerbe.Remove(erg.First());
+            _toastNotification.AddSuccessToastMessage("Artikel erfolgreich entfernt!");
+
             await _context.SaveChangesAsync();
             return RedirectToAction("Warenkorb");
         }

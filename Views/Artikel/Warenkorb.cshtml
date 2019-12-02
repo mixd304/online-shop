@@ -54,6 +54,8 @@
         </li>
     }
 </ul>
-<div>
-    <label>@ViewData["Gesamtpreis"]</label>
-</div>
+@if(!(preis == 0)){
+    <div>
+        <label>@ViewData["Gesamtpreis"]</label>
+    </div>
+} 
