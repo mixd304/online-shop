@@ -134,20 +134,28 @@ namespace it_shop_app.Controllers {
             return RedirectToAction("Details", new { id = model.kommentar.Artikel_ID});
         }
        
-
         public async Task<IActionResult> Warenkorb()
         {
+            List<int> anz = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
             
             IdentityNutzer user = await _UserManager.GetUserAsync(User);
 
             if(_SignInManager.IsSignedIn(User)) {
-                var warenkoerbe = from w in _context.Warenkoerbe
+                var warenkoerbeQuery = from w in _context.Warenkoerbe
                                 select w;          
 
-                warenkoerbe = warenkoerbe.Where(w => w.Nutzer_ID.Equals(user.Id));
+                warenkoerbeQuery = warenkoerbeQuery.Where(w => w.Nutzer_ID.Equals(user.Id));
 
-                await _context.Artikel.ToListAsync(); 
-                return View(await warenkoerbe.ToListAsync());
+                await _context.Artikel.ToListAsync();
+                var warenkorbListe = await warenkoerbeQuery.ToListAsync();
+
+                WarenkorbViewmodel model = new WarenkorbViewmodel()
+                {
+                    Anzahl = new SelectList(anz),
+                    Warenkoerbe = warenkorbListe
+                };
+
+                return View(model);
             }
 
             _toastNotification.AddWarningToastMessage("Du musst angemeldet sein um deinen Warenkorb anzuzeigen!");
@@ -222,7 +230,31 @@ namespace it_shop_app.Controllers {
             return RedirectToAction("Warenkorb");
         }
 
-        public IActionResult UpdateAnzahl(Warenkorb warenkorb) {
+        public IActionResult bestellen()
+        {
+            _toastNotification.AddErrorToastMessage("Noch nicht implementiert!");
+            return RedirectToAction("Warenkorb");
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateAnzahl(Warenkorb warenkorb) {
+
+            Console.WriteLine("=================TEST==================");
+            Console.WriteLine("Artikel ID:    " + warenkorb.Artikel_ID);
+            Console.WriteLine("Nutzer ID:     " + warenkorb.Nutzer_ID);
+
+            Console.WriteLine("Anzahl (ID):   " + warenkorb.ID);
+
+            try
+            {
+                _context.Update(warenkorb);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return NotFound();
+                throw;
+            }
 
             return RedirectToAction("Warenkorb");
         }
