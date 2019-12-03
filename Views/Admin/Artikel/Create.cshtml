@@ -3,12 +3,16 @@
     ViewData["Title"] = "Hinzufügen - Artikel";
 }
 
-<h1 class="display-3">Artikel Hinzufügen</h1>
+<h1 class="display-4">Artikel Hinzufügen</h1>
 
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create" method="post">
+<form asp-action="Create" method="post">
+    <div class="row">
+        <div class="col-md-6">
+
+            <h1 class="display-6">Artikel</h1>
+            <hr />
+
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group">
@@ -19,8 +23,14 @@
 
             <div class="form-group">
                 <label asp-for="artikel.Beschreibung" id="Beschreibung" class="control-label"></label>
-                <input asp-for="artikel.Beschreibung" id="Beschreibung" class="form-control" />
+                <textarea rows="5" asp-for="artikel.Beschreibung" id="Beschreibung" class="form-control"> </textarea>
                 <span asp-validation-for="artikel.Beschreibung" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Kategorie</label>
+                <input asp-for="kategorie.Bezeichnung" class="form-control" />
+                <span asp-validation-for="kategorie.Bezeichnung" class="text-danger"></span>
             </div>
 
             <div class="form-group">
@@ -28,25 +38,29 @@
                 <input asp-for="artikel.Preis" class="form-control" />
                 <span asp-validation-for="artikel.Preis" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-md-6">
 
-            <h1 class="display-4">Ein Merkmal</h1>
+            <h1 class="display-6">Merkmal</h1>
             <hr />
 
             <div class="form-group">
                 <label asp-for="merkmal.Bezeichnung" id="Bezeichnung" class="control-label"></label>
-                <input asp-for="merkmal.Bezeichnung" id="Bezeichnung" class="form-control" />    
-                <span asp-validation-for="merkmal.Bezeichnung" class="text-danger"></span>                
+                <input asp-for="merkmal.Bezeichnung" id="Bezeichnung" class="form-control" />
+                <span asp-validation-for="merkmal.Bezeichnung" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="merkmal.Wert" id="Wert" class="control-label"></label>
                 <input asp-for="merkmal.Wert" id="Wert" class="form-control" />
                 <span asp-validation-for="merkmal.Wert" class="text-danger"></span>
             </div>
+        </div>
+        
+        <hr class="my-4" />
 
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
+        <div class="form-group">
+            <input type="submit" value="Speichern" class="btn btn-primary" />
+        </div>
 
-        </form>
     </div>
-</div>
+</form>

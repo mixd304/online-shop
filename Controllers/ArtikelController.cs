@@ -53,7 +53,7 @@ namespace it_shop_app.Controllers {
             Console.WriteLine("Kategorie: " + selectedKategorie);
             Console.WriteLine("Suche:     " + searchString);
 
-            if (!String.IsNullOrEmpty(selectedKategorie))
+            if (!String.IsNullOrEmpty(selectedKategorie) && !selectedKategorie.Equals("Kategorie"))
             {
                 artikel = artikel.Where(x => x.Kategorie.Bezeichnung == selectedKategorie);
             }

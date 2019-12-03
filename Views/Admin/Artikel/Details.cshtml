@@ -3,7 +3,7 @@
     ViewData["Title"] = "Details - Artikel";
 }
 
-<h1 class="display-3">Details</h1>
+<h1 class="display-4">Details</h1>
 
 <div class="jumbotron">
     <h1 class="display-6">
@@ -14,20 +14,31 @@
     </p>
     <dl class="row">
         <dt class="col-sm-3">
-            @Html.DisplayNameFor( model => model.Preis )
+            @Html.DisplayNameFor(model => model.Preis)
         </dt>
         <dd class="col-sm-9">
-            @Html.DisplayFor( model => model.Preis ) €
+            @Html.DisplayFor(model => model.Preis) €
         </dd>
         @foreach (var merkmal in Model.Merkmale)
-            {
-                <dt class="col-sm-3">
-                    @merkmal.Bezeichnung
-                </dt>
-                <dd class="col-sm-9">
-                    @merkmal.Wert
-                </dd>
-            }
+        {
+            <dt class="col-sm-3">
+                @merkmal.Bezeichnung
+            </dt>
+            <dd class="col-sm-9">
+                @merkmal.Wert
+            </dd>
+        }
+
+        @if (@Model.Kategorie != null)
+        {
+            <dt class="col-sm-3">
+                Kategorie
+            </dt>
+
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Kategorie.Bezeichnung)
+            </dd>
+        }
     </dl>
     <hr class="my-4">
     <a asp-action="Artikel_Index" class="btn btn-primary btn" role="button">						
