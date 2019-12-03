@@ -1,79 +1,89 @@
-@model IEnumerable<it_shop_app.Models.Artikel>
+@model it_shop_app.Models.ArtikelIndexViewModel
     
 @{
     ViewData["Title"] = "Artikelseite";
 }
 
-<div class="row">
-    <div class="col-3">
-        <form asp-controller="Artikel" asp-action="Index">
-            <label for="Suche">Suche</label>
-            <div class="input-group mb-2">            
-                           
-                <input type="text" name="SearchString" id="Suche" class="form-control" placeholder="Suche" aria-label="Suche" aria-describedby="addon-wrapping">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="submit" id="addon-wrapping">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div> 
+    <div class="row">
+        <div class="col-3">
+            <form asp-controller="Artikel" asp-action="Index">
+                <label for="Suche">Suche</label>
+                <div class="input-group mb-2">
+                    <input type="text" asp-for="searchString" id="Suche" class="form-control" placeholder="Suche" aria-label="Suche" aria-describedby="addon-wrapping">
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="addon-wrapping"><i class="fas fa-search"></i></span>                        
+                    </div>
+                </div>
 
-            </div>
-        </form>
-        <div class="form-group">
-            <label for="Kategorien">Kategorien</label>
-            <select class="form-control" id="Kategorien">
-                <option>Kategorie</option>
-            </select>
+                <div class="form-group">
+                    <label for="Kategorien">Kategorien</label>
+                    <select class="form-control" asp-for="selectedKategorie" asp-items="Model.kategorien" id="Kategorien">
+                        <option>Kategorie</option>
+                    </select>
+                </div>
+                <input type="submit" value="Filter" />
+            </form>
         </div>
-    </div>
-    <div class="col-9">
+        <div class="col-9">
 
-        @foreach (var artikel in Model)
-        {
-            <div class="jumbotron">
+            @foreach (var artikel in Model.artikel)
+            {
+                <div class="jumbotron">
 
-                <h1 class="display-6">
-                    @Html.DisplayFor( art => artikel.Bezeichnung )
-                </h1>
+                    <h1 class="display-6">
+                        @Html.DisplayFor(art => artikel.Bezeichnung)
+                    </h1>
 
-                <p>
-                    @Html.DisplayFor( art => artikel.Beschreibung )
-                </p>
+                    <p>
+                        @Html.DisplayFor(art => artikel.Beschreibung)
+                    </p>
 
-                <dl class="row">
-
-                    <dt class="col-sm-3">
-                        @Html.DisplayNameFor( art => artikel.Preis )
-                    </dt>
-
-                    <dd class="col-sm-9">
-                        @Html.DisplayFor( art => artikel.Preis ) €
-                    </dd>
-
-                    @foreach (var merkmal in artikel.Merkmale)
-                    {
+                    <dl class="row">
 
                         <dt class="col-sm-3">
-                            @merkmal.Bezeichnung
+                            @Html.DisplayNameFor(art => artikel.Preis)
                         </dt>
 
                         <dd class="col-sm-9">
-                            @merkmal.Wert
+                            @Html.DisplayFor(art => artikel.Preis) €
                         </dd>
 
-                    }
+                        @foreach (var merkmal in artikel.Merkmale)
+                        {
 
-                </dl>
-                <hr class="my-4">                
+                            <dt class="col-sm-3">
+                                @merkmal.Bezeichnung
+                            </dt>
 
-                <a asp-action="Details" asp-route-id="@artikel.ID" class="btn btn-primary btn" role="button">						
-                    Details
-                </a>
-                <a asp-action="addToCart" asp-route-id="@artikel.ID" class="btn btn-primary btn" role="button">						
-                    Zum Warenkorb
-                </a>
-                    
-            </div>
-        }
+                            <dd class="col-sm-9">
+                                @merkmal.Wert
+                            </dd>
 
+                        }
+
+                        @if (artikel.Kategorie != null)
+                        {
+                            <dt class="col-sm-3">
+                                Kategorie
+                            </dt>
+
+                            <dd class="col-sm-9">
+                                @artikel.Kategorie.Bezeichnung
+                            </dd>
+                        }
+
+                    </dl>
+                    <hr class="my-4">
+
+                    <a asp-action="Details" asp-route-id="@artikel.ID" class="btn btn-primary btn" role="button">
+                        Details
+                    </a>
+                    <a asp-action="addToCart" asp-route-id="@artikel.ID" class="btn btn-primary btn" role="button">
+                        Zum Warenkorb
+                    </a>
+
+                </div>
+            }
+
+        </div>
     </div>

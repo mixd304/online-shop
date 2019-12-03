@@ -28,16 +28,23 @@
         @foreach (Kommentar kom in @Model.Kommentare) {
             <tr>
                 <td>
-                    @if(kom.Artikel.Bezeichnung.Length > maxChar){
-                        @kom.Artikel.Bezeichnung.Substring(0,maxChar - 3) + "...";
-                    } else {
+                    @if (kom.Artikel.Bezeichnung.Length > maxChar)
+                    {
+                        @kom.Artikel.Bezeichnung.Substring(0, maxChar - 3);                          
+                    }
+                    else
+                    {
                         @kom.Artikel.Bezeichnung;
                     }
                 </td>
                 <td>
-                    @if(kom.Inhalt.Length > maxChar){
-                        @kom.Inhalt.Substring(0,maxChar - 3) + "...";
-                    } else {
+                    @if (kom.Inhalt.Length > maxChar)
+                    {
+                        @kom.Inhalt.Substring(0, maxChar - 3)
+                        
+                    }
+                    else
+                    {
                         @kom.Inhalt;
                     }
                 </td>
