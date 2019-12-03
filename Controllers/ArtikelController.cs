@@ -53,7 +53,7 @@ namespace it_shop_app.Controllers {
             Console.WriteLine("Kategorie: " + selectedKategorie);
             Console.WriteLine("Suche:     " + searchString);
 
-            if (!String.IsNullOrEmpty(selectedKategorie) && !selectedKategorie.Equals("Kategorie"))
+            if (!String.IsNullOrEmpty(selectedKategorie) && !selectedKategorie.Equals("Alle"))
             {
                 artikel = artikel.Where(x => x.Kategorie.Bezeichnung == selectedKategorie);
             }
@@ -90,7 +90,6 @@ namespace it_shop_app.Controllers {
 
         public async Task<IActionResult> kommentarHinzufügen(int? id)
         {
-
             List<int> bewertung = new List<int> {1, 2, 3, 4, 5};
 
             if(id == null) {
