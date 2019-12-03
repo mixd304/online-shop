@@ -92,25 +92,31 @@ namespace it_shop_app.Controllers {
         public async Task<IActionResult> Create(CreateArtikelViewModel model)
         {
             if (ModelState.IsValid)
-            {
+            {           
+                _context.Add(model.kategorie);
+                await _context.SaveChangesAsync();
 
-                Console.WriteLine("=====================TEST=======================");
+                Console.WriteLine("=====================Kategorie======================");
+                Console.WriteLine("Kategorie:             " + model.kategorie.Bezeichnung);
+                Console.WriteLine("KategorieID:           " + model.kategorie.ID);
+
+                model.artikel.Kategorie_ID = model.kategorie.ID;
+                _context.Add(model.artikel);
+                await _context.SaveChangesAsync();
+
+                Console.WriteLine("=====================Artikel=======================");
                 Console.WriteLine("Artikel Bezeichnung:    " + model.artikel.Bezeichnung);
                 Console.WriteLine("Artikel Beschreibung:   " + model.artikel.Beschreibung);
-                Console.WriteLine("Merkmal Bezeichnung:    " + model.merkmal.Bezeichnung);
-                Console.WriteLine("Merkmal Wert:           " + model.merkmal.Wert);                
-                
-                _context.Add(model.artikel);                
-                await _context.SaveChangesAsync();
+                Console.WriteLine("Kategorie ID:           " + model.artikel.Kategorie_ID);
 
                 model.merkmal.Artikel_ID = model.artikel.ID;
-                Console.WriteLine();
-
-                Console.WriteLine("Artikel PK:             " + model.artikel.ID);
-                Console.WriteLine("Merkmal Fremdschlüssel: " + model.merkmal.Artikel_ID);
-
                 _context.Add(model.merkmal);
                 await _context.SaveChangesAsync();
+
+                Console.WriteLine("=====================Merkmal=======================");
+                Console.WriteLine("Merkmal Bezeichnung:    " + model.merkmal.Bezeichnung);
+                Console.WriteLine("Merkmal Wert:           " + model.merkmal.Wert);
+                Console.WriteLine("Artikel ID:             " + model.merkmal.Artikel_ID);
 
                 return View("Views/Admin/Artikel/Details.cshtml", model.artikel);
             }

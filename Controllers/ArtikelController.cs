@@ -31,8 +31,15 @@ namespace it_shop_app.Controllers {
             _toastNotification = toastNotification;
         }
 
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string selectedKategorie, string searchString)
         {
+            await _context.Kategorien.ToListAsync();
+            await _context.Merkmale.ToListAsync();
+
+            IQueryable<string> kategorienQuery = from m in _context.Artikel
+                                                 orderby m.Kategorie.Bezeichnung
+                                                 select m.Kategorie.Bezeichnung;
+
             var artikel = from m in _context.Artikel
                           select m;
 
@@ -40,8 +47,22 @@ namespace it_shop_app.Controllers {
                 artikel = artikel.Where(s => s.Bezeichnung.Contains(searchString));
             }
 
-            await _context.Merkmale.ToListAsync();
-            return View(await artikel.ToListAsync());
+            Console.WriteLine("=======================TEST===================");
+            Console.WriteLine("Kategorie: " + selectedKategorie);
+            Console.WriteLine("Suche:     " + searchString);
+
+            if (!String.IsNullOrEmpty(selectedKategorie) && !selectedKategorie.Equals("Alle"))
+            {
+                artikel = artikel.Where(x => x.Kategorie.Bezeichnung == selectedKategorie);
+            }
+
+            var ArtInViewModel = new ArtikelIndexViewModel()
+            {
+                artikel = await artikel.ToListAsync(),
+                kategorien = new SelectList(await kategorienQuery.Distinct().ToListAsync())
+            };
+
+            return View(ArtInViewModel);
         }
 
         public async Task<IActionResult> Details(int? id)
@@ -58,7 +79,8 @@ namespace it_shop_app.Controllers {
             if(artikel == null) {
                 return NotFound();
             }
-            
+
+            await _context.Kategorien.ToListAsync();
             await _context.Nutzer.ToListAsync();
             await _context.Kommentare.ToListAsync();
             return View(artikel);
@@ -66,7 +88,6 @@ namespace it_shop_app.Controllers {
 
         public async Task<IActionResult> kommentarHinzufügen(int? id)
         {
-
             List<int> bewertung = new List<int> {1, 2, 3, 4, 5};
 
             if(id == null) {
@@ -199,7 +220,7 @@ namespace it_shop_app.Controllers {
             return RedirectToAction("Warenkorb");
         }
 
-        public async Task<IActionResult> UpdateAnzahl(Warenkorb warenkorb) {
+        public IActionResult UpdateAnzahl(Warenkorb warenkorb) {
 
             return RedirectToAction("Warenkorb");
         }

@@ -1,0 +1,57 @@
+@page
+@model KommentareModel
+@using it_shop_app.Models
+
+@{
+    ViewData["Title"] = "Kommentare";
+    ViewData["ActivePage"] = ManageNavPages.Kommentare;
+    int maxChar = 30;
+}
+
+<h4>@ViewData["Title"]</h4>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Artikel
+            </th>
+            <th>
+                Inhalt
+            </th>
+            <th>
+                Bewertung
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Kommentar kom in @Model.Kommentare) {
+            <tr>
+                <td>
+                    @if (kom.Artikel.Bezeichnung.Length > maxChar)
+                    {
+                        @kom.Artikel.Bezeichnung.Substring(0, maxChar - 3);                          
+                    }
+                    else
+                    {
+                        @kom.Artikel.Bezeichnung;
+                    }
+                </td>
+                <td>
+                    @if (kom.Inhalt.Length > maxChar)
+                    {
+                        @kom.Inhalt.Substring(0, maxChar - 3)
+                        
+                    }
+                    else
+                    {
+                        @kom.Inhalt;
+                    }
+                </td>
+                <td>
+                    @kom.Bewertung / 5
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
