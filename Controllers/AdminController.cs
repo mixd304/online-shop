@@ -8,28 +8,66 @@ using it_shop_app.Data;
 namespace it_shop_app.Controllers {
     public class AdminController : Controller {
         private readonly ShopContext _context;
-
+        
+        /**
+         * <summary>
+         * Konstruktor
+         * </summary>
+         * 
+         * <param name="context"> Datenbankcontext mit dem operationen auf der Datenbank durchgeführt werden </param>
+         */
         public AdminController(ShopContext context)
         {
             _context = context;
         }
 
+        /**
+         * <summary>
+         * Gibt eine Liste von Registrierten Nutzern aus
+         * </summary>
+         * 
+         * <returns>
+         * Nutzer View
+         * </returns>
+         */
         public IActionResult Nutzer()
         {
             return View();
         }
 
+        /**
+         * <summary>
+         * Gibt das Artikel_Index View mit einer Liste von Artikeln wieder 
+         * </summary>
+         * 
+         * <returns>
+         * Artikel_Index View
+         * </returns>
+         */
         public async Task<IActionResult> Artikel_Index()
         {
             await _context.Merkmale.ToListAsync();
             return View("Views/Admin/Artikel/Index.cshtml", await _context.Artikel.ToListAsync());
         }
 
+        /**
+         * <summary>
+         * Gibt das Artikel_Edit View aus und übergibt den Ausgewählten Artikel zum bearbeiten
+         * </summary>
+         * 
+         * <returns>
+         * Artikel_Edit View
+         * </returns>
+         * 
+         * <param name="id"> ID des gewählten Artikels zum Bearbeiten </param>
+         */
         public async Task<IActionResult> Artikel_Edit(int? id)
         {                      
             return View("Views/Admin/Artikel/Edit.cshtml", await _context.Artikel.FirstOrDefaultAsync(m => m.ID == id));
         }
 
+        /**
+         */
         public async Task<IActionResult> Merkmal_Create(int id) {
 
             await _context.Merkmale.ToListAsync();
@@ -46,8 +84,10 @@ namespace it_shop_app.Controllers {
             model.artikel = artikel;
 
             return View("Views/Admin/Artikel/CreateMerkmal.cshtml", model);
-        } 
+        }
 
+        /**
+         */
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Merkmal_Create(int id, CreateArtikelViewModel model) {
@@ -82,11 +122,15 @@ namespace it_shop_app.Controllers {
             return View("Views/Admin/Artikel/CreateMerkmal.cshtml", model);
         }
 
+        /**
+         */
         public IActionResult Artikel_Create()
         {        
             return View("Views/Admin/Artikel/Create.cshtml");
         }
 
+        /**
+         */
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateArtikelViewModel model)
@@ -123,6 +167,8 @@ namespace it_shop_app.Controllers {
             return View(model);
         }
 
+        /**
+         */
         public async Task<IActionResult> Artikel_Delete(int? id)
         {
             if (id == null)
@@ -141,6 +187,8 @@ namespace it_shop_app.Controllers {
             return View("Views/Admin/Artikel/Delete.cshtml", artikel);
         }
 
+        /**
+         */
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -151,6 +199,8 @@ namespace it_shop_app.Controllers {
             return RedirectToAction("Artikel_Index");
         }
 
+        /**
+         */
         public async Task<IActionResult> Artikel_Details(int? id)
         {
 

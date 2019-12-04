@@ -19,6 +19,19 @@ namespace it_shop_app.Controllers {
         private readonly SignInManager<IdentityNutzer> _SignInManager;
         private readonly IToastNotification _toastNotification;
 
+        /**
+         * <summary>
+         * Konstruktor
+         * </summary>
+         * 
+         * <param name="context"> Datenbankcontext mit dem Operationen auf der Datenbank ausgeführt werden </param>
+         * <param name="SignInManager"> Service mit dem Überprüft werden kann ob ein User angemeldet ist </param>
+         * <param name="toastNotification"> Service mit dem ToastNotifications auf der Oberfläche ausgegeben werden können </param>
+         * <param name="UserManager"> 
+         * Service mit dem man an die Daten eines Nutzers kommt 
+         * (auch über den ShopContext möglich || wenn es nur um den eingeloggten Nutzer geht ist der UserManager jedoch einfacher)
+         * </param>
+         */
         public ArtikelController(
             ShopContext context, 
             UserManager<IdentityNutzer> UserManager, 
@@ -332,6 +345,12 @@ namespace it_shop_app.Controllers {
          * Legt eine neue Bestellung mit Zeitstempel in der Datenbank an und überträgt den 
          * Warenkorb in "die ArtikelBestellung" Zuordnungstabelle. Der Warenkorb wird dabei gelöscht.
          * </summary>
+         * 
+         * <returns>
+         * Weiterleitung zur Index View
+         * </returns>
+         * 
+         * <param name="model"> Model in dem lediglich der Gesamtpreis der Bestellung steht </param>
          */
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -379,6 +398,15 @@ namespace it_shop_app.Controllers {
         }
 
         /**
+         * <summary>
+         * Updated die Anzahl der Artikel im Warenkorb wenn die Dropdownliste eines Artikels im Warenkorb verändert wird
+         * </summary>
+         * 
+         * <returns>
+         * Weiterleitung zurück zur Warenkorb View
+         * </returns>
+         * 
+         * <param name="warenkorb"> Die Warenkorbzeile in der die Anzahl geändert wurde </param>
          */
         [HttpPost]
         [ValidateAntiForgeryToken]
