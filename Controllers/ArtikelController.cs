@@ -31,6 +31,18 @@ namespace it_shop_app.Controllers {
             _toastNotification = toastNotification;
         }
 
+        /**
+         * <summary>
+         * Gibt die Liste aller verfügbaren Artikel zurück und übergibt eine Liste von Artikeln.
+         * </summary>
+         * 
+         * <returns>
+         * Das Index View 
+         * </returns>
+         * 
+         * <param name="selectedKategorie"> Die Ausgewählte Kategorie nach der Gefilltert wird </param>
+         * <param name="searchString"> Der String der in das Suchfeld eingegeben wurde </param>              
+         */
         public async Task<IActionResult> Index(string selectedKategorie, string searchString)
         {
             await _context.Kategorien.ToListAsync();
@@ -65,6 +77,17 @@ namespace it_shop_app.Controllers {
             return View(ArtInViewModel);
         }
 
+        /**
+         * <summary>
+         * Gibt die Detail Seite eines bestimmten Artikels aus für die übergebene ID und übergibt dem View ein Artikel Model.
+         * </summary>
+         * 
+         * <returns>
+         * Das Detail View 
+         * </returns>
+         * 
+         * <param name="id"> Die ID des ausgewählten Artikels</param>
+         */
         public async Task<IActionResult> Details(int? id)
         {           
 
@@ -86,6 +109,17 @@ namespace it_shop_app.Controllers {
             return View(artikel);
         }
 
+        /**
+         * <summary>
+         * Gibt die kommentarHinzufügen View aus und übergibt ein KommentarViewModel mit der SelectList für die Bewertung.
+         * </summary>
+         * 
+         * <returns>
+         * Das kommentarHinzufügen View 
+         * </returns>
+         * 
+         * <param name="id"> Die ID eines Artikels das Kommentiert werden soll </param>
+         */
         public async Task<IActionResult> kommentarHinzufügen(int? id)
         {
             List<int> bewertung = new List<int> {1, 2, 3, 4, 5};
@@ -115,6 +149,17 @@ namespace it_shop_app.Controllers {
             return View(komModel);
         }
 
+        /**
+         * <summary>
+         * Post Methode für das kommentarHinzufügen View es bekommt das Model der View und speichert daraus den Kommentar.
+         * </summary>
+         * 
+         * <returns>
+         * Eine Weiterleitung zur Detailansicht des Artikels
+         * </returns>
+         * 
+         * <param name="model"> Model aus der View beinhaltet den Kommentar und die Bewertung</param>
+         */
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> kommentarHinzufügen(KommentarViewModel model) {
@@ -131,7 +176,18 @@ namespace it_shop_app.Controllers {
 
             return RedirectToAction("Details", new { id = model.kommentar.Artikel_ID});
         }
-       
+
+        /**
+         * <summary>
+         * Zeigt den Warenkorb des momentan eingeloggten Nutzers an. Übergibt dafür ein WarenkorbViewmodel mit der 
+         * SelectListe für die Anzahl und die Warenkoerbe.
+         * (Warenkoerbe sind bei uns eine zuordung von Artikel_ID und Nutzer_ID)
+         * </summary>
+         * 
+         * <returns>
+         * Warenkorb View
+         * </returns>
+         */
         public async Task<IActionResult> Warenkorb()
         {
             List<int> anz = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
@@ -160,6 +216,17 @@ namespace it_shop_app.Controllers {
             return RedirectToAction("Index");
         }
 
+        /**
+         * <summary>
+         * Fügt ein Artikel dem Warenkorb des momentan eingeloggten Nutzers ein.
+         * </summary>
+         * 
+         * <returns>
+         * Weiterleitung zur Index View 
+         * </returns>
+         * 
+         * <param name="id"> ID des Ausgewählten Artikels</param>
+         */
         public async Task<IActionResult> addToCart(int? id) {
 
             if(!_SignInManager.IsSignedIn(User)){
@@ -209,6 +276,17 @@ namespace it_shop_app.Controllers {
             }            
         }
 
+        /**
+         * <summary>
+         * Entfernt einen Artikels aus dem Warenkorb des momentan eingeloggten Nutzers.
+         * </summary>
+         * 
+         * <returns>
+         * Warenkorb View
+         * </returns>
+         * 
+         * <param name="warenkorb"> Die Warenkorb zeile die entfernt werden soll</param>
+         */
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemoveFromCart(Warenkorb warenkorb)
@@ -228,6 +306,12 @@ namespace it_shop_app.Controllers {
             return RedirectToAction("Warenkorb");
         }
 
+        /**
+         * <summary>
+         * Legt eine neue Bestellung mit Zeitstempel in der Datenbank an und überträgt den 
+         * Warenkorb in "die ArtikelBestellung" Zuordnungstabelle. Der Warenkorb wird dabei gelöscht.
+         * </summary>
+         */
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> bestellen(WarenkorbViewmodel model)
@@ -260,7 +344,7 @@ namespace it_shop_app.Controllers {
 
             foreach (Warenkorb w in warenkorbListe)
             {
-                _context.Add(new ArtikelBestellungen() { Artikel_ID = w.Artikel_ID, Bestellung_ID = bestellung.ID });
+                _context.Add(new ArtikelBestellungen() { Artikel_ID = w.Artikel_ID, Bestellung_ID = bestellung.ID, Anzahl = w.Anzahl });
                 _context.Remove(w);
             }
 
@@ -273,6 +357,8 @@ namespace it_shop_app.Controllers {
             return RedirectToAction("Index");                
         }
 
+        /**
+         */
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateAnzahl(Warenkorb warenkorb) {
