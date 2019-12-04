@@ -17,7 +17,6 @@ namespace it_shop_app.Models {
         // Verweise auf andere Tabellen
         public string Nutzer_ID { get; set; }
         public IdentityNutzer Kaeufer { get; set; }
-        
         public IList<ArtikelBestellungen> ArtikelBestellungen { get; set; }
 
     }

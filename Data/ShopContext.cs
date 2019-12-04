@@ -32,6 +32,19 @@ namespace it_shop_app.Data
                 .WithMany(a => a.Merkmale)
                 .HasForeignKey(m => m.Artikel_ID);
 
+            // Beziehung Artikel n <--> m Farbe
+            modelBuilder.Entity<ArtikelFarben>().HasKey(ab => new { ab.Artikel_ID, ab.Farbe_ID });
+                // ArtikelFarben n <--> 1 Artikel
+                modelBuilder.Entity<ArtikelFarben>()
+                        .HasOne<Artikel>(af => af.Artikel)
+                        .WithMany(a => a.ArtikelFarben)
+                        .HasForeignKey(ab => ab.Artikel_ID);
+                // ArtikelFarben n <--> 1 Farbe
+                modelBuilder.Entity<ArtikelFarben>()
+                    .HasOne<Farbe>(af => af.Farbe)
+                    .WithMany(f => f.ArtikelFarben)
+                    .HasForeignKey(af => af.Farbe_ID);
+
             // Beziehung Nutzer 1 <--> n Bestellungen
             modelBuilder.Entity<Bestellung>()
                 .HasOne<IdentityNutzer>(b => b.Kaeufer)
