@@ -9,7 +9,7 @@ namespace it_shop_app.Models
 
         // Verweise auf andere Tabellen
         public IList<ArtikelFarben> ArtikelFarben { get; set; }
-        public IList<ArtikelBestellungFarbe> ArtikelBestellungFarben { get; set; }
-        public IList<WarenkorbFarbe> WarenkorbFarben { get; set; }
+        public IList<ArtikelBestellung> ArtikelBestellungen { get; set; }
+        public IList<Warenkorb> Warenkoerbe { get; set; }
     }
 }

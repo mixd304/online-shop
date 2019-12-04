@@ -18,7 +18,15 @@
         <li class="list-group-item">
             <div class="row">
                 <div class="col">
-                    <h5>@warenkorb.Artikel.Bezeichnung</h5>
+                    <h5>
+                        @warenkorb.Artikel.Bezeichnung
+                        @if (warenkorb.Farbe_ID != null)
+                        {
+                            <text>  (</text>
+                            @warenkorb.Farbe.Bezeichnung
+                            <text>)</text>
+                        }
+                    </h5>
                 </div>
             </div>
             <div class="row">
@@ -28,6 +36,7 @@
                 <div class="col-md-1">
                     <div class="input-group">
                         <form asp-action="UpdateAnzahl" method="post">
+                            <input type="hidden" value="@warenkorb.ID" asp-for="@warenkorb.ID" />
                             <input type="hidden" value="@warenkorb.Artikel_ID" asp-for="@warenkorb.Artikel_ID" />
                             <input type="hidden" value="@warenkorb.Nutzer_ID" asp-for="@warenkorb.Nutzer_ID" />
                             <select asp-for="@warenkorb.Anzahl" asp-items="@Model.Anzahl" class="custom-select" aria-label="Anzahl" onchange="this.form.submit()">
@@ -38,6 +47,7 @@
                 </div>
                 <div class="col-md-1 mr-0">
                     <form asp-action="RemoveFromCart" method="post">
+                        <input type="hidden" value="@warenkorb.ID" asp-for="@warenkorb.ID" />
                         <input type="hidden" value="@warenkorb.Artikel_ID" asp-for="@warenkorb.Artikel_ID" />
                         <input type="hidden" value="@warenkorb.Nutzer_ID" asp-for="@warenkorb.Nutzer_ID" />
                         <button type="submit" value="Löschen" class="btn btn-danger"><i class="fas fa-times"></i></button>

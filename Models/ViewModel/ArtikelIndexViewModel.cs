@@ -12,5 +12,8 @@ namespace it_shop_app.Models
         public SelectList kategorien;
         public string selectedKategorie;
         public string searchString;
+
+        public int selectedArtikel_ID;
+        public string selectedFarbe;
     }
 }
