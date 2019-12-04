@@ -231,13 +231,7 @@ namespace it_shop_app.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> bestellen(WarenkorbViewmodel model)
-        {
-            if (model.Warenkoerbe == null || !model.Warenkoerbe.Any())
-            {
-                _toastNotification.AddWarningToastMessage("Keine Artikel hinzugefügt die bestellt werden können!");
-                return RedirectToAction("Warenkorb");
-            }
-
+        {            
             IdentityNutzer user = await _UserManager.GetUserAsync(User);
 
             Bestellung bestellung = new Bestellung()
@@ -247,9 +241,6 @@ namespace it_shop_app.Controllers {
                 Nutzer_ID = user.Id
             };
 
-            _context.Add<Bestellung>(bestellung);
-            await _context.SaveChangesAsync();
-
             var warenkoerbeQuery = from w in _context.Warenkoerbe
                                    select w;
 
@@ -257,6 +248,15 @@ namespace it_shop_app.Controllers {
 
             await _context.Artikel.ToListAsync();
             var warenkorbListe = await warenkoerbeQuery.ToListAsync();
+
+            if (warenkorbListe == null || !warenkorbListe.Any())
+            {
+                _toastNotification.AddWarningToastMessage("Keine Artikel hinzugefügt die bestellt werden können!");
+                return RedirectToAction("Warenkorb");
+            }
+
+            _context.Add<Bestellung>(bestellung);
+            await _context.SaveChangesAsync();
 
             foreach (Warenkorb w in warenkorbListe)
             {
@@ -269,8 +269,8 @@ namespace it_shop_app.Controllers {
             Console.WriteLine("=============================================");
             Console.WriteLine("Preis:     " + model.gesamtpreis);
 
-            _toastNotification.AddErrorToastMessage("Noch nicht implementiert!");
-            return RedirectToAction("Warenkorb");                
+            _toastNotification.AddSuccessToastMessage("Artikel erfolgreich bestellt");
+            return RedirectToAction("Index");                
         }
 
         [HttpPost]
