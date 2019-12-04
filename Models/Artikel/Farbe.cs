@@ -8,6 +8,8 @@ namespace it_shop_app.Models
         public string Bezeichnung { get; set; }
 
         // Verweise auf andere Tabellen
-        public ICollection<ArtikelFarben> ArtikelFarben { get; set; }
+        public IList<ArtikelFarben> ArtikelFarben { get; set; }
+        public IList<ArtikelBestellung> ArtikelBestellungen { get; set; }
+        public IList<Warenkorb> Warenkoerbe { get; set; }
     }
 }

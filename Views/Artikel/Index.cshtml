@@ -28,6 +28,8 @@
 
             @foreach (var artikel in Model.artikel)
             {
+            <form asp-action="addToCart" method="post">
+                <input type="hidden" value="@artikel.ID" asp-for="selectedArtikel_ID" />
                 <div class="jumbotron">
 
                     <h1 class="display-6">
@@ -72,17 +74,30 @@
                             </dd>
                         }
 
+                        @if (artikel.ArtikelFarben != null)
+                        {
+                            <dt class="col-sm-3">
+                                Farben
+                            </dt>
+
+                            <dd class="col-sm-9">
+                                <select asp-for="selectedFarbe">
+                                    @foreach (var artikelFarbe in artikel.ArtikelFarben)
+                                    {
+                                        <option>@artikelFarbe.Farbe.Bezeichnung</option>
+                                    }
+                                </select>
+                            </dd>
+                        }
                     </dl>
                     <hr class="my-4">
 
                     <a asp-action="Details" asp-route-id="@artikel.ID" class="btn btn-primary btn" role="button">
                         Details
                     </a>
-                    <a asp-action="addToCart" asp-route-id="@artikel.ID" class="btn btn-primary btn" role="button">
-                        Zum Warenkorb
-                    </a>
-
+                    <input type="submit" class="btn btn-primary btn" value="Zum Warenkorb"/>
                 </div>
+            </form>
             }
 
         </div>

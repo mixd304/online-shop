@@ -60,6 +60,8 @@ namespace it_shop_app.Controllers {
         {
             await _context.Kategorien.ToListAsync();
             await _context.Merkmale.ToListAsync();
+            await _context.Farben.ToListAsync();
+            await _context.ArtikelFarben.ToListAsync();
 
             IQueryable<string> kategorienQuery = from m in _context.Artikel
                                                  orderby m.Kategorie.Bezeichnung
@@ -214,6 +216,7 @@ namespace it_shop_app.Controllers {
                 warenkoerbeQuery = warenkoerbeQuery.Where(w => w.Nutzer_ID.Equals(user.Id));
 
                 await _context.Artikel.ToListAsync();
+                await _context.Farben.ToListAsync();
                 var warenkorbListe = await warenkoerbeQuery.ToListAsync();
 
                 WarenkorbViewmodel model = new WarenkorbViewmodel()
@@ -240,53 +243,71 @@ namespace it_shop_app.Controllers {
          * 
          * <param name="id"> ID des Ausgewählten Artikels</param>
          */
-        public async Task<IActionResult> addToCart(int? id) {
-
-            if(!_SignInManager.IsSignedIn(User)){
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> addToCart(string selectedFarbe, int selectedArtikel_ID) {
+            if (!_SignInManager.IsSignedIn(User)){
                 _toastNotification.AddWarningToastMessage("Du musst angemeldet sein um ein Produkt deinem Warenkorb hinzuzufügen!");
                 return RedirectToAction("Index");
             }
 
-            Console.WriteLine("==============Ausgabe====================");
-            Console.WriteLine("übergebene ID: " + id);
+            IdentityNutzer user = await _UserManager.GetUserAsync(User);
+            var artikel = await _context.Artikel.FirstOrDefaultAsync(a => a.ID == selectedArtikel_ID);
+            var farbe = await _context.Farben.FirstOrDefaultAsync(f => f.Bezeichnung == selectedFarbe);
 
-            if (id == null)
+            var warenkoerbe = from w in _context.Warenkoerbe select w;
+            warenkoerbe = warenkoerbe.Where(w => w.Nutzer_ID.Equals(user.Id));
+            warenkoerbe = warenkoerbe.Where(w => w.Artikel_ID == selectedArtikel_ID);
+            List<Warenkorb> erg = await warenkoerbe.ToListAsync();
+
+            if(erg.Any())
             {
+                if(farbe == null)
+                {
+                    Warenkorb warenkorb = erg.First();
+                    warenkorb.Anzahl++;
+                    _context.Update(warenkorb);
+                    await _context.SaveChangesAsync();
+                    _toastNotification.AddInfoToastMessage("Gibt keine Farbe - Anzahl um 1 erhöht!");
+                    return RedirectToAction("Index");
+                }
+
+                foreach (Warenkorb warenkorb in erg)
+                {
+                    if (warenkorb.Farbe_ID == farbe.ID)
+                    {
+                        warenkorb.Anzahl++;
+                        _context.Update(warenkorb);
+                        await _context.SaveChangesAsync();
+                        _toastNotification.AddInfoToastMessage("Farbe vorhanden - Anzahl um 1 erhöht!");
+                        return RedirectToAction("Index");
+                    }
+                }
+            }            
+
+            if (artikel == null) {
                 return NotFound();
             }
-
-            await _context.Merkmale.ToListAsync();
-            var artikel = await _context.Artikel
-                .FirstOrDefaultAsync(a => a.ID == id);
-
-            if(artikel == null) {
-                return NotFound();
-            }
-            
-            Console.WriteLine("==============Ausgabe====================");
-            Console.WriteLine("Ausgewählter Artikel: " + artikel.Bezeichnung);
-
-            await _context.Warenkoerbe.ToListAsync();
 
             try {
-                IdentityNutzer user = await _UserManager.GetUserAsync(User);
-
                 Warenkorb wkModel = new Warenkorb();
                 wkModel.Artikel_ID = artikel.ID;
                 wkModel.Nutzer_ID = user.Id;
                 wkModel.Anzahl = 1;
-
-                Console.WriteLine("==============Ausgabe====================");
-                Console.WriteLine("WK Eintrag: " + wkModel.Artikel_ID + " / " +  wkModel.Nutzer_ID);
+                if(farbe != null)
+                {
+                    wkModel.Farbe_ID = farbe.ID;
+                }
 
                 _context.Add(wkModel);
                 await _context.SaveChangesAsync();
+
                 _toastNotification.AddSuccessToastMessage("Artikel erfolgreich Hinzugefügt!");
                 return RedirectToAction("Index");
             } catch {
                 _toastNotification.AddInfoToastMessage("Artikel bereits hinzugefügt!");
                 return RedirectToAction("Index");        
-            }            
+            }
         }
 
         /**
@@ -363,7 +384,7 @@ namespace it_shop_app.Controllers {
 
             foreach (Warenkorb w in warenkorbListe)
             {
-                _context.Add(new ArtikelBestellungen() { Artikel_ID = w.Artikel_ID, Bestellung_ID = bestellung.ID, Anzahl = w.Anzahl });
+                _context.Add(new ArtikelBestellung() { Artikel_ID = w.Artikel_ID, Bestellung_ID = bestellung.ID, Anzahl = w.Anzahl, Farbe_ID = w.Farbe_ID });
                 _context.Remove(w);
             }
 
@@ -390,13 +411,6 @@ namespace it_shop_app.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateAnzahl(Warenkorb warenkorb) {
-
-            Console.WriteLine("=================TEST==================");
-            Console.WriteLine("Artikel ID:    " + warenkorb.Artikel_ID);
-            Console.WriteLine("Nutzer ID:     " + warenkorb.Nutzer_ID);
-
-            Console.WriteLine("Anzahl (ID):   " + warenkorb.Anzahl);
-
             try
             {
                 _context.Update(warenkorb);
