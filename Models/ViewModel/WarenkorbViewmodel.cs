@@ -7,5 +7,7 @@ namespace it_shop_app.Models
     public class WarenkorbViewmodel {
         public List<Warenkorb> Warenkoerbe { get; set; } 
         public SelectList Anzahl { get; set; }
+
+        public decimal gesamtpreis { get; set; }
     }
 }

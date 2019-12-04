@@ -68,7 +68,8 @@
 </div>
 <div class="row">
     <div class="col-md-auto">
-        <form asp-action="bestellen">
+        <form asp-action="bestellen" method="post">
+            <input type="hidden" asp-for="@Model.gesamtpreis" value="@ViewData["Gesamtpreis"]" />
             <button type="submit" class="btn btn-primary">Bestellen</button>
         </form>
     </div>

@@ -50,13 +50,14 @@
 
     <hr class="my-4"> 
 
-    <a asp-action="Index" class="btn btn-primary btn" role="button">						
-        zurück zur Übersicht
+    <a asp-action="Index" class="btn btn-primary btn" role="button">
+        <i class="fas fa-caret-left"></i>
+        Zurück
     </a>
 
     <a asp-action="kommentarHinzufügen" asp-route-id="@Model.ID" class="btn btn-primary btn" role="button">	
         <i class="fas fa-plus"></i>					
-        Artikel Bewerten
+        Bewerten
     </a>
 </div>
 

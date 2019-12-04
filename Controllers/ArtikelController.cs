@@ -230,11 +230,51 @@ namespace it_shop_app.Controllers {
             return RedirectToAction("Warenkorb");
         }
 
-        public IActionResult bestellen()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> bestellen(WarenkorbViewmodel model)
         {
+            if (model.Warenkoerbe == null || !model.Warenkoerbe.Any())
+            {
+                _toastNotification.AddWarningToastMessage("Keine Artikel hinzugefügt die bestellt werden können!");
+                return RedirectToAction("Warenkorb");
+            }
+
+            IdentityNutzer user = await _UserManager.GetUserAsync(User);
+
+            Bestellung bestellung = new Bestellung()
+            {
+                Bestelldatum = DateTime.Now,
+                Gesamtpreis = model.gesamtpreis,
+                Nutzer_ID = user.Id
+            };
+
+            _context.Add<Bestellung>(bestellung);
+            await _context.SaveChangesAsync();
+
+            var warenkoerbeQuery = from w in _context.Warenkoerbe
+                                   select w;
+
+            warenkoerbeQuery = warenkoerbeQuery.Where(w => w.Nutzer_ID.Equals(user.Id));
+
+            await _context.Artikel.ToListAsync();
+            var warenkorbListe = await warenkoerbeQuery.ToListAsync();
+
+            foreach (Warenkorb w in warenkorbListe)
+            {
+                _context.Add(new ArtikelBestellungen() { Artikel_ID = w.Artikel_ID, Bestellung_ID = bestellung.ID });
+                _context.Remove(w);
+            }
+
+            await _context.SaveChangesAsync();
+
+            Console.WriteLine("=============================================");
+            Console.WriteLine("Preis:     " + model.gesamtpreis);
+
             _toastNotification.AddErrorToastMessage("Noch nicht implementiert!");
-            return RedirectToAction("Warenkorb");
+            return RedirectToAction("Warenkorb");                
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateAnzahl(Warenkorb warenkorb) {
