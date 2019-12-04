@@ -17,7 +17,7 @@ namespace it_shop_app.Areas.Identity
         {
             builder.ConfigureServices((context, services) => {
                 services.AddDbContext<ShopContext>(options =>
-                    options.UseSqlite(
+                    options.UseSqlServer(
                         context.Configuration.GetConnectionString("ShopContext")));
 
                 services.AddDefaultIdentity<IdentityNutzer>(
