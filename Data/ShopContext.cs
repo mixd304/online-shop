@@ -18,9 +18,12 @@ namespace it_shop_app.Data
         public DbSet<Kategorie> Kategorien { get; set; }
         public DbSet<Kommentar> Kommentare { get; set; }
         public DbSet<IdentityNutzer> Nutzer { get; set; }
+        public DbSet<Farbe> Farben { get; set; }
         // Zuordnungstabellen
-        public DbSet<ArtikelBestellungen> ArtikelBestellungen { get; set; }
+        public DbSet<ArtikelBestellung> ArtikelBestellungen { get; set; }
+        public DbSet<ArtikelBestellungFarbe> ArtikelBestellungFarben { get; set; }
         public DbSet<Warenkorb> Warenkoerbe { get; set; }
+        public DbSet<WarenkorbFarbe> WarenkorbFarben { get; set; }
         public DbSet<ListenArtikel> ListenArtikel { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {     
@@ -52,22 +55,34 @@ namespace it_shop_app.Data
                 .HasForeignKey(b => b.Nutzer_ID);
 
             // Beziehung Bestellungen n <--> m Artikel
-            modelBuilder.Entity<ArtikelBestellungen>().HasKey(ab => new { ab.Artikel_ID, ab.Bestellung_ID });
+            modelBuilder.Entity<ArtikelBestellung>().HasKey(ab => new { ab.ID_ArtikelBestellung });
                 // ArtikelBestellungen n <--> 1 Bestellungen
-                modelBuilder.Entity<ArtikelBestellungen>()
+                modelBuilder.Entity<ArtikelBestellung>()
                     .HasOne<Bestellung>(ab => ab.Bestellung)
                     .WithMany(b => b.ArtikelBestellungen)
                     .HasForeignKey(ab => ab.Bestellung_ID);
 
                 // ArtikelBestellungen n <--> 1 Artikel
-                modelBuilder.Entity<ArtikelBestellungen>()
+                modelBuilder.Entity<ArtikelBestellung>()
                     .HasOne<Artikel>(ab => ab.Artikel)
                     .WithMany(a => a.ArtikelBestellungen)
                     .HasForeignKey(ab => ab.Artikel_ID);
 
+            // Beziehung ArtikelBestellungen n <--> m Farbe
+            modelBuilder.Entity<ArtikelBestellungFarbe>().HasKey(abf => new { abf.Farbe_ID, abf.ArtikelBestellung_ID });
+                // ArtikelBestellungenFarben n <--> 1 ArtikelBestellungen
+                modelBuilder.Entity<ArtikelBestellungFarbe>()
+                        .HasOne<ArtikelBestellung>(abf => abf.ArtikelBestellung)
+                        .WithMany(ab => ab.ArtikelBestellungFarben)
+                        .HasForeignKey(abf => abf.ArtikelBestellung_ID);
+                // ArtikelBestellungenFarben n <--> 1 Farbe
+                modelBuilder.Entity<ArtikelBestellungFarbe>()
+                    .HasOne<Farbe>(abf => abf.Farbe)
+                    .WithMany(f => f.ArtikelBestellungFarben)
+                    .HasForeignKey(abf => abf.Farbe_ID);
 
             // Beziehung Nutzer n <--> m Artikel === Warenkorb
-            modelBuilder.Entity<Warenkorb>().HasKey(ab => new { ab.Nutzer_ID, ab.Artikel_ID });
+            modelBuilder.Entity<Warenkorb>().HasKey(w => new { w.Warenkorb_ID });
                 // Warenkorb n <--> 1 Nutzer
                 modelBuilder.Entity<Warenkorb>()
                     .HasOne<IdentityNutzer>(w => w.Nutzer)
@@ -99,6 +114,19 @@ namespace it_shop_app.Data
                     .HasOne<Artikel>(ab => ab.Artikel)
                     .WithMany(a => a.ListenArtikel)
                     .HasForeignKey(ab => ab.Artikel_ID);
+
+            // Beziehung Warenkorb n <--> m Farbe
+                modelBuilder.Entity<WarenkorbFarbe>().HasKey(abf => new { abf.Farbe_ID, abf.Warenkorb_ID });
+                // WarenkorbFarbe n <--> 1 Warenkorb
+                modelBuilder.Entity<WarenkorbFarbe>()
+                        .HasOne<Warenkorb>(wf => wf.Warenkorb)
+                        .WithMany(w => w.WarenkorbFarben)
+                        .HasForeignKey(wf => wf.Warenkorb_ID);
+                // WarenkorbFarbe n <--> 1 Farbe
+                modelBuilder.Entity<WarenkorbFarbe>()
+                    .HasOne<Farbe>(wf => wf.Farbe)
+                    .WithMany(f => f.WarenkorbFarben)
+                    .HasForeignKey(wf => wf.Farbe_ID);
 
             // Beziehung Artikel 1 <--> n Kommentare
             modelBuilder.Entity<Kommentar>()

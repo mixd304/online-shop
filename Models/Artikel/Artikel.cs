@@ -12,8 +12,8 @@ namespace it_shop_app.Models {
 
         // Verweise auf andere Tabellen
         public ICollection<Merkmal> Merkmale { get; set; }
-        public ICollection<ArtikelFarben> ArtikelFarben { get; set; }
-        public IList<ArtikelBestellungen> ArtikelBestellungen { get; set; }
+        public IList<ArtikelFarben> ArtikelFarben { get; set; }
+        public IList<ArtikelBestellung> ArtikelBestellungen { get; set; }
         public IList<Warenkorb> Warenkorb { get; set; }
         public IList<ListenArtikel> ListenArtikel { get; set; }
         public ICollection<Kommentar> Kommentare { get; set; }
