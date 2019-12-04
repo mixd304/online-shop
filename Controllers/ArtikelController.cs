@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using it_shop_app.Models;
 using it_shop_app.Data;
@@ -196,7 +194,7 @@ namespace it_shop_app.Controllers {
                 Warenkorb wkModel = new Warenkorb();
                 wkModel.Artikel_ID = artikel.ID;
                 wkModel.Nutzer_ID = user.Id;
-                wkModel.ID = 1;
+                wkModel.Anzahl = 1;
 
                 Console.WriteLine("==============Ausgabe====================");
                 Console.WriteLine("WK Eintrag: " + wkModel.Artikel_ID + " / " +  wkModel.Nutzer_ID);
@@ -283,7 +281,7 @@ namespace it_shop_app.Controllers {
             Console.WriteLine("Artikel ID:    " + warenkorb.Artikel_ID);
             Console.WriteLine("Nutzer ID:     " + warenkorb.Nutzer_ID);
 
-            Console.WriteLine("Anzahl (ID):   " + warenkorb.ID);
+            Console.WriteLine("Anzahl (ID):   " + warenkorb.Anzahl);
 
             try
             {

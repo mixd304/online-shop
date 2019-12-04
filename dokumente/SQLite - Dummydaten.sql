@@ -10,6 +10,16 @@ INSERT INTO "Artikel" VALUES (6,'Apple iPhone XR','Genau was du willst, exakt wa
 INSERT INTO "Artikel" VALUES (7,'Asus ZenBook 14 UM431DA-AM058T','Kreativität. Stil. Innovation. Das sind Qualitätsmerkmale, die das elegante neue ZenBook 14 auszeichnen. In diesem superkompakten Meisterwerk ist alles so konzipiert, dass Sie die Freiheit haben, Ihre kreative Vision zu entdecken, einschließlich des atemberaubenden schmalen NanoEdge-Displays mit 86% Screen-to-Body-Ratio. Sie werden nicht nur die ungeheure Kraft im Inneren und die durchdachte Liebe zum Detail - wie das exklusive ErgoLift-Kippscharnier und das optionale NumberPad-Touchpad - schätzen, sondern auch die zeitlose Schönheit des Designs mit seinem edlen Finish Utopia Blue, das durch das stilvolle silberne Zierfeld noch verstärkt wird. Das ZenBook 14 wartet: Sind Sie bereit, Ihre kreative Vision zu verwirklichen?',555,2);
 INSERT INTO "Artikel" VALUES (8,'Acer Aspire 3 A315-55G-54V9','Dünnes, hochwertiges Aluminum Design mit gebürsteten Aluminumcover bietet atemberaubende Optik...',555,2);
 INSERT INTO "Artikel" VALUES (9,'Samsung Galaxy s10','Zehn Jahre Galaxy-Erfahrung sind in die Entwicklung des neuen Galaxy S10 geflossen – und das sieht man nicht nur, man spürt es auch. Das Ergebnis: Ein Smartphone, das schneller, intelligenter und hochwertiger ist als je ein Galaxy Smartphone zuvor. Hinter dem farbintensiven Infinity-O Display steckt mit dem Ultraschall-Fingerabdruckscanner ein Stück Zukunft, das begeistert. Das Galaxy S10 denkt mit. Es lernt dazu. Es teilt. Und es ist dafür gemacht, für jeden Alltag der passende Begleiter zu sein.',599.99,1);
+INSERT INTO "Farbe" VALUES (1,'Space Grau');
+INSERT INTO "Farbe" VALUES (2,'Roségold');
+INSERT INTO "Farbe" VALUES (3,'Silber');
+INSERT INTO "Farbe" VALUES (4,'Schwarz');
+INSERT INTO "Farbe" VALUES (5,'Weiß');
+INSERT INTO "ArtikelFarben" VALUES (1,1,1);
+INSERT INTO "ArtikelFarben" VALUES (1,2,2);
+INSERT INTO "ArtikelFarben" VALUES (1,3,3);
+INSERT INTO "ArtikelFarben" VALUES (2,2,4);
+INSERT INTO "ArtikelFarben" VALUES (2,3,4);
 INSERT INTO "Merkmale" VALUES (1,'Videowiedergabe','bis zu 14 Stunden',1);
 INSERT INTO "Merkmale" VALUES (2,'Videowiedergabe','bis zu 16 Stunden',6);
 INSERT INTO "Merkmale" VALUES (3,'Videowiedergabe','bis zu 17 Stunden',2);

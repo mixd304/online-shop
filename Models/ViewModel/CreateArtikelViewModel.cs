@@ -1,5 +1,3 @@
-using it_shop_app.Models;
-
 namespace it_shop_app.Models
 {
     public class CreateArtikelViewModel 

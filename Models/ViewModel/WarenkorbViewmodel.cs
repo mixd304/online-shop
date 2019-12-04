@@ -1,4 +1,3 @@
-using it_shop_app.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 
