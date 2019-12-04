@@ -1,21 +1,23 @@
-@model IEnumerable<it_shop_app.Models.Warenkorb>
+@model it_shop_app.Models.WarenkorbViewmodel
 
 @{
     ViewData["Title"] = "Warenkorb";
     decimal preis = 0;
-    @foreach(var w in Model) {
-        preis+=w.Artikel.Preis;
+    @foreach(var w in Model.Warenkoerbe) {
+        preis+=(w.Artikel.Preis) * w.Anzahl;
     }
     ViewData["Gesamtpreis"] = preis;
 }
+
 <h1 class="display-4">@ViewData["Title"]</h1>
 
 <ul class="list-group">
 
-    @foreach (var warenkorb in Model) {
+    @foreach (var warenkorb in Model.Warenkoerbe)
+    {
         <li class="list-group-item">
             <div class="row">
-                <div class="col">                
+                <div class="col">
                     <h5>@warenkorb.Artikel.Bezeichnung</h5>
                 </div>
             </div>
@@ -26,36 +28,48 @@
                 <div class="col-md-1">
                     <div class="input-group">
                         <form asp-action="UpdateAnzahl" method="post">
-                            <input type="hidden" value="@warenkorb.Artikel_ID" asp-for="@warenkorb.Artikel_ID"/>
-                            <input type="hidden" value="@warenkorb.Nutzer_ID" asp-for="@warenkorb.Nutzer_ID"/>
-                            <select class="custom-select" aria-label="Anzahl">
-                                <option value="1" selected>1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
+                            <input type="hidden" value="@warenkorb.Artikel_ID" asp-for="@warenkorb.Artikel_ID" />
+                            <input type="hidden" value="@warenkorb.Nutzer_ID" asp-for="@warenkorb.Nutzer_ID" />
+                            <select asp-for="@warenkorb.Anzahl" asp-items="@Model.Anzahl" class="custom-select" aria-label="Anzahl" onchange="this.form.submit()">
                             </select>
+                            <input type="submit" value="GO" hidden />
                         </form>
                     </div>
                 </div>
                 <div class="col-md-1 mr-0">
                     <form asp-action="RemoveFromCart" method="post">
-                        <input type="hidden" value="@warenkorb.Artikel_ID" asp-for="@warenkorb.Artikel_ID"/>
-                        <input type="hidden" value="@warenkorb.Nutzer_ID" asp-for="@warenkorb.Nutzer_ID"/>
+                        <input type="hidden" value="@warenkorb.Artikel_ID" asp-for="@warenkorb.Artikel_ID" />
+                        <input type="hidden" value="@warenkorb.Nutzer_ID" asp-for="@warenkorb.Nutzer_ID" />
                         <button type="submit" value="Löschen" class="btn btn-danger"><i class="fas fa-times"></i></button>
-                     </form>
+                    </form>
                 </div>
             </div>
         </li>
     }
 </ul>
-@if(!(preis == 0)){
-    <div>
-        <label>@ViewData["Gesamtpreis"]</label>
+<br />
+<div class="row">
+    <div class="col-md-auto">
+        <h5>
+
+            Gesamtpreis: 
+
+            @if (!(preis == 0))
+            {
+                @ViewData["Gesamtpreis"]
+            }
+            else
+            {
+                @Html.DisplayName("0")
+            }
+            €
+        </h5>
+    </div>    
+</div>
+<div class="row">
+    <div class="col-md-auto">
+        <form asp-action="bestellen">
+            <button type="submit" class="btn btn-primary">Bestellen</button>
+        </form>
     </div>
-} 
+</div>
