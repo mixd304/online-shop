@@ -1,4 +1,4 @@
-INSERT INTO Kategorien(Bezeichnung) VALUES ('Smartphones');INSERT INTO Kategorien(Bezeichnung) VALUES ('Smartphones');
+INSERT INTO Kategorien(Bezeichnung) VALUES ('Smartphones');
 INSERT INTO Kategorien(Bezeichnung) VALUES ('Laptops');
 INSERT INTO Kategorien(Bezeichnung) VALUES ('Hardware');
 INSERT INTO Artikel(Bezeichnung, Beschreibung, Preis, Kategorie_ID) VALUES ('Apple iPhone 8','Genau was du willst, exakt was du brauchst.',529,1);
@@ -10,6 +10,16 @@ INSERT INTO Artikel(Bezeichnung, Beschreibung, Preis, Kategorie_ID) VALUES ('App
 INSERT INTO Artikel(Bezeichnung, Beschreibung, Preis, Kategorie_ID) VALUES ('Asus ZenBook 14 UM431DA-AM058T','Kreativität. Stil. Innovation. Das sind Qualitätsmerkmale, die das elegante neue ZenBook 14 auszeichnen. In diesem superkompakten Meisterwerk ist alles so konzipiert, dass Sie die Freiheit haben, Ihre kreative Vision zu entdecken, einschließlich des atemberaubenden schmalen NanoEdge-Displays mit 86% Screen-to-Body-Ratio. Sie werden nicht nur die ungeheure Kraft im Inneren und die durchdachte Liebe zum Detail - wie das exklusive ErgoLift-Kippscharnier und das optionale NumberPad-Touchpad - schätzen, sondern auch die zeitlose Schönheit des Designs mit seinem edlen Finish Utopia Blue, das durch das stilvolle silberne Zierfeld noch verstärkt wird. Das ZenBook 14 wartet: Sind Sie bereit, Ihre kreative Vision zu verwirklichen?',555,2);
 INSERT INTO Artikel(Bezeichnung, Beschreibung, Preis, Kategorie_ID) VALUES ('Acer Aspire 3 A315-55G-54V9','Dünnes, hochwertiges Aluminum Design mit gebürsteten Aluminumcover bietet atemberaubende Optik...',555,2);
 INSERT INTO Artikel(Bezeichnung, Beschreibung, Preis, Kategorie_ID) VALUES ('Samsung Galaxy s10','Zehn Jahre Galaxy-Erfahrung sind in die Entwicklung des neuen Galaxy S10 geflossen – und das sieht man nicht nur, man spürt es auch. Das Ergebnis: Ein Smartphone, das schneller, intelligenter und hochwertiger ist als je ein Galaxy Smartphone zuvor. Hinter dem farbintensiven Infinity-O Display steckt mit dem Ultraschall-Fingerabdruckscanner ein Stück Zukunft, das begeistert. Das Galaxy S10 denkt mit. Es lernt dazu. Es teilt. Und es ist dafür gemacht, für jeden Alltag der passende Begleiter zu sein.',599.99,1);
+INSERT INTO Farbe(Bezeichnung) VALUES ('Space Grau');
+INSERT INTO Farbe(Bezeichnung) VALUES ('Roségold');
+INSERT INTO Farbe(Bezeichnung) VALUES ('Silber');
+INSERT INTO Farbe(Bezeichnung) VALUES ('Schwarz');
+INSERT INTO Farbe(Bezeichnung) VALUES ('Weiß');
+INSERT INTO ArtikelFarben(Artikel_ID, Farbe_ID, ID) VALUES (1,1,1);
+INSERT INTO ArtikelFarben(Artikel_ID, Farbe_ID, ID) VALUES (1,2,2);
+INSERT INTO ArtikelFarben(Artikel_ID, Farbe_ID, ID) VALUES (1,3,3);
+INSERT INTO ArtikelFarben(Artikel_ID, Farbe_ID, ID) VALUES (2,2,4);
+INSERT INTO ArtikelFarben(Artikel_ID, Farbe_ID, ID) VALUES (2,3,4);
 INSERT INTO Merkmale(Bezeichnung, Wert, Artikel_ID) VALUES ('Videowiedergabe','bis zu 14 Stunden',1);
 INSERT INTO Merkmale(Bezeichnung, Wert, Artikel_ID) VALUES ('Videowiedergabe','bis zu 16 Stunden',6);
 INSERT INTO Merkmale(Bezeichnung, Wert, Artikel_ID) VALUES ('Videowiedergabe','bis zu 17 Stunden',2);

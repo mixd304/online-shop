@@ -3,6 +3,7 @@ using it_shop_app.Areas.Identity.Data;
 namespace it_shop_app.Models {
     public class Warenkorb {
         public int ID { get; set; }
+        public int Anzahl { get; set; }
 
         public int Artikel_ID { get; set; }
         public Artikel Artikel { get; set; }

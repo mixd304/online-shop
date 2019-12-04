@@ -1,9 +1,7 @@
 ﻿namespace it_shop_app.Models
 {
     public class ArtikelFarben
-    {
-        public int ID { get; set; }
-
+    {        
         public int Artikel_ID { get; set; }
         public Artikel Artikel { get; set; }
 
