@@ -35,7 +35,7 @@ namespace it_shop_app
             services.AddControllersWithViews();
 
             services.AddDbContext<ShopContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("ShopContext")));
+                options.UseSqlite(Configuration.GetConnectionString("ShopContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
