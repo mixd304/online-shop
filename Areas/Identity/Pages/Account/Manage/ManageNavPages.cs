@@ -20,6 +20,10 @@ namespace it_shop_app.Areas.Identity.Pages.Account.Manage
 
         public static string Kommentare => "Kommentare";
 
+        public static string Bestellungen => "Bestellungen";
+
+        public static string BestellDetails => "BestellDetails";
+
         public static string TwoFactorAuthentication => "TwoFactorAuthentication";
 
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
@@ -33,6 +37,10 @@ namespace it_shop_app.Areas.Identity.Pages.Account.Manage
         public static string PersonalDataNavClass(ViewContext viewContext) => PageNavClass(viewContext, PersonalData);
 
         public static string KommentareNavClass(ViewContext viewContext) => PageNavClass(viewContext, Kommentare);
+        
+        public static string BestellungenNavClass(ViewContext viewContext) => PageNavClass(viewContext, Bestellungen);
+
+        public static string BestellDetailsNavClass(ViewContext viewContext) => PageNavClass(viewContext, BestellDetails);
 
         public static string TwoFactorAuthenticationNavClass(ViewContext viewContext) => PageNavClass(viewContext, TwoFactorAuthentication);
 

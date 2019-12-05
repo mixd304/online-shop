@@ -1,0 +1,50 @@
+﻿@page
+@model BestellungenModel
+@using it_shop_app.Models
+
+@{
+    ViewData["Title"] = "Bestellungen";
+    ViewData["ActivePage"] = ManageNavPages.Bestellungen;
+}
+
+<h4>Bestellungen</h4>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Preis
+            </th>
+            <th>
+                Datum
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Bestellung best in @Model.bestellungenList)
+        {
+            <tr>
+                <th scope="row">
+                    @best.ID 
+                </th>
+                <td>
+                    @best.Gesamtpreis €
+                </td>
+                <td>
+                    @best.Bestelldatum.ToString("d")
+                </td>
+                <td>
+                    <div class="btn-group btn-group-sm" role="group">
+                        <a class="btn btn-secondary disabled">Stornieren</a>
+                        <a class="btn btn-secondary" asp-page="./bestelldetails" asp-route-id="@best.ID">Details</a>
+                    </div>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>
