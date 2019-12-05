@@ -1,6 +1,9 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace it_shop_app.Models {
     public class Merkmal {
         public int ID { get; set; }
+        [Required]
         public string Wert { get; set; }
 
         // Verweise auf andere Tabellen

@@ -1,12 +1,14 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace it_shop_app.Models {
     public class Artikel {
         public int ID { get; set; }
+        [Required]
         public string Bezeichnung { get; set; }
         public string Beschreibung { get; set; }  
-
+        [Required]
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Preis { get; set; }
 

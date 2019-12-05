@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using it_shop_app.Areas.Identity.Data;
 
 namespace it_shop_app.Models {
     public class Liste {
         public int ID { get; set; }
+        [Required]
         public string bezeichnung { get; set; }
 
         // Fremdschlüssel

@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace it_shop_app.Models
 {
     public class Farbe
     {
         public int ID { get; set; }
+        [Required]
         public string Bezeichnung { get; set; }
 
         // Verweise auf andere Tabellen

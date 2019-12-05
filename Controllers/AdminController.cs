@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using it_shop_app.Models;
 using it_shop_app.Data;
+using NToastNotify;
 
 namespace it_shop_app.Controllers {
     /**
@@ -13,6 +14,7 @@ namespace it_shop_app.Controllers {
      */
     public class AdminController : Controller {
         private readonly ShopContext _context;
+        private readonly IToastNotification _toastNotification;
         
         /**
          * <summary>
@@ -21,9 +23,10 @@ namespace it_shop_app.Controllers {
          * 
          * <param name="context"> Datenbankcontext mit dem operationen auf der Datenbank durchgeführt werden </param>
          */
-        public AdminController(ShopContext context)
+        public AdminController(ShopContext context, IToastNotification toast)
         {
             _context = context;
+            _toastNotification = toast;
         }
 
         /**
@@ -179,6 +182,7 @@ namespace it_shop_app.Controllers {
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateArtikelViewModel model)
         {
+            
             if (ModelState.IsValid)
             {
                 Kategorie kategorie = await _context.Kategorien.FirstOrDefaultAsync(k => k.Bezeichnung == model.kategorie.Bezeichnung);
@@ -214,7 +218,7 @@ namespace it_shop_app.Controllers {
 
                 return View("Views/Admin/Artikel/Details.cshtml", model.artikel);
             }
-            return View(model);
+            return View("Views/Admin/Artikel/Create.cshtml", model);
         }
 
         /**

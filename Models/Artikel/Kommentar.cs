@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 namespace it_shop_app.Models {
     public class Kommentar {
         public int ID { get; set; }
+        [Required]
         public string Inhalt { get; set; }
         public int Bewertung { get; set; }
 
