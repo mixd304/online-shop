@@ -171,27 +171,17 @@ namespace it_shop_app.Controllers {
                 _context.Add(model.kategorie);
                 await _context.SaveChangesAsync();
 
-                Console.WriteLine("=====================Kategorie======================");
-                Console.WriteLine("Kategorie:             " + model.kategorie.Bezeichnung);
-                Console.WriteLine("KategorieID:           " + model.kategorie.ID);
+                _context.Add(model.merkmalBezeichnung);
+                await _context.SaveChangesAsync();
 
                 model.artikel.Kategorie_ID = model.kategorie.ID;
                 _context.Add(model.artikel);
                 await _context.SaveChangesAsync();
 
-                Console.WriteLine("=====================Artikel=======================");
-                Console.WriteLine("Artikel Bezeichnung:    " + model.artikel.Bezeichnung);
-                Console.WriteLine("Artikel Beschreibung:   " + model.artikel.Beschreibung);
-                Console.WriteLine("Kategorie ID:           " + model.artikel.Kategorie_ID);
-
+                model.merkmal.Bezeichnung_ID = model.merkmalBezeichnung.ID;
                 model.merkmal.Artikel_ID = model.artikel.ID;
                 _context.Add(model.merkmal);
                 await _context.SaveChangesAsync();
-
-                Console.WriteLine("=====================Merkmal=======================");
-                Console.WriteLine("Merkmal Bezeichnung:    " + model.merkmal.Bezeichnung);
-                Console.WriteLine("Merkmal Wert:           " + model.merkmal.Wert);
-                Console.WriteLine("Artikel ID:             " + model.merkmal.Artikel_ID);
 
                 return View("Views/Admin/Artikel/Details.cshtml", model.artikel);
             }
@@ -267,6 +257,7 @@ namespace it_shop_app.Controllers {
                 return NotFound();
             }
 
+            await _context.MerkmalBezeichnungen.ToListAsync();
             await _context.Merkmale.ToListAsync();
 
             var artikel = await _context.Artikel

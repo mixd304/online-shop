@@ -64,6 +64,7 @@ namespace it_shop_app.Controllers {
          */
         public async Task<IActionResult> Index(string selectedKategorie, string searchString)
         {
+            await _context.MerkmalBezeichnungen.ToListAsync();
             await _context.Kategorien.ToListAsync();
             await _context.Merkmale.ToListAsync();
             await _context.Farben.ToListAsync();
@@ -117,6 +118,7 @@ namespace it_shop_app.Controllers {
                 return NotFound();
             }
 
+            await _context.MerkmalBezeichnungen.ToListAsync();
             await _context.Merkmale.ToListAsync();
             var artikel = await _context.Artikel
                 .FirstOrDefaultAsync(a => a.ID == id);
@@ -184,13 +186,8 @@ namespace it_shop_app.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> kommentarHinzufügen(KommentarViewModel model) {
-            Console.WriteLine("====================Test==================");
-            Console.WriteLine("Inhalt:    " + model.kommentar.Inhalt);
-            Console.WriteLine("Bewertung: " + model.kommentar.Bewertung);
-            Console.WriteLine("Nutzer:    " + model.kommentar.Nutzer_ID);
-            Console.WriteLine("Artikel:   " + model.kommentar.Artikel_ID);
-            
             Kommentar kom = model.kommentar;
+            kom.Datum = DateTime.Now;
 
             _context.Add(kom);
             await _context.SaveChangesAsync();

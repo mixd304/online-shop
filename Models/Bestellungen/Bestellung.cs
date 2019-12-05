@@ -13,11 +13,21 @@ namespace it_shop_app.Models {
 
         [DataType(DataType.Date)]
         public DateTime Bestelldatum { get; set; }
+        public Stati Status { get; set; }
         
         // Verweise auf andere Tabellen
         public string Nutzer_ID { get; set; }
         public IdentityNutzer Kaeufer { get; set; }
         public IList<ArtikelBestellung> ArtikelBestellungen { get; set; }
 
+    }
+
+    public enum Stati
+    {
+        Eingegangen,
+        InBearbeitung,
+        Storniert,
+        Versandt,
+        Abgeschlossen
     }
 }
