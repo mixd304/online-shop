@@ -7,12 +7,7 @@ namespace it_shop_app.Models
 {
     public class ArtikelAnzahlMapping
     {
-        public int anzahl { get; set; }
-        public int artikelID { get; set; }
-
-        public int CompareTo(object obj)
-        {
-            throw new NotImplementedException();
-        }
+        public int Anzahl { get; set; }
+        public Artikel Artikel { get; set; }
     }
 }
