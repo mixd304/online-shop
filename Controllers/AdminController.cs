@@ -6,6 +6,11 @@ using it_shop_app.Models;
 using it_shop_app.Data;
 
 namespace it_shop_app.Controllers {
+    /**
+     * <summary>
+     * Controller der Für alle Aktionen mit dem Admin bereich verantwortlich ist
+     * </summary>
+     */
     public class AdminController : Controller {
         private readonly ShopContext _context;
         
@@ -67,6 +72,15 @@ namespace it_shop_app.Controllers {
         }
 
         /**
+         * <summary>
+         * Gibt die MerkmalCreate View aus und übergibt einen Artikel der der ID entspricht
+         * </summary>
+         * 
+         * <returns>
+         * CreateMerkmal View
+         * </returns>
+         * 
+         * <param name="id"> id des Artikels für das neue Merkmale angelegt werden sollen </param>
          */
         public async Task<IActionResult> Merkmal_Create(int id) {
 
@@ -87,6 +101,17 @@ namespace it_shop_app.Controllers {
         }
 
         /**
+         * <summary>
+         * Post Methode für das MerkmalCreate View. Bekommt das model mit dem Merkmal
+         * Speichert nur ein Merkmal in die Datenbank und ruft die MerkmalCreate View nochmal auf
+         * </summary>
+         * 
+         * <returns>
+         * CreateMerkmal View
+         * </returns>
+         * 
+         * <param name="id"> id des Artikels für das Merkmale angelegt werden </param>
+         * <param name="model"> Model mit dem Merkmal </param>
          */
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -102,19 +127,9 @@ namespace it_shop_app.Controllers {
                 return NotFound();
             }
 
-            model.artikel = artikel;
-
-            Console.WriteLine("=====================TEST=======================");
-            Console.WriteLine("Artikel Bezeichnung:    " + model.artikel.Bezeichnung);
-            Console.WriteLine("Artikel Beschreibung:   " + model.artikel.Beschreibung);
-            Console.WriteLine("Merkmal Bezeichnung:    " + model.merkmal.Bezeichnung);
-            Console.WriteLine("Merkmal Wert:           " + model.merkmal.Wert);            
+            model.artikel = artikel;           
 
             model.merkmal.Artikel_ID = model.artikel.ID;
-            Console.WriteLine();
-
-            Console.WriteLine("Artikel PK:             " + model.artikel.ID);
-            Console.WriteLine("Merkmal Fremdschlüssel: " + model.merkmal.Artikel_ID);
 
             _context.Add(model.merkmal);
             await _context.SaveChangesAsync();
@@ -123,6 +138,10 @@ namespace it_shop_app.Controllers {
         }
 
         /**
+         * <summary>
+         * Gibt die Create View für einen Artikel aus
+         * </summary>
+         * 
          */
         public IActionResult Artikel_Create()
         {        
@@ -130,6 +149,18 @@ namespace it_shop_app.Controllers {
         }
 
         /**
+         * <summary>
+         * Post Methode des Create Views
+         * Bekommt ein Model mit Artikel Kategorie und Merkmal eines fertigen Arikel und speichert 
+         * diese in die Datenbank.
+         * </summary>
+         * 
+         * <returns>
+         * Wenn der Artikel erfolgreich gespeichert wurde, wird die Details View mit dem neu 
+         * angelegten Artikel angezeigt
+         * </returns>
+         * 
+         * <param name="model"> Model das ein Artikel eine Kategorie und ein Merkmal beinhaltet mit den eingegebenen Daten des Nutzers </param>
          */
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -168,6 +199,15 @@ namespace it_shop_app.Controllers {
         }
 
         /**
+         * <summary>
+         * Gibt die Sicherheitsabfrage aus ob der Artikel mit der Übergebenen ID wirklich gelöscht werden soll
+         * </summary>
+         * 
+         * <returns>
+         * Sicherheitsabfrage ob gelöscht werden soll
+         * </returns>
+         * 
+         * <param name="id"> id des Artikels </param>
          */
         public async Task<IActionResult> Artikel_Delete(int? id)
         {
@@ -188,6 +228,15 @@ namespace it_shop_app.Controllers {
         }
 
         /**
+         * <summary>
+         * Löscht den Artikel mit der angegebenen ID in der Datenbank
+         * </summary>
+         * 
+         * <returns>
+         * Index View des Admin Controllers
+         * </returns>
+         * 
+         * <param name="id"> ID des Artikels</param>
          */
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -200,6 +249,15 @@ namespace it_shop_app.Controllers {
         }
 
         /**
+         * <summary>
+         * Gibt die Details Seite von dem Artikel mit der üebrgebenen ID aus
+         * </summary>
+         * 
+         * <returns>
+         * Details View
+         * </returns>
+         * 
+         * <param name="id"> ID eines Artikels der angezeigt werden soll </param>
          */
         public async Task<IActionResult> Artikel_Details(int? id)
         {

@@ -10,6 +10,10 @@ using System;
 using System.Linq;
 
 namespace it_shop_app.Controllers {
+
+    /**
+     * Controller für die Startseite, Impressum und Privacy des Shops
+     */
     public class HomeController : Controller {
         private readonly ShopContext _context;
 

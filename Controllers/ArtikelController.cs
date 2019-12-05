@@ -13,6 +13,12 @@ using NToastNotify;
 
 
 namespace it_shop_app.Controllers {
+
+    /**
+     * <summary>
+     * Controller der für alle Interaktionen des Kunden mit den Artikeln verantwortlich ist 
+     * </summary>
+     */
     public class ArtikelController : Controller {
         private readonly ShopContext _context;
         private readonly UserManager<IdentityNutzer> _UserManager;
