@@ -7,5 +7,25 @@
     ViewData["ActivePage"] = ManageNavPages.Bestellungen;
 }
 
-<h1>Test</h1>
-<p>@Model.Bestellung_id</p>
+<h1>Bestellung Nr.: @Model.Bestellung_id</h1>
+
+<div class="row">    
+    <div class="col-md-auto">
+        @Model.bestellung.Bestelldatum
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md">
+
+        <ul class="list-group">
+            @foreach (ArtikelBestellung artikelBestellung in Model.artikelBestellung)
+            {
+                <li class="list-group-item">
+                    <text>Name: </text>@artikelBestellung.Artikel.Bezeichnung <text>, Preis: </text> @artikelBestellung.Artikel.Preis <text>€, Anzahl: </text> @artikelBestellung.Anzahl
+                </li>
+            }
+        </ul>
+
+    </div>
+</div>

@@ -18,6 +18,8 @@ namespace it_shop_app.Areas.Identity.Pages.Account.Manage
         private readonly ShopContext _shopContext;
 
         public int Bestellung_id;
+        public Bestellung bestellung;
+        public List<ArtikelBestellung> artikelBestellung;
 
         public bestelldetailsModel(
             ShopContext shopContext
@@ -29,7 +31,19 @@ namespace it_shop_app.Areas.Identity.Pages.Account.Manage
         public async Task<IActionResult> OnGetAsync(int id)
         {
             this.Bestellung_id = id;
-            await _shopContext.Bestellungen.ToListAsync();
+
+            var bestellungQuery = from bes in _shopContext.Bestellungen
+                        select bes;
+            bestellungQuery = bestellungQuery.Where(b => b.ID == Bestellung_id);
+
+            bestellung = bestellungQuery.FirstOrDefault();
+
+            var artikelQuery = from art in _shopContext.ArtikelBestellungen
+                               select art;
+            await _shopContext.Artikel.ToListAsync();
+            artikelQuery = artikelQuery.Where(art => art.Bestellung_ID == Bestellung_id);
+
+            artikelBestellung = await artikelQuery.ToListAsync();
 
             return Page();
         }
