@@ -14,7 +14,7 @@
     @foreach (var merkmal in Model.artikel.Merkmale)
         {
             <dt class="col-sm-3">
-                @merkmal.Bezeichnung
+                @merkmal.Bezeichnung.Bezeichnung
             </dt>
             <dd class="col-sm-9">
                 @merkmal.Wert
@@ -29,9 +29,9 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group">
-                <label asp-for="merkmal.Bezeichnung" id="Bezeichnung" class="control-label"></label>
-                <input asp-for="merkmal.Bezeichnung" id="Bezeichnung" class="form-control" />
-                <span asp-validation-for="merkmal.Bezeichnung" class="text-danger"></span>
+                <label asp-for="merkmalBezeichnung.Bezeichnung" id="Bezeichnung" class="control-label"></label>
+                <input asp-for="merkmalBezeichnung.Bezeichnung" id="Bezeichnung" class="form-control" />
+                <span asp-validation-for="merkmalBezeichnung.Bezeichnung" class="text-danger"></span>
             </div>
 
             <div class="form-group">
