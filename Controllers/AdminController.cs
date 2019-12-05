@@ -84,6 +84,7 @@ namespace it_shop_app.Controllers {
          */
         public async Task<IActionResult> Merkmal_Create(int id) {
 
+            await _context.MerkmalBezeichnungen.ToListAsync();
             await _context.Merkmale.ToListAsync();
 
             var artikel = await _context.Artikel
@@ -117,8 +118,8 @@ namespace it_shop_app.Controllers {
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Merkmal_Create(int id, CreateArtikelViewModel model) {
 
+            await _context.MerkmalBezeichnungen.ToListAsync();
             await _context.Merkmale.ToListAsync();
-
             var artikel = await _context.Artikel
                 .FirstOrDefaultAsync(m => m.ID == id);
 
@@ -127,8 +128,20 @@ namespace it_shop_app.Controllers {
                 return NotFound();
             }
 
-            model.artikel = artikel;           
+            model.artikel = artikel;
 
+            MerkmalBezeichnung merkmalBezeichnung = await _context.MerkmalBezeichnungen.FirstOrDefaultAsync(mb => mb.Bezeichnung == model.merkmalBezeichnung.Bezeichnung);
+            if (merkmalBezeichnung == null)
+            {
+                _context.Add(model.merkmalBezeichnung);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                model.merkmalBezeichnung = merkmalBezeichnung;
+            }
+
+            model.merkmal.Bezeichnung_ID = model.merkmalBezeichnung.ID;
             model.merkmal.Artikel_ID = model.artikel.ID;
 
             _context.Add(model.merkmal);
@@ -167,31 +180,37 @@ namespace it_shop_app.Controllers {
         public async Task<IActionResult> Create(CreateArtikelViewModel model)
         {
             if (ModelState.IsValid)
-            {           
-                _context.Add(model.kategorie);
-                await _context.SaveChangesAsync();
-
-                Console.WriteLine("=====================Kategorie======================");
-                Console.WriteLine("Kategorie:             " + model.kategorie.Bezeichnung);
-                Console.WriteLine("KategorieID:           " + model.kategorie.ID);
+            {
+                Kategorie kategorie = await _context.Kategorien.FirstOrDefaultAsync(k => k.Bezeichnung == model.kategorie.Bezeichnung);
+                if (kategorie == null)
+                { 
+                    _context.Add(model.kategorie);
+                    await _context.SaveChangesAsync();
+                } 
+                else
+                {
+                    model.kategorie = kategorie;
+                }
 
                 model.artikel.Kategorie_ID = model.kategorie.ID;
                 _context.Add(model.artikel);
                 await _context.SaveChangesAsync();
 
-                Console.WriteLine("=====================Artikel=======================");
-                Console.WriteLine("Artikel Bezeichnung:    " + model.artikel.Bezeichnung);
-                Console.WriteLine("Artikel Beschreibung:   " + model.artikel.Beschreibung);
-                Console.WriteLine("Kategorie ID:           " + model.artikel.Kategorie_ID);
+                MerkmalBezeichnung merkmalBezeichnung = await _context.MerkmalBezeichnungen.FirstOrDefaultAsync(mb => mb.Bezeichnung == model.merkmalBezeichnung.Bezeichnung);
+                if (merkmalBezeichnung == null)
+                {
+                    _context.Add(model.merkmalBezeichnung);
+                    await _context.SaveChangesAsync();
+                } 
+                else
+                {
+                    model.merkmalBezeichnung = merkmalBezeichnung;
+                }
 
+                model.merkmal.Bezeichnung_ID = model.merkmalBezeichnung.ID;
                 model.merkmal.Artikel_ID = model.artikel.ID;
                 _context.Add(model.merkmal);
                 await _context.SaveChangesAsync();
-
-                Console.WriteLine("=====================Merkmal=======================");
-                Console.WriteLine("Merkmal Bezeichnung:    " + model.merkmal.Bezeichnung);
-                Console.WriteLine("Merkmal Wert:           " + model.merkmal.Wert);
-                Console.WriteLine("Artikel ID:             " + model.merkmal.Artikel_ID);
 
                 return View("Views/Admin/Artikel/Details.cshtml", model.artikel);
             }
@@ -267,6 +286,7 @@ namespace it_shop_app.Controllers {
                 return NotFound();
             }
 
+            await _context.MerkmalBezeichnungen.ToListAsync();
             await _context.Merkmale.ToListAsync();
 
             var artikel = await _context.Artikel

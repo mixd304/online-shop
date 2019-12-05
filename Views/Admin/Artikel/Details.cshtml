@@ -19,15 +19,19 @@
         <dd class="col-sm-9">
             @Html.DisplayFor(model => model.Preis) €
         </dd>
-        @foreach (var merkmal in Model.Merkmale)
+        @if (Model.Merkmale != null)
         {
-            <dt class="col-sm-3">
-                @merkmal.Bezeichnung
-            </dt>
-            <dd class="col-sm-9">
-                @merkmal.Wert
-            </dd>
+            @foreach (var merkmal in Model.Merkmale)
+            {
+                <dt class="col-sm-3">
+                    @merkmal.Bezeichnung.Bezeichnung
+                </dt>
+                <dd class="col-sm-9">
+                    @merkmal.Wert
+                </dd>
+            }
         }
+
 
         @if (@Model.Kategorie != null)
         {
