@@ -38,7 +38,7 @@ namespace it_shop_app.Areas.Identity.Pages.Account.Manage
             var bestellungen = from w in _context.Bestellungen
                                select w;
 
-            bestellungen.Where(bes => bes.Nutzer_ID == user.Id);
+            bestellungen =  bestellungen.Where(bes => bes.Nutzer_ID == user.Id);
 
             bestellungenList = await bestellungen.ToListAsync();
 
