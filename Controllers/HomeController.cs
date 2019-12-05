@@ -33,42 +33,27 @@ namespace it_shop_app.Controllers {
          */
         public async Task<IActionResult> Index()
         {
-            List<ArtikelBestellung> artikelBestellung = new List<ArtikelBestellung>();
             List<ArtikelAnzahlMapping> mapping = new List<ArtikelAnzahlMapping>();
 
-            await _context.Artikel.ToListAsync();
-            artikelBestellung = await _context.ArtikelBestellungen.ToListAsync();
+            var ArtikelList = await _context.Artikel.ToListAsync();
+            var artikelBestellungen = await _context.ArtikelBestellungen.ToListAsync();
+            var artIDs = artikelBestellungen.GroupBy(a => a.Artikel_ID);
 
-            bool alreadyInList = false;
-
-            Console.WriteLine("==================Startseite Test=================");
-
-            foreach (ArtikelBestellung model in artikelBestellung)
+            foreach(var id in artIDs)
             {
-                foreach(ArtikelAnzahlMapping map in mapping)
-                {
-                    if(map.artikelID == model.Artikel_ID)
-                    {
-                        map.anzahl = map.anzahl + (model.Anzahl);
-                        alreadyInList = true;
-                        break;
-                    } 
-                }
+                int anzahl = artikelBestellungen.Where(a => a.Artikel_ID == id.Key).Sum(a => a.Anzahl);
+                Artikel artikel = ArtikelList.Where(a => a.ID == id.Key).First();
 
-                if (alreadyInList)
-                {
-                    alreadyInList = false;
-                    continue;
-                }
-                mapping.Add(new ArtikelAnzahlMapping() { anzahl = model.Anzahl, artikelID = model.Artikel_ID });
+                mapping.Add(new ArtikelAnzahlMapping() { Anzahl = anzahl, Artikel = artikel });
             }
 
-            mapping = mapping.OrderByDescending(o => o.anzahl).ToList();
+            mapping = mapping.OrderByDescending(o => o.Anzahl).ToList();
 
             foreach(ArtikelAnzahlMapping map in mapping)
             {
-                Console.WriteLine("Artikel_ID: " + map.artikelID);
-                Console.WriteLine("Anzahl:     " + map.anzahl);
+                Console.WriteLine("Artikel_ID:  " + map.Artikel.ID);
+                Console.WriteLine("Bezeichnung: " + map.Artikel.Bezeichnung);
+                Console.WriteLine("Anzahl:      " + map.Anzahl);
                 Console.WriteLine();
             }
 
