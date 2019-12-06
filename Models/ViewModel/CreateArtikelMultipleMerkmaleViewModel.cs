@@ -8,5 +8,7 @@ namespace it_shop_app.Models
         public List<Merkmal> merkmale { get; set; }
         public List<MerkmalBezeichnung> merkmalBezeichnungen { get; set; }
         public Kategorie kategorie { get; set; }
+        public List<Farbe> farben { get; set; }
+        public List<Farbe> vorhandeFarben { get; set; }
     }
 }

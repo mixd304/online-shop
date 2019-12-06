@@ -15,19 +15,19 @@
 
             <div class="form-group">
                 <label asp-for="artikel.Bezeichnung" id="Bezeichnung" class="control-label"></label>
-                <input asp-for="artikel.Bezeichnung" id="Bezeichnung" class="form-control" />
+                <input asp-for="artikel.Bezeichnung" placeholder="Bezeichnung" id="Bezeichnung" class="form-control" />
                 <span asp-validation-for="artikel.Bezeichnung" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label class="control-label">Kategorie</label>
-                <input asp-for="kategorie.Bezeichnung" class="form-control" />
+                <input asp-for="kategorie.Bezeichnung" placeholder="Kategorie" class="form-control" />
                 <span asp-validation-for="kategorie.Bezeichnung" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="artikel.Preis" class="control-label"></label>
-                <input asp-for="artikel.Preis" class="form-control" />
+                <input asp-for="artikel.Preis" placeholder="Preis" class="form-control" />
                 <span asp-validation-for="artikel.Preis" class="text-danger"></span>
             </div>
         </div>
@@ -36,19 +36,21 @@
         <div class="col-md-6">
 
             <div class="form-group">
-                <label asp-for="artikel.Beschreibung" id="Beschreibung" class="control-label"></label>
-                <textarea rows="8" asp-for="artikel.Beschreibung" id="Beschreibung" class="form-control"> </textarea>
+                <label asp-for="artikel.Beschreibung" class="control-label"></label>
+                <textarea rows="8" asp-for="artikel.Beschreibung" placeholder="Beschreibung" class="form-control"> </textarea>
                 <span asp-validation-for="artikel.Beschreibung" class="text-danger"></span>
             </div>
         </div>
     </div>
-    <h1 class="display-6">Merkmal</h1>
+
+    <!-- Merkmale -->
+    <h1 class="display-6">Merkmale</h1>
     <hr />
     <div class="row" id="merkmale_div_1">
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="merkmalBezeichnungen[0].Bezeichnung" class="control-label"></label>
-                <input asp-for="merkmalBezeichnungen[0].Bezeichnung" placeholder="Bezeichnung" class="form-control"/>
+                <input asp-for="merkmalBezeichnungen[0].Bezeichnung" placeholder="Bezeichnung" class="form-control" />
                 <span asp-validation-for="merkmalBezeichnungen[0].Bezeichnung" class="text-danger"></span>
             </div>
         </div>
@@ -60,16 +62,33 @@
             </div>
         </div>
     </div>
-    <div>
+    <div class="row">
         <div class="row" style="margin-left:auto;margin-right:auto;">
-            <input type="button" value="+" class="btn btn-primary" onclick="duplicate()" />
+            <input type="button" value="+" class="btn btn-primary" onclick="addMerkmal()" />
         </div>
+    </div>
 
-        <hr class="my-4" />
+    <!-- Farben -->
+    <h1 class="display-6">Farben</h1>
+    <hr />
+    <div class="row">
+        <div class="col-md-6" id="farben_div_1">
+            <div class="form-group">
+                <input asp-for="farben[0].Bezeichnung" placeholder="Farbe" class="form-control" list="datalist_farben"/>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="row" style="margin-left:auto;margin-right:auto;">
+            <input type="button" value="+" class="btn btn-primary" onclick="addFarbe()" />
+        </div>
+    </div>
 
+    <!-- Speichern -->
+    <hr class="my-4" />
+    <div class="row">
         <div class="row" style="margin-left:auto;margin-right:auto;">
             <input type="submit" value="Speichern" class="btn btn-primary" />
         </div>
-
     </div>
 </form>
