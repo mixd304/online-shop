@@ -22,10 +22,30 @@
             @foreach (ArtikelBestellung artikelBestellung in Model.artikelBestellung)
             {
                 <li class="list-group-item">
-                    <text>Name: </text>@artikelBestellung.Artikel.Bezeichnung <text>, Preis: </text> @artikelBestellung.Artikel.Preis <text>€, Anzahl: </text> @artikelBestellung.Anzahl
+                    <div class="row">
+                        <div class="col-md">
+                            <text>Name: </text>@artikelBestellung.Artikel.Bezeichnung
+                        </div>
+                        <div class="col-md">
+                            <text>Preis: </text> @artikelBestellung.Artikel.Preis <text>€</text>
+                        </div>
+                        <div class="col-md">
+                            <text>Anzahl: </text> @artikelBestellung.Anzahl
+                        </div>
+
+                        @{ var ges = artikelBestellung.Artikel.Preis * artikelBestellung.Anzahl; }
+
+                        <div class="col-md">
+                            <text>Gesamt: </text> @ges <text>€</text>
+                        </div>
+                    </div>                     
                 </li>
             }
         </ul>
 
+        <a class="btn btn-primary" asp-page="./Bestellungen">
+            <i class="fas fa-caret-left"></i>
+            Zurück
+        </a>
     </div>
 </div>

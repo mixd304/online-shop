@@ -365,7 +365,9 @@ namespace it_shop_app.Controllers {
             {
                 Bestelldatum = DateTime.Now,
                 Gesamtpreis = model.gesamtpreis,
-                Nutzer_ID = user.Id
+                Nutzer_ID = user.Id,
+                Status = Stati.Eingegangen
+                
             };
 
             var warenkoerbeQuery = from w in _context.Warenkoerbe

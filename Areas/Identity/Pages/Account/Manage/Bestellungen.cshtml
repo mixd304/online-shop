@@ -21,6 +21,9 @@
             <th>
                 Datum
             </th>
+            <th>
+                Status
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -29,7 +32,7 @@
         {
             <tr>
                 <th scope="row">
-                    @best.ID 
+                    @best.ID
                 </th>
                 <td>
                     @best.Gesamtpreis €
@@ -38,13 +41,72 @@
                     @best.Bestelldatum.ToString("d")
                 </td>
                 <td>
+
+                    @{
+                        switch (best.Status)
+                        {
+                            case Stati.Eingegangen:
+                                <text>
+                                    <div class="alert alert-primary mb-0">
+                                        <i class="fas fa-comment"></i>
+                                        @best.Status
+                                    </div>
+                                </text>
+                                break;
+                            case Stati.InBearbeitung:
+                                <text>
+                                    <div class="alert alert-warning mb-0">
+                                        <i class="fas fa-building"></i>
+                                        @best.Status
+                                    </div>
+                                </text>
+                                break;
+                            case Stati.Storniert:
+                                <text>
+                                    <div class="alert alert-danger mb-0">
+                                        <i class="fas fa-ban"></i>
+                                        @best.Status
+                                    </div>
+                                </text>
+                                break;
+                            case Stati.Versandt:
+                                <text>
+                                    <div class="alert alert-warning mb-0">
+                                        <i class="fas fa-boxes"></i>
+                                        @best.Status
+                                    </div>
+                                </text>
+                                break;
+                            case Stati.Abgeschlossen:
+                                <text>
+                                    <div class="alert alert-success mb-0">
+                                        <i class="fas fa-check"></i>
+                                        @best.Status
+                                    </div>
+                                </text>
+                                break;
+                        }
+                    }
+
+                </td>
+                <td>
                     <div class="btn-group btn-group-sm" role="group">
-                        <a class="btn btn-secondary disabled">Stornieren</a>
+
+                        @if (best.Status == Stati.Eingegangen || best.Status == Stati.InBearbeitung)
+                        {
+                            <a class="btn btn-secondary" asp-page="./storno" asp-route-id="@best.ID">Stornieren</a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-secondary disabled">Stornieren</a>
+                        }
                         <a class="btn btn-secondary" asp-page="./bestelldetails" asp-route-id="@best.ID">Details</a>
+
                     </div>
                 </td>
             </tr>
         }
-
     </tbody>
 </table>
+
+
