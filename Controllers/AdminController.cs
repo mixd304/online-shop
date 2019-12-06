@@ -159,9 +159,9 @@ namespace it_shop_app.Controllers {
          * </summary>
          * 
          */
-        public IActionResult Artikel_Create()
-        {        
-            return View("Views/Admin/Artikel/Create.cshtml");
+        public async Task<IActionResult> Artikel_CreateAsync()
+        {
+            return View("Views/Admin/Artikel/Create.cshtml", new CreateArtikelMultipleMerkmaleViewModel() { vorhandeFarben = await _context.Farben.ToListAsync() });
         }
 
         /**
@@ -182,15 +182,6 @@ namespace it_shop_app.Controllers {
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateArtikelMultipleMerkmaleViewModel model)
         {
-            /*Console.WriteLine("=====VIEWMODEL TEST=====");
-            foreach (var merkmalBez in model.merkmalBezeichnungen)
-            {
-                Console.WriteLine(merkmalBez.Bezeichnung);
-            }
-            foreach (var merkmal in model.merkmale)
-            {
-                Console.WriteLine(merkmal.Wert);
-            }*/
             if (ModelState.IsValid)
             {
                 Kategorie kategorie = await _context.Kategorien.FirstOrDefaultAsync(k => k.Bezeichnung == model.kategorie.Bezeichnung);
@@ -228,8 +219,35 @@ namespace it_shop_app.Controllers {
                     model.merkmale[i].Artikel_ID = model.artikel.ID;
                     _context.Add(model.merkmale[i]);
                 }
-
                 await _context.SaveChangesAsync();
+
+                for (int i = 0; i < model.farben.Count; i++)
+                {
+                    Console.WriteLine("ArtikelID:" + model.artikel.ID);
+
+                    if (model.farben[i].Equals(""))
+                    {
+                        continue;
+                    } 
+                    else
+                    {
+                        Farbe farbe = await _context.Farben.FirstOrDefaultAsync(f => f.Bezeichnung == model.farben[i].Bezeichnung);
+                        if (farbe == null)
+                        {
+                            _context.Add(model.farben[i]);
+                            await _context.SaveChangesAsync();
+                            Console.WriteLine("Farbe:" + model.farben[i].ID);
+                        }
+                        else
+                        {
+                            model.farben[i] = farbe;
+                        }
+                    }
+
+                    Console.WriteLine("FarbenID:" + model.farben[i].ID);
+                    _context.Add(new ArtikelFarben() { Artikel_ID = model.artikel.ID, Farbe_ID = model.farben[i].ID });
+                    await _context.SaveChangesAsync();
+                }
 
                 return View("Views/Admin/Artikel/Details.cshtml", model.artikel);
         }

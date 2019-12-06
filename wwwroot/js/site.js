@@ -3,7 +3,7 @@
 // Write your JavaScript code.
 
 var anzahlmerkmale = 1;
-function duplicate() {
+function addMerkmal() {
     //var element_id = "merkmale_div_" + anzahlmerkmale;
     document.getElementById('merkmale_div_' + anzahlmerkmale).insertAdjacentHTML("afterend",
         '<div class="row" id="merkmale_div_' + (anzahlmerkmale+1) + '">' +
@@ -21,4 +21,25 @@ function duplicate() {
             '</div>' + 
         '</div>');
     anzahlmerkmale++;
-}
+};
+
+var anzahlfarben = 1;
+function addFarbe() {
+    /*var childs = document.getElementById('datalist_farben').childNodes;
+    var options;
+    childs.forEach(function (child) {
+        options += '<option value="' + child.value + '"></option>'
+    });*/
+
+    document.getElementById('farben_div_' + anzahlfarben).insertAdjacentHTML("afterend",
+        '<div class= "col-md-6" id="farben_div_' + (anzahlfarben+1) + '">' +
+        '<div class="form-group">' +
+        '<input placeholder="Farbe" class="form-control" list="datalist_farben" type="text" id="farben_' + anzahlfarben + '__Bezeichnung" name = "farben[' + anzahlfarben + '].Wert" value/>' + 
+                    /*'<datalist id="datalist_farben">' +
+                        options + 
+                    '</datalist>' +
+                '</input>' +*/
+            '</div>' +
+        '</div>');
+    anzahlfarben++;
+};
