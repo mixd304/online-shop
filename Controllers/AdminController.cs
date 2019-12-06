@@ -180,9 +180,17 @@ namespace it_shop_app.Controllers {
          */
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CreateArtikelViewModel model)
+        public async Task<IActionResult> Create(CreateArtikelMultipleMerkmaleViewModel model)
         {
-            
+            /*Console.WriteLine("=====VIEWMODEL TEST=====");
+            foreach (var merkmalBez in model.merkmalBezeichnungen)
+            {
+                Console.WriteLine(merkmalBez.Bezeichnung);
+            }
+            foreach (var merkmal in model.merkmale)
+            {
+                Console.WriteLine(merkmal.Wert);
+            }*/
             if (ModelState.IsValid)
             {
                 Kategorie kategorie = await _context.Kategorien.FirstOrDefaultAsync(k => k.Bezeichnung == model.kategorie.Bezeichnung);
@@ -200,24 +208,31 @@ namespace it_shop_app.Controllers {
                 _context.Add(model.artikel);
                 await _context.SaveChangesAsync();
 
-                MerkmalBezeichnung merkmalBezeichnung = await _context.MerkmalBezeichnungen.FirstOrDefaultAsync(mb => mb.Bezeichnung == model.merkmalBezeichnung.Bezeichnung);
-                if (merkmalBezeichnung == null)
+                for(int i=0; i < model.merkmalBezeichnungen.Count; i++)
                 {
-                    _context.Add(model.merkmalBezeichnung);
-                    await _context.SaveChangesAsync();
-                } 
-                else
-                {
-                    model.merkmalBezeichnung = merkmalBezeichnung;
+                    MerkmalBezeichnung merkmalBezeichnung = await _context.MerkmalBezeichnungen.FirstOrDefaultAsync(mb => mb.Bezeichnung == model.merkmalBezeichnungen[i].Bezeichnung);
+                    if (merkmalBezeichnung == null)
+                    {
+                        _context.Add(model.merkmalBezeichnungen[i]);
+                        await _context.SaveChangesAsync();
+                    }
+                    else
+                    {
+                        model.merkmalBezeichnungen[i] = merkmalBezeichnung;
+                    }
                 }
 
-                model.merkmal.Bezeichnung_ID = model.merkmalBezeichnung.ID;
-                model.merkmal.Artikel_ID = model.artikel.ID;
-                _context.Add(model.merkmal);
+                for (int i = 0; i < model.merkmale.Count; i++)
+                {
+                    model.merkmale[i].Bezeichnung_ID = model.merkmalBezeichnungen[i].ID;
+                    model.merkmale[i].Artikel_ID = model.artikel.ID;
+                    _context.Add(model.merkmale[i]);
+                }
+
                 await _context.SaveChangesAsync();
 
                 return View("Views/Admin/Artikel/Details.cshtml", model.artikel);
-            }
+        }
             return View("Views/Admin/Artikel/Create.cshtml", model);
         }
 
