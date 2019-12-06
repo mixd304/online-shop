@@ -1,4 +1,4 @@
-@model it_shop_app.Models.CreateArtikelViewModel
+@model it_shop_app.Models.CreateArtikelMultipleMerkmaleViewModel
 @{
     ViewData["Title"] = "Hinzufügen - Artikel";
 }
@@ -44,26 +44,30 @@
     </div>
     <h1 class="display-6">Merkmal</h1>
     <hr />
-    <div class="row">
+    <div class="row" id="merkmale_div_1">
         <div class="col-md-6">
-
             <div class="form-group">
-                <label asp-for="merkmalBezeichnung.Bezeichnung" id="Bezeichnung" class="control-label"></label>
-                <input asp-for="merkmalBezeichnung.Bezeichnung" id="Bezeichnung" class="form-control" />
-                <span asp-validation-for="merkmalBezeichnung.Bezeichnung" class="text-danger"></span>
+                <label asp-for="merkmalBezeichnungen[0].Bezeichnung" class="control-label"></label>
+                <input asp-for="merkmalBezeichnungen[0].Bezeichnung" placeholder="Bezeichnung" class="form-control"/>
+                <span asp-validation-for="merkmalBezeichnungen[0].Bezeichnung" class="text-danger"></span>
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                <label asp-for="merkmal.Wert" id="Wert" class="control-label"></label>
-                <input asp-for="merkmal.Wert" id="Wert" class="form-control" />
-                <span asp-validation-for="merkmal.Wert" class="text-danger"></span>
+                <label asp-for="merkmale[0].Wert" class="control-label"></label>
+                <input asp-for="merkmale[0].Wert" placeholder="Wert" class="form-control" />
+                <span asp-validation-for="merkmale[0].Wert" class="text-danger"></span>
             </div>
+        </div>
+    </div>
+    <div>
+        <div class="row" style="margin-left:auto;margin-right:auto;">
+            <input type="button" value="+" class="btn btn-primary" onclick="duplicate()" />
         </div>
 
         <hr class="my-4" />
 
-        <div class="form-group" style="margin-left:auto;margin-right:auto;">
+        <div class="row" style="margin-left:auto;margin-right:auto;">
             <input type="submit" value="Speichern" class="btn btn-primary" />
         </div>
 
