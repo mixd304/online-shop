@@ -39,7 +39,7 @@ namespace it_shop_app.Controllers {
             var artikelBestellungen = await _context.ArtikelBestellungen.ToListAsync();
             var artIDs = artikelBestellungen.GroupBy(a => a.Artikel_ID);
 
-            foreach(var id in artIDs)
+            foreach (var id in artIDs)
             {
                 int anzahl = artikelBestellungen.Where(a => a.Artikel_ID == id.Key).Sum(a => a.Anzahl);
                 Artikel artikel = ArtikelList.Where(a => a.ID == id.Key).First();
@@ -49,7 +49,7 @@ namespace it_shop_app.Controllers {
 
             mapping = mapping.OrderByDescending(o => o.Anzahl).ToList();
 
-            foreach(ArtikelAnzahlMapping map in mapping)
+            foreach (ArtikelAnzahlMapping map in mapping)
             {
                 Console.WriteLine("Artikel_ID:  " + map.Artikel.ID);
                 Console.WriteLine("Bezeichnung: " + map.Artikel.Bezeichnung);
@@ -57,7 +57,13 @@ namespace it_shop_app.Controllers {
                 Console.WriteLine();
             }
 
-            return View();
+            List<ArtikelAnzahlMapping> firstFour = new List<ArtikelAnzahlMapping>();
+            firstFour.Add(mapping[0]);
+            firstFour.Add(mapping[1]);
+            firstFour.Add(mapping[2]);
+            firstFour.Add(mapping[3]);
+
+            return View(firstFour);
         }
 
         public IActionResult Impressum()

@@ -6,6 +6,7 @@ using it_shop_app.Data;
 using it_shop_app.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using NToastNotify;
 
 namespace it_shop_app.Areas.Identity.Pages.Account.Manage
 {
@@ -13,12 +14,14 @@ namespace it_shop_app.Areas.Identity.Pages.Account.Manage
     {
 
         private readonly ShopContext _shopContext;
+        private readonly IToastNotification _toastNotification;
 
         public int Bestellung_id;
 
-        public stornoModel (ShopContext con)
+        public stornoModel (ShopContext con, IToastNotification toastNotification)
         {
             _shopContext = con;
+            _toastNotification = toastNotification;
         }
 
         public async Task<IActionResult> OnGetAsync(int id)
@@ -35,6 +38,7 @@ namespace it_shop_app.Areas.Identity.Pages.Account.Manage
 
             _shopContext.Update<Bestellung>(bes);
             await _shopContext.SaveChangesAsync();
+            _toastNotification.AddSuccessToastMessage("Bestellung " + id + " erfolgreich storniert!");
 
             return RedirectToPage("./Bestellungen");
         }

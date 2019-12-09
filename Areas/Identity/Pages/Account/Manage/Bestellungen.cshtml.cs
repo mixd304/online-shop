@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using NToastNotify;
 
 namespace it_shop_app.Areas.Identity.Pages.Account.Manage
 {
@@ -17,18 +18,21 @@ namespace it_shop_app.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<IdentityNutzer> _userManager;
         private readonly SignInManager<IdentityNutzer> _signInManager;
         private readonly ShopContext _context;
+        private readonly IToastNotification _toastNotification;
 
         public IList<Bestellung> bestellungenList;
 
         public BestellungenModel(
             UserManager<IdentityNutzer> userManager,
             SignInManager<IdentityNutzer> signInManager,
-            ShopContext shopContext
+            ShopContext shopContext,
+            IToastNotification toastNotification
             )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _context = shopContext;
+            _toastNotification = toastNotification;
         }
 
         public async Task<IActionResult> OnGetAsync()

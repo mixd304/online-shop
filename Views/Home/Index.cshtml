@@ -1,10 +1,69 @@
-﻿@{
+﻿@model IEnumerable<ArtikelAnzahlMapping>
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h1 class="display-4">Meistgekaufte Produkte</h1>
+</div>
 
+<hr />
+<br />
 
+<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
 
+        <div class="carousel-item active">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">@Model.ToList()[0].Artikel.Bezeichnung</h5>
+                    <p>@Model.ToList()[0].Artikel.Beschreibung</p>
+                    <p>Preis: @Model.ToList()[0].Artikel.Preis</p>
+                    <a href="#" class="btn btn-primary">Details</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="carousel-item">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">@Model.ToList()[1].Artikel.Bezeichnung</h5>
+                    <p>@Model.ToList()[1].Artikel.Beschreibung</p>
+                    <p>Preis: @Model.ToList()[1].Artikel.Preis</p>
+                    <a href="#" class="btn btn-primary">Details</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="carousel-item">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">@Model.ToList()[2].Artikel.Bezeichnung</h5>
+                    <p>@Model.ToList()[2].Artikel.Beschreibung</p>
+                    <p>Preis: @Model.ToList()[2].Artikel.Preis</p>
+                    <a href="#" class="btn btn-primary">Details</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="carousel-item">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">@Model.ToList()[3].Artikel.Bezeichnung</h5>
+                    <p>@Model.ToList()[3].Artikel.Beschreibung</p>
+                    <p>Preis: @Model.ToList()[3].Artikel.Preis</p>
+                    <a href="#" class="btn btn-primary">Details</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
 </div>
