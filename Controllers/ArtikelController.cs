@@ -322,7 +322,7 @@ namespace it_shop_app.Controllers {
          * Warenkorb View
          * </returns>
          * 
-         * <param name="warenkorb"> Die Warenkorb zeile die entfernt werden soll</param>
+         * <param name="warenkorb"> Die Warenkorb zeile die entfernt werden soll </param>
          */
         [HttpPost]
         [ValidateAntiForgeryToken]

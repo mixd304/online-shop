@@ -1,63 +1,73 @@
-﻿@model IEnumerable<ArtikelAnzahlMapping>
+﻿@model it_shop_app.Models.HomeIndexViewModel
 @{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Meistgekaufte Produkte</h1>
-</div>
-
+<h1 class="display-4">Meistgekaufte Produkte</h1>
 <hr />
 <br />
 
 <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
     <div class="carousel-inner">
 
-        <div class="carousel-item active">
+        <div class="carousel-item" id="c-item-1">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">@Model.ToList()[0].Artikel.Bezeichnung</h5>
-                    <p>@Model.ToList()[0].Artikel.Beschreibung</p>
-                    <p>Preis: @Model.ToList()[0].Artikel.Preis</p>
+                    <h2 class="card-title">
+                        @Model.mapping.ToList()[0].Artikel.Bezeichnung
+                        <span class="badge badge-secondary">@Model.mapping.ToList()[0].Anzahl</span>
+                    </h2>
+                    <p>@Model.mapping.ToList()[0].Artikel.Beschreibung</p>
+                    <p>Preis: @Model.mapping.ToList()[0].Artikel.Preis €</p>
                     <a href="#" class="btn btn-primary">Details</a>
                 </div>
             </div>
         </div>
 
-        <div class="carousel-item">
+        <div class="carousel-item active" id="c-item-2">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">@Model.ToList()[1].Artikel.Bezeichnung</h5>
-                    <p>@Model.ToList()[1].Artikel.Beschreibung</p>
-                    <p>Preis: @Model.ToList()[1].Artikel.Preis</p>
+                    <h2 class="card-title">
+                        @Model.mapping.ToList()[1].Artikel.Bezeichnung
+                        <span class="badge badge-secondary">@Model.mapping.ToList()[1].Anzahl</span>
+                    </h2>
+                    <p>@Model.mapping.ToList()[1].Artikel.Beschreibung</p>
+                    <p>Preis: @Model.mapping.ToList()[1].Artikel.Preis €</p>
                     <a href="#" class="btn btn-primary">Details</a>
                 </div>
             </div>
         </div>
 
-        <div class="carousel-item">
+        <div class="carousel-item" id="c-item-3">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">@Model.ToList()[2].Artikel.Bezeichnung</h5>
-                    <p>@Model.ToList()[2].Artikel.Beschreibung</p>
-                    <p>Preis: @Model.ToList()[2].Artikel.Preis</p>
+                    <h2 class="card-title">
+                        @Model.mapping.ToList()[2].Artikel.Bezeichnung
+                        <span class="badge badge-secondary">@Model.mapping.ToList()[2].Anzahl</span>
+                    </h2>
+                    <p>@Model.mapping.ToList()[2].Artikel.Beschreibung</p>
+                    <p>Preis: @Model.mapping.ToList()[2].Artikel.Preis €</p>
                     <a href="#" class="btn btn-primary">Details</a>
                 </div>
             </div>
         </div>
 
-        <div class="carousel-item">
+        <div class="carousel-item" id="c-item-4">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">@Model.ToList()[3].Artikel.Bezeichnung</h5>
-                    <p>@Model.ToList()[3].Artikel.Beschreibung</p>
-                    <p>Preis: @Model.ToList()[3].Artikel.Preis</p>
+                    <h2 class="card-title">
+                        @Model.mapping.ToList()[3].Artikel.Bezeichnung
+                        <span class="badge badge-secondary">@Model.mapping.ToList()[3].Anzahl</span>
+                    </h2>
+                    <p>@Model.mapping.ToList()[3].Artikel.Beschreibung</p>
+                    <p>Preis: @Model.mapping.ToList()[3].Artikel.Preis €</p>
                     <a href="#" class="btn btn-primary">Details</a>
                 </div>
             </div>
         </div>
 
     </div>
+
     <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="sr-only">Previous</span>
@@ -66,4 +76,57 @@
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="sr-only">Next</span>
     </a>
+
 </div>
+
+<br />
+<h1 class="display-4">Neuste Kommentare</h1>
+<hr />
+
+@foreach (var map in @Model.ACMapping)
+{
+
+    <ul class="list-group">
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col-md-auto">
+                    <h3>@map.Artikel.Bezeichnung </h3>
+                </div>
+                <div class="col-md">
+                    <a asp-controller="Artikel" asp-action="Details" asp-route-id="@map.Artikel.ID" class="btn btn-primary">Details</a>
+                </div>
+            </div>            
+        </li>
+
+        @foreach (var kom in map.kommentare)
+        {
+            <li class="list-group-item">
+                <div class="row justify-content-md">
+                    <div class="col-md-auto">
+                        <h3>@kom.Nutzer.Name</h3>
+                    </div>
+                    <div class="col">
+                        @for (int i = 0; i < kom.Bewertung; i++)
+                        {
+                            <i class="fas fa-star"></i>
+                        }
+                        @for (int i = 0; i < -1 * (kom.Bewertung - 5); i++)
+                        {
+                            <i class="far fa-star"></i>
+                        }
+                    </div>
+                    <div class="col-md-auto">
+                        @kom.Datum
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        @kom.Inhalt
+                    </div>
+                </div>
+            </li>
+        }
+
+    </ul>
+    <br />
+}

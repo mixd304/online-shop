@@ -43,3 +43,41 @@ function addFarbe() {
         '</div>');
     anzahlfarben++;
 };
+
+
+function carouselOnLoad() {
+    var c1 = document.getElementById("c-item-1");
+    var c2 = document.getElementById("c-item-2");
+    var c3 = document.getElementById("c-item-3");
+    var c4 = document.getElementById("c-item-4");
+
+    c1.classList.add("active");
+    c2.classList.add("active");
+    c3.classList.add("active");
+    c4.classList.add("active");
+
+    var c1_height = c1.clientHeight;
+    var c2_height = c2.clientHeight;
+    var c3_height = c3.clientHeight;
+    var c4_height = c4.clientHeight;
+
+    c2.classList.remove("active");
+    c3.classList.remove("active");
+    c4.classList.remove("active");
+
+    console.log(c1_height);
+    console.log(c2_height);
+    console.log(c3_height);
+    console.log(c4_height);
+
+    var max = Math.max.apply(null, [c1_height, c2_height, c3_height, c4_height]);
+
+    console.log("Maximum: " + (max).toString());
+
+    c1.style.height = max;
+    c2.style.height = max;
+    c3.style.height = max;
+    c4.style.height = max;
+
+
+}

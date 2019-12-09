@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 </head>
-<body>
+<body onload="carouselOnLoad()">
     <header>
         <nav class="navbar fixed-top navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
@@ -18,11 +18,11 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse">
-                    <ul class="navbar-nav mr-auto">                        
+                    <ul class="navbar-nav mr-auto">
 
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Artikel" asp-action="Index">Artikel</a>
-                        </li>  
+                        </li>
 
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Impressum">Impressum</a>
@@ -36,9 +36,9 @@
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" asp-controller="Admin" asp-action="Nutzer">Nutzer</a>
-                                <a class="dropdown-item" asp-controller="Admin" asp-action="Artikel_Index">Artikel</a>                          
+                                <a class="dropdown-item" asp-controller="Admin" asp-action="Artikel_Index">Artikel</a>
                             </div>
-                        </li> 
+                        </li>
 
                     </ul>
 

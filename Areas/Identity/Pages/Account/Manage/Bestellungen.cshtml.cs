@@ -46,6 +46,8 @@ namespace it_shop_app.Areas.Identity.Pages.Account.Manage
 
             bestellungenList = await bestellungen.ToListAsync();
 
+            bestellungenList = bestellungenList.OrderByDescending(b => b.Bestelldatum).ToList();
+
             return Page();
         }
     }

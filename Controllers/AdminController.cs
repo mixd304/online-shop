@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using it_shop_app.Models;
 using it_shop_app.Data;
 using NToastNotify;
+using System.Linq;
+using StatiEnum = it_shop_app.Models.Stati;
 
 namespace it_shop_app.Controllers {
     /**
@@ -335,6 +337,69 @@ namespace it_shop_app.Controllers {
             }
 
             return View("Views/Admin/Artikel/Details.cshtml", artikel);
+        }
+        /**
+         * <summary>
+         * Nicht verlinkte View in der alle Bestellungen aufgelistet werden 
+         * und die Stati durchgeschaltet werden können
+         * </summary>
+         * 
+         * <returns>
+         * Stati View
+         * </returns>
+         */
+        public async Task<IActionResult> Stati()
+        {
+            await _context.Nutzer.ToListAsync();           
+            return View(await _context.Bestellungen.ToListAsync());
+        }
+        /**
+         * <summary>
+         * Setzt den Status einer Bestellung auf den Zustand je nach Button der gedrückt wurde
+         * </summary>
+         * 
+         * <returns>
+         * Redirect zu Stati View
+         * </returns>
+         * 
+         * <param name="id"> ID der Bestellung dessen Status gesetzt werden soll </param>
+         * <param name="status"> Status den die Bestellunge bekommen soll</param>
+         */
+        public async Task<IActionResult> changeStati(int id, string status)
+        {
+            Console.WriteLine("======================================");
+            Console.WriteLine(id);
+            Console.WriteLine(status);
+            Console.WriteLine();
+
+            var query = from w in _context.Bestellungen
+                        select w;
+
+            query = query.Where(w => w.ID == id);
+
+            Bestellung bes = query.FirstOrDefault();            
+
+            switch(status)
+            {
+                case "Eingegangen":
+                    bes.Status = StatiEnum.Eingegangen;
+                    break;
+                case "InBearbeitung":
+                    bes.Status = StatiEnum.InBearbeitung;
+                    break;
+                case "Storniert":
+                    bes.Status = StatiEnum.Storniert;
+                    break;
+                case "Versandt":
+                    bes.Status = StatiEnum.Versandt;
+                    break;
+                case "Abgeschlossen":
+                    bes.Status = StatiEnum.Abgeschlossen;
+                    break;
+            }
+            _context.Update(bes);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Stati");
         }
     }
 }

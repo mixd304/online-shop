@@ -1,0 +1,55 @@
+﻿@model IEnumerable<it_shop_app.Models.Bestellung>
+
+@{
+ViewData["Title"] = "Stati";
+}
+
+<h1>Stati</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Nutzer
+            </th>
+            <th>
+                Preis
+            </th>
+            <th>
+                Datum
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+    @foreach (Bestellung best in Model)
+    {
+        <tr>
+            <th scope="row">
+                @best.ID
+            </th>
+            <td>
+                @best.Kaeufer.Name
+            </td>
+            <td>
+                @best.Gesamtpreis €
+            </td>
+            <td>
+                @best.Bestelldatum.ToString("d")
+            </td>
+            <td>
+                <a class="btn btn-primary" asp-route-id="@best.ID" asp-action="changeStati" asp-route-status="@Stati.Eingegangen">Eingegangen</a>
+                <a class="btn btn-warning" asp-route-id="@best.ID" asp-action="changeStati" asp-route-status="@Stati.InBearbeitung">In Bearbeitung</a>
+                <a class="btn btn-warning" asp-route-id="@best.ID" asp-action="changeStati" asp-route-status="@Stati.Versandt">Versandt</a>
+                <a class="btn btn-danger"  asp-route-id="@best.ID" asp-action="changeStati" asp-route-status="@Stati.Storniert">Storniert</a>
+                <a class="btn btn-success" asp-route-id="@best.ID" asp-action="changeStati" asp-route-status="@Stati.Abgeschlossen">Abgeschlossen</a>
+            
+                <input type="hidden" value="@best.Status" />
+            
+            </td>
+        </tr>
+    }
+</table>
