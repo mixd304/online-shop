@@ -11,7 +11,9 @@
     @Html.DisplayFor( model => model.artikel.Bezeichnung )
 </h1>
 <dl class="row">
-    @foreach (var merkmal in Model.artikel.Merkmale)
+    @if (Model.artikel.Merkmale != null)
+    {
+        @foreach (var merkmal in Model.artikel.Merkmale)
         {
             <dt class="col-sm-3">
                 @merkmal.Bezeichnung.Bezeichnung
@@ -20,6 +22,7 @@
                 @merkmal.Wert
             </dd>
         }
+    }
 </dl>
 <hr class="my-4">
 

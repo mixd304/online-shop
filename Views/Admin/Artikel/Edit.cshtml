@@ -1,6 +1,158 @@
-
+@model EditViewModel
 @{
     ViewData["Title"] = "Admin - Artikel";
 }
 
-<h1 class="display-4">Bearbeiten</h1>
+
+
+    <form asp-action="Artikel_Edit">
+
+        <div class="row">
+            <div class="col">
+                <h1 class="display-4">Bearbeiten</h1>
+            </div>
+            <div class="col-auto">
+                <div class="row">
+                    <span style="color:white">th th</span>
+                </div>
+                <div class="row">
+                    <a asp-action="Artikel_Index" class="btn btn-primary btn mr-3" role="button">
+                        <i class="fas fa-caret-left"></i>
+                        Zur&uuml;ck
+                    </a>
+                    
+                    <input class="btn btn-primary" type="submit" value="Speichern" asp-route-_new="Speichern" />
+                </div>
+            </div>
+        </div>
+
+        <hr />
+
+
+        <!-- Stammdaten -->
+
+        <input type="hidden" asp-for="artikel.ID" value="@Model.artikel.ID" />
+
+        <div class="row">
+            <div class="col-md-6">
+
+                <div class="form-group">
+                    <label asp-for="artikel.Bezeichnung" class="control-label"></label>
+                    <input asp-for="artikel.Bezeichnung" placeholder="Bezeichnung" class="form-control" />
+                    <span asp-validation-for="artikel.Bezeichnung" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label"> Kategorie </label>
+                    <input asp-for="artikel.Kategorie.Bezeichnung" placeholder="Bezeichnung" class="form-control" />
+                    <span asp-validation-for="artikel.Kategorie.Bezeichnung" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="artikel.Preis" class="control-label"></label>
+                    <input asp-for="artikel.Preis" placeholder="Preis" class="form-control" />
+                    <span asp-validation-for="artikel.Preis" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+
+                <div class="form-group">
+                    <label asp-for="artikel.Beschreibung" class="control-label"></label>
+                    <textarea rows="8" asp-for="artikel.Beschreibung" placeholder="Beschreibung" class="form-control"></textarea>
+                    <span asp-validation-for="artikel.Beschreibung" class="text-danger"></span>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Merkmale -->
+        <h1 class="display-4">Merkmale</h1>
+        <hr />
+
+        <div class="row">
+
+            @if (Model.merkmale != null)
+            {
+                @for (int i = 0; i < Model.merkmale.Count; i++)
+                {
+
+                    <input type="hidden" asp-for="@Model.merkmale[i].Bezeichnung.ID" value="@Model.merkmale[i].Bezeichnung.ID" />
+                    <input type="hidden" asp-for="@Model.merkmale[i].ID" value="@Model.merkmale[i].ID" />
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input asp-for="@Model.merkmale[i].Bezeichnung.Bezeichnung" placeholder="Bezeichnung" class="form-control" />
+                            <span asp-validation-for="@Model.merkmale[i].Bezeichnung.Bezeichnung" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <input asp-for="@Model.merkmale[i].Wert" placeholder="Preis" class="form-control" />
+                            <span asp-validation-for="@Model.merkmale[i].Wert" class="text-danger"></span>
+                            <div class="input-group-append">
+                                <a class="btn btn-danger" asp-action="deleteMerkmal" asp-route-id="@Model.merkmale[i].ID" asp-route-artId="@Model.artikel.ID">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+
+        <!-- Neues Merkmal -->
+        <div class="row">
+            <div class="col">
+
+            </div>
+            <div class="col-auto">
+                <a class="btn btn-primary" asp-action="NeuMerkmal" asp-route-id="@Model.artikel.ID"> + </a>
+            </div>
+            <div class="col">
+
+            </div>
+        </div>
+
+        <!-- Farben -->
+        <h1 class="display-4">Farben</h1>
+        <hr />
+        <div class="row">
+
+            @if (Model.farben != null)
+            {
+                @for (int i = 0; i < Model.farben.Count; i++)
+                {
+                    <input type="hidden" asp-for="@Model.farben[i].Farbe.ID" value="@Model.farben[i].Farbe.ID" />
+
+                    <div class="col-md-6 mb-3">
+                        <div class="input-group">
+                            <input asp-for="@Model.farben[i].Farbe.Bezeichnung" placeholder="Bezeichnung" class="form-control" />
+                            <span asp-validation-for="@Model.farben[i].Farbe.Bezeichnung" class="text-danger"></span>
+                            <div class="input-group-append">
+                                <a class="btn btn-danger" asp-action="deleteFarbe" asp-route-artId="@Model.farben[i].Artikel_ID" asp-route-farbId="@Model.farben[i].Farbe_ID">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+        </div>
+        <br />
+        <!-- Neue Farbe -->
+        <div class="row">
+            <div class="col">
+
+            </div>
+            <div class="col-auto">
+                <a class="btn btn-primary" asp-action="NeuFarbe" asp-route-id="@Model.artikel.ID"> + </a>
+            </div>
+            <div class="col">
+
+            </div>
+        </div>
+
+        <hr />
+    </form>

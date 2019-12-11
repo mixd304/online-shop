@@ -72,8 +72,200 @@ namespace it_shop_app.Controllers {
          * <param name="id"> ID des gewählten Artikels zum Bearbeiten </param>
          */
         public async Task<IActionResult> Artikel_Edit(int? id)
-        {                      
-            return View("Views/Admin/Artikel/Edit.cshtml", await _context.Artikel.FirstOrDefaultAsync(m => m.ID == id));
+        {
+
+            await _context.Kategorien.ToListAsync();
+            await _context.Farben.ToListAsync();
+            await _context.Merkmale.ToListAsync();
+            await _context.ArtikelFarben.ToListAsync();
+            await _context.MerkmalBezeichnungen.ToListAsync();
+
+            Artikel art = await _context.Artikel.FirstOrDefaultAsync(m => m.ID == id);
+
+            EditViewModel model = new EditViewModel()
+            {
+                artikel = art,
+            };
+            
+            if(art.ArtikelFarben != null) { model.farben = art.ArtikelFarben.ToList(); }
+            if(art.Merkmale != null)      { model.merkmale = art.Merkmale.ToList(); }
+
+            return View("Views/Admin/Artikel/Edit.cshtml", model);
+        }      
+
+        [HttpPost]
+        public async Task<IActionResult> Artikel_Edit(EditViewModel model)
+        {            
+            _context.Update(model.artikel);
+            await _context.SaveChangesAsync();
+
+            if(model.merkmale != null)
+            {            
+                foreach(Merkmal a in model.merkmale)
+                {
+                    a.Artikel_ID = model.artikel.ID;
+                    _context.Update(a);
+                }                
+            }
+
+            if (model.farben != null)
+            {
+                foreach (ArtikelFarben b in model.farben)
+                {
+                    b.Artikel_ID = model.artikel.ID;
+                    _context.Update(b.Farbe);
+                }
+            }
+           
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Artikel_Edit", model.artikel.ID);
+        }
+
+        public async Task<IActionResult> NeuFarbe(int id)
+        {
+            var query = from af in _context.Artikel
+                        select af;
+            query = query.Where(af => af.ID == id);
+            Artikel qArtikel = await query.FirstOrDefaultAsync();
+
+            return View("Views/Admin/Artikel/NeuFarbe.cshtml", new ArtikelFarben() { Artikel_ID = id, Artikel = qArtikel });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> NeuFarbe(ArtikelFarben model)
+        {
+            Farbe newFarbe = new Farbe();
+            ArtikelFarben newAF = new ArtikelFarben();
+
+            var query = from f in _context.Farben
+                        select f;
+
+            query = query.Where(f => f.Bezeichnung.Equals(model.Farbe.Bezeichnung));
+            Farbe qFarbe = query.FirstOrDefault();            
+
+            newAF.Artikel_ID = model.Artikel_ID;
+            if (qFarbe != null)
+            {
+                newAF.Farbe_ID = qFarbe.ID;
+                var afQuery = from af in _context.ArtikelFarben
+                              select af;
+
+                afQuery = afQuery.Where(af => af.Artikel_ID == model.Artikel_ID);
+                afQuery = afQuery.Where(af => af.Farbe_ID == qFarbe.ID);
+
+                ArtikelFarben dieAF = await afQuery.FirstOrDefaultAsync();
+                if ( dieAF != null)
+                {                    
+                    _toastNotification.AddWarningToastMessage("Diese Farbe wurde bereits hinzugefügt!");
+                    return RedirectToAction("Artikel_Edit", "Admin", new { id = model.Artikel_ID });
+                }
+
+            } 
+            else if (qFarbe == null)
+            {
+                newFarbe.Bezeichnung = model.Farbe.Bezeichnung;
+                _context.Add(newFarbe);
+                await _context.SaveChangesAsync();
+
+                newAF.Farbe_ID = newFarbe.ID;
+            }
+                        
+            _context.Add(newAF);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Artikel_Edit", "Admin", new { id = model.Artikel_ID });
+        }
+
+        public async Task<IActionResult> NeuMerkmal(int? id)
+        {
+            var query = from af in _context.Artikel
+                        select af;
+            query = query.Where(af => af.ID == id);
+            Artikel qArtikel = await query.FirstOrDefaultAsync();
+
+            return View("Views/Admin/Artikel/NeuMerkmal.cshtml", new Merkmal() { Artikel = qArtikel});
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> NeuMerkmal(Merkmal model)
+        {
+            MerkmalBezeichnung merkmalBez = new MerkmalBezeichnung();
+            Merkmal newMerkmal = new Merkmal();
+
+            var mbQuery = from mb in _context.MerkmalBezeichnungen
+                          select mb;
+
+            mbQuery = mbQuery.Where(mb => mb.Bezeichnung.Equals(model.Bezeichnung.Bezeichnung));
+
+            MerkmalBezeichnung qMerkmal = await mbQuery.FirstOrDefaultAsync();
+
+            newMerkmal.Artikel_ID = model.Artikel_ID;
+            newMerkmal.Wert = model.Wert;
+
+            if(qMerkmal != null)
+            {
+                newMerkmal.Bezeichnung_ID = qMerkmal.ID;
+
+                var mQuery = from m in _context.Merkmale
+                             select m;
+
+                mQuery = mQuery.Where(m => m.Bezeichnung_ID == qMerkmal.ID);
+                mQuery = mQuery.Where(m => m.Artikel_ID == model.Artikel_ID);
+
+                Merkmal dasEineMerkmal = await mQuery.FirstOrDefaultAsync();
+
+                if (dasEineMerkmal != null)
+                {                    
+                    _toastNotification.AddWarningToastMessage("Dieses Merkmal wurde bereits hinzugefügt!");
+                    return RedirectToAction("Artikel_Edit", "Admin", new { id = model.Artikel_ID });
+                }
+            }
+            else if(qMerkmal == null)
+            {
+                merkmalBez.Bezeichnung = model.Bezeichnung.Bezeichnung;
+                _context.Add(merkmalBez);
+                await _context.SaveChangesAsync();
+
+                newMerkmal.Bezeichnung_ID = merkmalBez.ID;
+            }
+
+            _context.Add(newMerkmal);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Artikel_Edit", new { id = model.Artikel_ID });
+        }
+
+        public async Task<IActionResult> deleteFarbe(int artId, int farbId)
+        {
+            Console.WriteLine(artId);
+            Console.WriteLine(farbId);
+
+            ArtikelFarben farbe = new ArtikelFarben()
+            {
+                Artikel_ID = artId,
+                Farbe_ID =farbId
+            };
+
+            _context.Remove(farbe);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Artikel_Edit", new { id = artId });
+        }
+
+        public async Task<IActionResult> deleteMerkmal(int id, int artId)
+        {
+            Console.WriteLine(id);
+
+            Merkmal m = new Merkmal()
+            {
+                ID = id
+            };
+
+            _context.Remove(m);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Artikel_Edit", new { id = artId });
         }
 
         /**
@@ -225,7 +417,6 @@ namespace it_shop_app.Controllers {
 
                 for (int i = 0; i < model.farben.Count; i++)
                 {
-                    Console.WriteLine("ArtikelID:" + model.artikel.ID);
 
                     if (model.farben[i].Equals(""))
                     {
@@ -237,8 +428,7 @@ namespace it_shop_app.Controllers {
                         if (farbe == null)
                         {
                             _context.Add(model.farben[i]);
-                            await _context.SaveChangesAsync();
-                            Console.WriteLine("Farbe:" + model.farben[i].ID);
+                            await _context.SaveChangesAsync();                            
                         }
                         else
                         {
@@ -246,7 +436,6 @@ namespace it_shop_app.Controllers {
                         }
                     }
 
-                    Console.WriteLine("FarbenID:" + model.farben[i].ID);
                     _context.Add(new ArtikelFarben() { Artikel_ID = model.artikel.ID, Farbe_ID = model.farben[i].ID });
                     await _context.SaveChangesAsync();
                 }
@@ -338,6 +527,7 @@ namespace it_shop_app.Controllers {
 
             return View("Views/Admin/Artikel/Details.cshtml", artikel);
         }
+
         /**
          * <summary>
          * Nicht verlinkte View in der alle Bestellungen aufgelistet werden 
@@ -353,6 +543,7 @@ namespace it_shop_app.Controllers {
             await _context.Nutzer.ToListAsync();           
             return View(await _context.Bestellungen.ToListAsync());
         }
+
         /**
          * <summary>
          * Setzt den Status einer Bestellung auf den Zustand je nach Button der gedrückt wurde
@@ -367,11 +558,6 @@ namespace it_shop_app.Controllers {
          */
         public async Task<IActionResult> changeStati(int id, string status)
         {
-            Console.WriteLine("======================================");
-            Console.WriteLine(id);
-            Console.WriteLine(status);
-            Console.WriteLine();
-
             var query = from w in _context.Bestellungen
                         select w;
 
@@ -398,6 +584,7 @@ namespace it_shop_app.Controllers {
                     break;
             }
             _context.Update(bes);
+            _toastNotification.AddSuccessToastMessage("Status der Bestellung NR.: " + id + " auf " + status + " gesetzt!");
             await _context.SaveChangesAsync();
             return RedirectToAction("Stati");
         }

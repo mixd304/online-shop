@@ -1,0 +1,29 @@
+﻿@model Merkmal
+@{
+    ViewData["Title"] = "Neu Merkmal";
+}
+
+<h1 class="display-4">
+    Neues Merkmal hinzufügen
+    <small class="text-muted">@Model.Artikel.Bezeichnung</small>
+</h1>
+
+<form asp-action="NeuMerkmal">
+    <div class="col-md">
+        <div class="form-group">
+            <label asp-for="Bezeichnung.Bezeichnung" class="control-label"></label>
+            <input asp-for="Bezeichnung.Bezeichnung" placeholder="Bezeichnung" class="form-control" />
+            <span asp-validation-for="Bezeichnung.Bezeichnung" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md">
+        <div class="form-group">
+            <label asp-for="Wert" class="control-label"></label>
+            <input asp-for="Wert" placeholder="Bezeichnung" class="form-control" />
+            <span asp-validation-for="Wert" class="text-danger"></span>
+        </div>
+    </div>
+
+    <input type="hidden" asp-for="Artikel_ID" value="@Model.Artikel.ID" />
+    <input type="submit" value="abfahrt" class="btn btn-primary" />
+</form>

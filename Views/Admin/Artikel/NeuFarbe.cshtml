@@ -1,0 +1,22 @@
+﻿@model ArtikelFarben
+@{
+    ViewData["Title"] = "NeuFarbe";
+}
+
+<h1 class="display-4">
+    Neue Farbe hinzufügen
+    <small class="text-muted">@Model.Artikel.Bezeichnung</small>
+</h1>
+
+<form asp-action="NeuFarbe">
+    <div class="col-md">
+        <div class="form-group">
+            <label asp-for="Farbe.Bezeichnung" class="control-label"></label>
+            <input asp-for="Farbe.Bezeichnung" placeholder="Bezeichnung" class="form-control" />
+            <span asp-validation-for="Farbe.Bezeichnung" class="text-danger"></span>
+        </div>
+    </div>
+
+    <input type="hidden" asp-for="Artikel_ID" value="@Model.Artikel_ID"/>
+    <input type="submit" value="abfahrt" class="btn btn-primary"/>
+</form>
